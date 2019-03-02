@@ -10,7 +10,7 @@ namespace ClassLibrary
     /// Henry March 1st
     /// Refer to "Products" Table in DB, need commit prior to table "products_suppliers" as Id is requried
     /// </summary>
-    public class Products : IEquatable<Products>
+    public class Products
     {
         private int ProductId;//int auto Incremental primary Key, Need generate First
         private string ProdName;//char length<=50
@@ -56,15 +56,14 @@ namespace ClassLibrary
             return null;
         }
 
-
-
         //-----------------------------------------------------------------------
         // Equals and HashCode to compare existing products to avoid duplicate
-        public bool Equals(Products other)
+        public override bool Equals(object obj)
         {
-            return other != null &&
-                   ProductId == other.ProductId &&
-                   ProdName == other.ProdName;
+            var products = obj as Products;
+            return products != null &&
+                   ProductId == products.ProductId &&
+                   ProdName == products.ProdName;
         }
 
         public override int GetHashCode()
@@ -85,5 +84,8 @@ namespace ClassLibrary
             return !(products1 == products2);
         }
         //-----------------------------------------------------------------------
+
+
+
     }
 }
