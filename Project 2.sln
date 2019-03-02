@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project 2", "Project 2\Project 2.csproj", "{CFE83C2D-1000-4391-A30C-9209C8A9E34E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "Project 2\ClassLibrary.csproj", "{CFE83C2D-1000-4391-A30C-9209C8A9E34E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagmentForm", "ProductManagmentForm\ProductManagmentForm.csproj", "{F9105115-4375-4A69-B26B-DF9CF05D429B}"
 EndProject
