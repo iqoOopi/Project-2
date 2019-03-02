@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace AllWindowsForms
 {
-    public partial class ProdMngForm : Form
+    public partial class someForm2Test : Form
     {
-        public ProdMngForm()
+        public someForm2Test()
         {
             InitializeComponent();
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
