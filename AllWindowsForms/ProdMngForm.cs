@@ -43,7 +43,14 @@ namespace AllWindowsForms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            //products table
             pnlDetails.Visible = true;
+
+            //Check empty
+            if (validator.IsProvided(txtProdName, "Product Name"))
+            {
+                return;
+            }
             Products product = new Products(txtProdName.Text);
 
             //need edit products supplier table as well
