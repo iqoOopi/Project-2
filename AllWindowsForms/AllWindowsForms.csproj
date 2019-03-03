@@ -60,6 +60,7 @@
     <Compile Include="someForm2Test.Designer.cs">
       <DependentUpon>someForm2Test.cs</DependentUpon>
     </Compile>
+    <Compile Include="validator.cs" />
     <EmbeddedResource Include="ProdMngForm.resx">
       <DependentUpon>ProdMngForm.cs</DependentUpon>
     </EmbeddedResource>
