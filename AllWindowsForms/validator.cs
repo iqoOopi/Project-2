@@ -11,21 +11,33 @@ namespace AllWindowsForms
     public static class validator //a collection of static validation method
     {
         /// <summary>
-        /// Checks if content of text box is non-empty
+        /// Generic checks if content of input is non-empty
         /// </summary>
         /// <param name="tb">textBox to Check</param>
         /// <param name="name">Name to use in errorMessage</param>
         /// <returns>is it valid</returns>
-        public static bool IsProvided (TextBox tb, string name)
+        public static bool IsProvided (Control tb, string name)
         {
             bool result=true;
-            if (tb.Text == "")
+            try
+            {
+                if (tb.Text == "")
+                {
+                    result = false;
+                    MessageBox.Show(name + " has to be provided", "Input Error");
+                    tb.Focus();
+                }
+
+            }
+            catch (Exception)
             {
                 result = false;
-                MessageBox.Show(name + " has to be provided","Input Error");
+                MessageBox.Show(name + " has to be provided", "Input Error");
                 tb.Focus();
             }
+
             return result;
+
         }
 
         /// <summary>
@@ -35,7 +47,7 @@ namespace AllWindowsForms
         /// <param name="name">Name to use in errorMessage</param>
         /// <param name="reference">Type of required data type etc. int</param>
         /// <returns>is it valid</returns>
-        public static bool IsNonNegative(TextBox tb, string name, Type reference)
+        public static bool IsNonNegative(Control tb, string name, Type reference)
         {
             bool result = true;
             try
@@ -45,18 +57,47 @@ namespace AllWindowsForms
                 {
                     result = false;
                     MessageBox.Show(name + " has to be a non-negative "+reference.Name+" number", "Input Error");
-                    tb.SelectAll();//highlight text on the box for easy replacing
+                    
                     tb.Focus();
                 }
             } catch(Exception)
             {
                 result = false;
                 MessageBox.Show(name + " has to be a non-negative " + reference.Name + " number", "Input Error");
-                tb.SelectAll();//highlight text on the box for easy replacing
                 tb.Focus();
             }
                 return result;
 
         }
+        /// <summary>
+        /// Check the length of input, must less than DB settings.
+        /// </summary>
+        /// <param name="ct">generic type for textBox, comboBox etc.</param>
+        /// <param name="name">Name of Input Control</param>
+        /// <param name="dbLength">the required max Length of DB coloumn</param>
+        /// <returns></returns>
+        public static bool IsValidLength(Control ct,string name, int dbLength)
+        {
+            bool result = true;
+            try
+            {
+                
+                if (ct.Text.Length>dbLength)
+                {
+                    result = false;
+                    MessageBox.Show(name + " has to be less than" + dbLength+ " characters", "Input Error");
+                    ct.Focus();
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
+                MessageBox.Show(name + " has to be less than " + dbLength + " characters", "Input Error");
+                ct.Focus();
+            }
+            return result;
+
+        }
+
     }
 }

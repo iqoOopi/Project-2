@@ -43,11 +43,26 @@ namespace AllWindowsForms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            //products table
+            
             pnlDetails.Visible = true;
 
-            //Check empty
-            if (validator.IsProvided(txtProdName, "Product Name"))
+           
+
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            //products table
+            //Check both required field are not empty
+            if (!validator.IsProvided(txtProdName, "Product Name")||
+                !validator.IsProvided(comboBoxSupplier,"Supplier"))
+            {
+                return;
+            }
+
+
+            //varchar(50), check input lenght <=50
+            if(!validator.IsValidLength(txtProdName,"Product Name", 50))
             {
                 return;
             }
@@ -55,10 +70,9 @@ namespace AllWindowsForms
 
             //need edit products supplier table as well
 
-        }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
+
+            //if success saved, hide input controls
             pnlDetails.Visible = false;
         }
 
