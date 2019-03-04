@@ -19,6 +19,7 @@ namespace AllWindowsForms
         int selectedIndex=-1;
         //Init List of DataTransfer Object products, products_suppliers,suppliers
         List<Products> products = new List<Products>();
+        Products selectedProducts;
         public ProdMngForm()
         {
             InitializeComponent();
@@ -54,10 +55,11 @@ namespace AllWindowsForms
             //so no need to check selected or not
 
             selectedIndex = listViewProducts.SelectedIndices[0];
+            selectedProducts = products[selectedIndex];
 
             //set selected product name and supplier name to textbox and combobox. 
 
-            txtProdName.Text = products[selectedIndex].prodName;
+            txtProdName.Text = selectedProducts.prodName;
             //in order to show supplier name for selected product, need a loop search in products_supplier class 
 
             //show input area
@@ -96,12 +98,27 @@ namespace AllWindowsForms
                 return;
             }
 
-            Products product = new Products(txtProdName.Text);
+            Products newProduct = new Products(txtProdName.Text);
             //check mode is edit or add?
+
             switch (mode)
             {
                 case 1://edit existing record
                     {
+                       //check duplication
+                        foreach (Products tempProd in products)
+                        {
+                            //product B can have the same name, no change or just new supplier
+                            if (tempProd.prodName != selectedProducts.prodName)
+                            {
+                                //but Product B can't have the same name as other existing products.
+                                if (newProduct.prodName == tempProd.prodName)
+                                {
+                                    //duplicate product, give error message
+                                    return;
+                                }
+                            }
+                        }
                         break;
                     }
                 case 2://add new record.
@@ -111,7 +128,7 @@ namespace AllWindowsForms
                 default:
                     break;
             }
-            //check duplication depends on different mode
+            
 
             //commit to products table
             
