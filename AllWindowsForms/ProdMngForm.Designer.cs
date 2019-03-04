@@ -385,6 +385,7 @@
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnClear
             // 
@@ -394,6 +395,7 @@
             this.btnClear.TabIndex = 4;
             this.btnClear.Text = "&Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSave
             // 
@@ -411,9 +413,9 @@
             this.label1.Location = new System.Drawing.Point(23, 14);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 20);
+            this.label1.Size = new System.Drawing.Size(104, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Products  Info:";
+            this.label1.Text = "Product  Info:";
             // 
             // panel1
             // 
@@ -490,6 +492,7 @@
             // 
             // btnEdit
             // 
+            this.btnEdit.Enabled = false;
             this.btnEdit.Location = new System.Drawing.Point(27, 12);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 30);
@@ -512,10 +515,12 @@
             // 
             this.listViewProducts.Dock = System.Windows.Forms.DockStyle.Left;
             this.listViewProducts.Location = new System.Drawing.Point(4, 5);
+            this.listViewProducts.MultiSelect = false;
             this.listViewProducts.Name = "listViewProducts";
             this.listViewProducts.Size = new System.Drawing.Size(396, 487);
             this.listViewProducts.TabIndex = 0;
             this.listViewProducts.UseCompatibleStateImageBehavior = false;
+            this.listViewProducts.SelectedIndexChanged += new System.EventHandler(this.listViewProducts_SelectedIndexChanged);
             // 
             // ProdMngForm
             // 

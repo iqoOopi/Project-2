@@ -31,28 +31,51 @@ namespace AllWindowsForms
             //write to DB for products, suppliers, products_suppliers
         }
 
+        /// <summary>
+        /// Enable Edit button once selected 1 product from the list.
+        /// </summary>
+        private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnEdit.Enabled = true;
+        }
+
+        /// <summary>
+        /// Show Input area to edit existing data
+        /// </summary>
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            //this button will be enabled once selected 1 porudct in the list box
+            //so no need to check selected or not
+
+            int selectedIndex = listViewProducts.SelectedIndices[0];
+
+            //set selected product name and supplier name to textbox and combobox. 
+
+            txtProdName.Text = products[selectedIndex].prodName;
+            //in order to show supplier name for selected product, need a loop search in products_supplier class 
+
+            //show input area
             pnlDetails.Visible = true;
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
 
-        }
 
+        /// <summary>
+        /// Show data input area.
+        /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             
             pnlDetails.Visible = true;
 
-           
-
         }
 
+        /// <summary>
+        /// Validate new data, then commit to DB,then add to display
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //products table
+            //validate input
             //Check both required field are not empty
             if (!validator.IsProvided(txtProdName, "Product Name")||
                 !validator.IsProvided(comboBoxSupplier,"Supplier"))
@@ -66,16 +89,39 @@ namespace AllWindowsForms
             {
                 return;
             }
+
+
+            //commit to products table
             Products product = new Products(txtProdName.Text);
 
-            //need edit products supplier table as well
+            //commit to products_supplier table as well
 
 
 
-            //if success saved, hide input controls
+            //if success saved to DB,then add to display then hide input area
+
             pnlDetails.Visible = false;
         }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            clearInput();
+            pnlDetails.Visible = false;
+        }
+
+        /// <summary>
+        /// clear input
+        /// </summary>
+        private void clearInput()
+        {
+            txtProdName.Text = "";
+            comboBoxSupplier.Text = "";
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            clearInput();
+        }
 
     }
 }
