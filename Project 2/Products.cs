@@ -56,22 +56,21 @@ namespace ClassLibrary
             return null;
         }
 
+
+
         //-----------------------------------------------------------------------
         // Equals and HashCode to compare existing products to avoid duplicate
+        //only check product Name
         public override bool Equals(object obj)
         {
             var products = obj as Products;
             return products != null &&
-                   ProductId == products.ProductId &&
                    ProdName == products.ProdName;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = 985899960;
-            hashCode = hashCode * -1521134295 + ProductId.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ProdName);
-            return hashCode;
+            return 78275079 + EqualityComparer<string>.Default.GetHashCode(ProdName);
         }
 
         public static bool operator ==(Products products1, Products products2)

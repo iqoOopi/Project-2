@@ -19,7 +19,7 @@ namespace AllWindowsForms
         int selectedIndex=-1;
         //Init List of DataTransfer Object products, products_suppliers,suppliers
         List<Products> products = new List<Products>();
-        Products selectedProducts;
+        Products selectedProduct;
         public ProdMngForm()
         {
             InitializeComponent();
@@ -55,11 +55,11 @@ namespace AllWindowsForms
             //so no need to check selected or not
 
             selectedIndex = listViewProducts.SelectedIndices[0];
-            selectedProducts = products[selectedIndex];
+            selectedProduct = products[selectedIndex];
 
             //set selected product name and supplier name to textbox and combobox. 
 
-            txtProdName.Text = selectedProducts.prodName;
+            txtProdName.Text = selectedProduct.prodName;
             //in order to show supplier name for selected product, need a loop search in products_supplier class 
 
             //show input area
@@ -83,6 +83,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
+            bool success = false;
             //validate input
             //Check both required field are not empty
             if (!validator.IsProvided(txtProdName, "Product Name")||
@@ -105,43 +106,42 @@ namespace AllWindowsForms
             {
                 case 1://edit existing record
                     {
-                       //check duplication
-                        foreach (Products tempProd in products)
+                        //check duplication, will allow new product has the same name as selectedProduct
+                        //this is for situation user doesn't change anything or only changed supplier
+                        if (validator.checkNoDuplicate<Products>(products, newProduct, selectedProduct))
                         {
-                            //product B can have the same name, no change or just new supplier
-                            if (tempProd.prodName != selectedProducts.prodName)
-                            {
-                                //but Product B can't have the same name as other existing products.
-                                if (newProduct.prodName == tempProd.prodName)
-                                {
-                                    //duplicate product, give error message
-                                    return;
-                                }
-                            }
+                            products[selectedIndex] = newProduct;
+                            success = true;
                         }
+                        
                         break;
                     }
                 case 2://add new record.
                     {
+                        //check duplication, new product can not have same name as existing products
+                        if (validator.checkNoDuplicate<Products>(products, newProduct))
+                        {
+                            products.Add(newProduct);
+                            success = true;
+                        }
                         break;
                     }
                 default:
                     break;
             }
+                   
+            if (success)
+            {
+                //commit to products table
+                //commit to products_supplier table as well
+
+                //if success saved to DB,then add to display then hide input area
+                clearInput();
+                pnlDetails.Visible = false;
+                btnDelete.Enabled = false;
+                btnEdit.Enabled = false;
+            }
             
-
-            //commit to products table
-            
-
-            //commit to products_supplier table as well
-
-
-
-            //if success saved to DB,then add to display then hide input area
-
-            pnlDetails.Visible = false;
-            btnDelete.Enabled = false;
-            btnEdit.Enabled = false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

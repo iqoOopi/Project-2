@@ -98,6 +98,31 @@ namespace AllWindowsForms
             return result;
 
         }
+        /// <summary>
+        /// Generate Check are there a duplication with existing data, with optional exception item that will ignore
+        /// the duplicate with it.
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="listItems">the list of existing data</param>
+        /// <param name="item">the new item </param>
+        /// <param name="ExceptionItem">the exception data</param>
+        /// <returns></returns>
+        public static bool checkNoDuplicate<T> (List<T> listItems, T item, T exceptionItem=default(T))
+        {
+            bool result = true;
+            foreach (T tempData in listItems)
+            {
+                if (!tempData.Equals(exceptionItem))
+                {
+                    if (item.Equals(tempData))
+                    {
+                        result = false;
+                        MessageBox.Show("There are already same data existing in the DB", "Duplicate Data");
+                    }
+                }
+            }
+            return result;
+        }
 
     }
 }
