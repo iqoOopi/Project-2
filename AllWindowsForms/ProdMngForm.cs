@@ -13,6 +13,10 @@ namespace AllWindowsForms
 {
     public partial class ProdMngForm : Form
     {
+        //1 for edit, 2 for add new. 
+        int mode = 0;
+        //hold the index of the existing product,-1 means none selected
+        int selectedIndex=-1;
         //Init List of DataTransfer Object products, products_suppliers,suppliers
         List<Products> products = new List<Products>();
         public ProdMngForm()
@@ -37,6 +41,7 @@ namespace AllWindowsForms
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnEdit.Enabled = true;
+            btnDelete.Enabled = true;
         }
 
         /// <summary>
@@ -44,10 +49,11 @@ namespace AllWindowsForms
         /// </summary>
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            mode = 1;
             //this button will be enabled once selected 1 porudct in the list box
             //so no need to check selected or not
 
-            int selectedIndex = listViewProducts.SelectedIndices[0];
+            selectedIndex = listViewProducts.SelectedIndices[0];
 
             //set selected product name and supplier name to textbox and combobox. 
 
@@ -65,7 +71,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
+            mode = 2;
             pnlDetails.Visible = true;
 
         }
@@ -90,9 +96,25 @@ namespace AllWindowsForms
                 return;
             }
 
+            Products product = new Products(txtProdName.Text);
+            //check mode is edit or add?
+            switch (mode)
+            {
+                case 1://edit existing record
+                    {
+                        break;
+                    }
+                case 2://add new record.
+                    {
+                        break;
+                    }
+                default:
+                    break;
+            }
+            //check duplication depends on different mode
 
             //commit to products table
-            Products product = new Products(txtProdName.Text);
+            
 
             //commit to products_supplier table as well
 
@@ -101,6 +123,8 @@ namespace AllWindowsForms
             //if success saved to DB,then add to display then hide input area
 
             pnlDetails.Visible = false;
+            btnDelete.Enabled = false;
+            btnEdit.Enabled = false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -123,5 +147,9 @@ namespace AllWindowsForms
             clearInput();
         }
 
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            selectedIndex = listViewProducts.SelectedIndices[0];
+        }
     }
 }
