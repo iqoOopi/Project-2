@@ -27,7 +27,14 @@ namespace AllWindowsForms
 
         private void ProdMngForm_Load(object sender, EventArgs e)
         {
+            //data for testing
+            products.Add(new Products(123, "test1"));
+            products.Add(new Products(234, "test2"));
+
+
+
             //read from DB for products, suppliers.
+
 
             display();
 
@@ -100,10 +107,9 @@ namespace AllWindowsForms
             {
                 return;
             }
-
             Products newProduct = new Products(txtProdName.Text);
-            //check mode is edit or add?
 
+            //check mode is edit or add?
             switch (mode)
             {
                 case 1://edit existing record
@@ -112,8 +118,13 @@ namespace AllWindowsForms
                         //this is for situation that user doesn't change anything or only changed supplier
                         if (validator.checkNoDuplicate<Products>(products, newProduct, selectedProduct))
                         {
+                            //assign old productId to the edited product
+                            newProduct.productId = selectedProduct.productId;
+                            //update the list
                             products[selectedIndex] = newProduct;
                             success = true;
+                            //commit to products table
+                            //commit to products_supplier table as well
                         }
 
                         break;
@@ -125,6 +136,8 @@ namespace AllWindowsForms
                         {
                             products.Add(newProduct);
                             success = true;
+                            //commit to products table
+                            //commit to products_supplier table as well
                         }
                         break;
                     }
@@ -134,15 +147,8 @@ namespace AllWindowsForms
 
             if (success)
             {
-                //commit to products table
-                //commit to products_supplier table as well
-
-                //if success saved to DB,then add to display and hide input area
-                display();
-                clearInput();
-                pnlDetails.Visible = false;
-                btnDelete.Enabled = false;
-                btnEdit.Enabled = false;
+                //if success saved to DB,then refresh the display and hide input area
+                prepareForNextOperate();
             }
 
         }
@@ -179,15 +185,19 @@ namespace AllWindowsForms
         private void btnDelete_Click(object sender, EventArgs e)
         {
             selectedIndex = listViewProducts.SelectedIndices[0];
+            selectedProduct = products[selectedIndex];
+            //remoe from DB
+
             products.RemoveAt(selectedIndex);
             //disable delete button to prevent false delete
-            btnDelete.Enabled = false;
-            //update display
-            display();
+
+            prepareForNextOperate();
+ 
         }
 
         private void display()
         {
+            listViewProducts.Clear();
             //List<ListViewItem> arrayItems = new List<ListViewItem>();
             listViewProducts.Columns.Add("Name",-2,HorizontalAlignment.Left);
             listViewProducts.Columns.Add("Supplier",-2,HorizontalAlignment.Left);
@@ -198,11 +208,18 @@ namespace AllWindowsForms
                 item.SubItems.Add("supplier name go here");
                 listViewProducts.Items.Add(item);
             }
-            //This is to fix Microsoft's bug of -2 doesn't auto work on first column, it will force first column to take all space cause it won't resize when added new coloum
+            //This is to fix Microsoft's design fraud of -2 doesn't auto work on first column, it will force first column to take all space cause it won't resize when added new coloum
             //this is stupid.
             listViewProducts.Columns[0].Width = -2;
-
-
+            listViewProducts.Columns[1].Width = -2;
+        }
+        private void prepareForNextOperate()
+        {
+            display();
+            clearInput();
+            pnlDetails.Visible = false;
+            btnDelete.Enabled = false;
+            btnEdit.Enabled = false;
         }
     }
 }

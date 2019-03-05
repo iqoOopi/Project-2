@@ -12,11 +12,19 @@ namespace ClassLibrary
     /// </summary>
     public class Products
     {
-        private int ProductId;//int auto Incremental primary Key, Need generate First
+        private int ProductId;//int auto Incremental primary Key, Do Not commit to DB
         private string ProdName;//char length<=50
 
-        public int productId { get; set; }
-        public string prodName { get; set; }
+        public int productId {
+            get { return ProductId; }
+            set { ProductId = value; }        
+        }
+        public string prodName
+        {
+            get { return ProdName; }
+
+            set { ProdName = value; }
+        }
 
         /// <summary>
         /// Constructor for Read from DB
@@ -48,15 +56,31 @@ namespace ClassLibrary
         }
 
         /// <summary>
-        /// Generate MySQL command for save to DB
+        /// Generate MySQL command for save new product to DB
         /// </summary>
         /// <returns></returns>
-        public string ToSQL()
+        public string AddToSQL()
         {
             return null;
         }
 
+        /// <summary>
+        /// Generate MySQL command for updating existing product
+        /// </summary>
+        /// <returns></returns>
+        public string EditToSQL()
+        {
+            return null;
+        }
 
+        /// <summary>
+        /// Generate MySQL command 
+        /// </summary>
+        /// <returns></returns>
+        public string DeleteFromSQL()
+        {
+            return null;
+        }
 
         //-----------------------------------------------------------------------
         // Equals and HashCode to compare existing products to avoid duplicate
