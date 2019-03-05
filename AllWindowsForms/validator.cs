@@ -45,7 +45,7 @@ namespace AllWindowsForms
         /// </summary>
         /// <param name="tb">textBox for Input</param>
         /// <param name="name">Name to use in errorMessage</param>
-        /// <param name="reference">Type of required data type etc. int</param>
+        /// <param name="reference">Type of required data type etc. int,double,decimal</param>
         /// <returns>is it valid</returns>
         public static bool IsNonNegative(Control tb, string name, Type reference)
         {
@@ -101,17 +101,19 @@ namespace AllWindowsForms
         /// <summary>
         /// Generate Check are there a duplication with existing data, with optional exception item that will ignore
         /// the duplicate with it.
+        /// class must have equals and Hashcode in order for this method to work
         /// </summary>
         /// <typeparam name="T">generic type</typeparam>
         /// <param name="listItems">the list of existing data</param>
         /// <param name="item">the new item </param>
         /// <param name="ExceptionItem">the exception data</param>
-        /// <returns></returns>
+        /// <returns> true for duplication found. </returns>
         public static bool checkNoDuplicate<T> (List<T> listItems, T item, T exceptionItem=default(T))
         {
             bool result = true;
             foreach (T tempData in listItems)
             {
+                //if exceptionItem is provided, only check duplication with other items.
                 if (!tempData.Equals(exceptionItem))
                 {
                     if (item.Equals(tempData))
