@@ -42,9 +42,8 @@ namespace AllWindowsForms
 
             //read from DB for products, suppliers.
 
-            //since the products table Key:ID is auto incremental，the id of the last product in the list plus 1 should give the new product ID which could
-            //be used in products_supplier table later on
-            productsDBKeyIdentity = products.Last().productId + 1;
+            //since the products table Key:ID is auto incremental，this will get the KeyIdentity. +1 will give you the ID of next new record. 
+            productsDBKeyIdentity = products.Last().productId;
             display();
 
         }
