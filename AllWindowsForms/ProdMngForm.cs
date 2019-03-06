@@ -107,6 +107,8 @@ namespace AllWindowsForms
             {
                 return;
             }
+
+            //since key is auto incremental, only set ID when in edit mode, leave ID to NULL when add new product 
             Products newProduct = new Products(txtProdName.Text);
 
             //check mode is edit or add?
@@ -134,10 +136,15 @@ namespace AllWindowsForms
                         //check duplication, new product can not have the same name as existing products
                         if (validator.checkNoDuplicate<Products>(products, newProduct))
                         {
+                            //since the products table Key:ID is auto incremental，the id of the last product in the list plus 1 should give the new product ID which could
+                            //be used in products_supplier table later on
+                            int productsId = products.Last().productId + 1;
+                            //add new product to list                 
                             products.Add(newProduct);
                             success = true;
                             //commit to products table
                             //commit to products_supplier table as well
+                            
                         }
                         break;
                     }

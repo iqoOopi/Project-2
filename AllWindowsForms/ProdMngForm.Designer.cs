@@ -454,7 +454,6 @@
             // 
             // comboBoxSupplier
             // 
-            this.comboBoxSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSupplier.FormattingEnabled = true;
             this.comboBoxSupplier.Location = new System.Drawing.Point(154, 3);
             this.comboBoxSupplier.Name = "comboBoxSupplier";

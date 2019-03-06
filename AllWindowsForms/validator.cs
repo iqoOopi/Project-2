@@ -99,9 +99,9 @@ namespace AllWindowsForms
 
         }
         /// <summary>
-        /// Generate Check are there a duplication with existing data, with optional exception item that will ignore
-        /// the duplicate with it.
-        /// class must have equals and Hashcode in order for this method to work
+        /// generic check are there a duplication with existing data, with optional "exceptionItem" argument that will ignore
+        /// the duplication with it.
+        /// class must have equals and Hashcode overrided in order for this method to work
         /// </summary>
         /// <typeparam name="T">generic type</typeparam>
         /// <param name="listItems">the list of existing data</param>
