@@ -13,19 +13,20 @@ namespace AllWindowsForms
         /// <summary>
         /// Generic checks if content of input is non-empty
         /// </summary>
-        /// <param name="tb">textBox to Check</param>
+        /// <param name="ct">input to Check, could be textbox or combobox etc.</param>
         /// <param name="name">Name to use in errorMessage</param>
         /// <returns>is it valid</returns>
-        public static bool IsProvided (Control tb, string name)
+        public static bool IsProvided (Control ct, string name)
         {
+            //textbox and combox is the Child class of Control, and Control has .text and .focus()
             bool result=true;
             try
             {
-                if (tb.Text == "")
+                if (ct.Text == "")
                 {
                     result = false;
                     MessageBox.Show(name + " has to be provided", "Input Error");
-                    tb.Focus();
+                    ct.Focus();
                 }
 
             }
@@ -33,7 +34,7 @@ namespace AllWindowsForms
             {
                 result = false;
                 MessageBox.Show(name + " has to be provided", "Input Error");
-                tb.Focus();
+                ct.Focus();
             }
 
             return result;
@@ -43,28 +44,28 @@ namespace AllWindowsForms
         /// <summary>
         /// Generic check is the input a non-negative number of a certain data type. (int,double etc.) 
         /// </summary>
-        /// <param name="tb">textBox for Input</param>
+        /// <param name="ct">textBox for Input</param>
         /// <param name="name">Name to use in errorMessage</param>
         /// <param name="reference">Type of required data type etc. int,double,decimal</param>
         /// <returns>is it valid</returns>
-        public static bool IsNonNegative(Control tb, string name, Type reference)
+        public static bool IsNonNegative(Control ct, string name, Type reference)
         {
             bool result = true;
             try
             {
-                dynamic var = Convert.ChangeType(tb.Text, reference);
+                dynamic var = Convert.ChangeType(ct.Text, reference);
                 if (var < 0)
                 {
                     result = false;
                     MessageBox.Show(name + " has to be a non-negative "+reference.Name+" number", "Input Error");
                     
-                    tb.Focus();
+                    ct.Focus();
                 }
             } catch(Exception)
             {
                 result = false;
                 MessageBox.Show(name + " has to be a non-negative " + reference.Name + " number", "Input Error");
-                tb.Focus();
+                ct.Focus();
             }
                 return result;
 
@@ -101,14 +102,15 @@ namespace AllWindowsForms
         /// <summary>
         /// generic check are there a duplication with existing data, with optional "exceptionItem" argument that will ignore
         /// the duplication with it.
-        /// class must have equals and Hashcode overrided in order for this method to work
+        /// !!!!!!!!class must have equals and Hashcode overrided in order for this method to work!!!!!!!!!
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="T">generic class type, etc. products, suppliers</typeparam>
         /// <param name="listItems">the list of existing data</param>
-        /// <param name="item">the new item </param>
+        /// <param name="item">the new item need to be checked</param>
         /// <param name="ExceptionItem">the exception data</param>
         /// <returns> true for duplication found. </returns>
-        public static bool checkNoDuplicate<T> (List<T> listItems, T item, T exceptionItem=default(T))
+        public static bool checkNoDuplicate<T> (List<T> listItems, T item, T exceptionItem=default(T))//if T is reference type, default(T) will be null. 
+            //if T is value type, default(T) I think will be 0
         {
             bool result = true;
             foreach (T tempData in listItems)
