@@ -44,7 +44,7 @@ namespace AllWindowsForms
 
             //since the products table Key:ID is auto incremental，the id of the last product in the list plus 1 should give the new product ID which could
             //be used in products_supplier table later on
-            int productsId = products.Last().productId + 1;
+            productsDBKeyIdentity = products.Last().productId + 1;
             display();
 
         }
