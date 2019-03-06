@@ -13,10 +13,17 @@ namespace AllWindowsForms
 {
     public partial class ProdMngForm : Form
     {
-        //1 for edit, 2 for add new. 
+        //1 for edit, 2 for add new, else do nothing. 
         int mode = 0;
         //hold the index of the existing product,-1 means none selected
         int selectedIndex = -1;
+
+        //hold the DB key identity, should +1 to get the new auto incremented productID before each add executed, nothing happened when delete or edit.
+        //since the products list only get synced with DB once when form loaded,
+        //this is required when new products are added, to calulate the productID for commit to supplier_product table without resync with DB.
+        //also required in some rare situation, such as user added one new product then deleted it, need the productID to delete from DB.
+        int productsDBKeyIdentity;
+
         //Init List of DataTransfer Object products, products_suppliers,suppliers
         List<Products> products = new List<Products>();
         Products selectedProduct;
@@ -35,7 +42,9 @@ namespace AllWindowsForms
 
             //read from DB for products, suppliers.
 
-
+            //since the products table Key:ID is auto incremental，the id of the last product in the list plus 1 should give the new product ID which could
+            //be used in products_supplier table later on
+            int productsId = products.Last().productId + 1;
             display();
 
         }
@@ -82,6 +91,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            prepareForNextOperation();
             mode = 2;
             pnlDetails.Visible = true;
 
@@ -136,15 +146,16 @@ namespace AllWindowsForms
                         //check duplication, new product can not have the same name as existing products
                         if (validator.checkNoDuplicate<Products>(products, newProduct))
                         {
-                            //since the products table Key:ID is auto incremental，the id of the last product in the list plus 1 should give the new product ID which could
-                            //be used in products_supplier table later on
-                            int productsId = products.Last().productId + 1;
+                            
                             //add new product to list                 
                             products.Add(newProduct);
                             success = true;
                             //commit to products table
+
                             //commit to products_supplier table as well
-                            
+                            //get the productID for the new added product, which is needed when commit to products_supplier table
+                            productsDBKeyIdentity++;
+
                         }
                         break;
                     }
@@ -155,7 +166,7 @@ namespace AllWindowsForms
             if (success)
             {
                 //if success saved to DB,then refresh the display and hide input area
-                prepareForNextOperate();
+                prepareForNextOperation();
             }
 
         }
@@ -165,18 +176,9 @@ namespace AllWindowsForms
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            clearInput();
-            pnlDetails.Visible = false;
+            prepareForNextOperation();
         }
 
-        /// <summary>
-        /// clear input
-        /// </summary>
-        private void clearInput()
-        {
-            txtProdName.Text = "";
-            comboBoxSupplier.Text = "";
-        }
 
         /// <summary>
         /// Clear all the input field
@@ -191,6 +193,17 @@ namespace AllWindowsForms
         /// </summary>
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            //ask for confirmation before delete
+            var confirmResult = MessageBox.Show("Are you sure to delete this item ?",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.No)
+            {
+                //if no, clear selection and prepare for next operation
+                prepareForNextOperation();
+                return;
+            }
+
             selectedIndex = listViewProducts.SelectedIndices[0];
             selectedProduct = products[selectedIndex];
             //remoe from DB
@@ -198,7 +211,7 @@ namespace AllWindowsForms
             products.RemoveAt(selectedIndex);
             //disable delete button to prevent false delete
 
-            prepareForNextOperate();
+            prepareForNextOperation();
  
         }
 
@@ -220,13 +233,28 @@ namespace AllWindowsForms
             listViewProducts.Columns[0].Width = -2;
             listViewProducts.Columns[1].Width = -2;
         }
-        private void prepareForNextOperate()
+
+        /// <summary>
+        /// clear input
+        /// </summary>
+        private void clearInput()
         {
-            display();
-            clearInput();
-            pnlDetails.Visible = false;
-            btnDelete.Enabled = false;
-            btnEdit.Enabled = false;
+            txtProdName.Text = "";
+            comboBoxSupplier.Text = "";
+        }
+
+        /// <summary>
+        /// prepare the button status and internal variable for next operation
+        /// </summary>
+        private void prepareForNextOperation()
+        {
+            selectedIndex = -1;//none is selected in listview
+            mode = 0;//no edit,no add
+            display();//refresh the display
+            clearInput();//clear the textbox,combobox ************maybe need to be changed later when have supplier class
+            pnlDetails.Visible = false; //hide input area
+            btnDelete.Enabled = false; //disable delete button
+            btnEdit.Enabled = false; //disable edit button
         }
     }
 }
