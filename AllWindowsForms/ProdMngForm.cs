@@ -15,7 +15,7 @@ namespace AllWindowsForms
     {
         //1 for edit, 2 for add new, else do nothing. 
         int mode = 0;
-        //hold the index of the existing product,-1 means none selected
+        //hold the index of the selected existing product,-1 means none selected
         int selectedIndex = -1;
 
         //hold the DB key identity, should +1 to get the new auto incremented productID before each add executed, nothing happened when delete or edit.
@@ -24,7 +24,7 @@ namespace AllWindowsForms
         //also required in some rare situation, such as user added one new product then deleted it, need the productID to delete from DB.
 
          //still have bug when user add one new record, then deleted it then close the program and reopen the program. the keyidentity key won't be the same one as in DB
-         //can be solved with output when don't commit. I will explain later.
+         //can be solved with output when excute commit. I will explain later.
         int productsDBKeyIdentity;
 
         //Init List of DataTransfer Object products, products_suppliers,suppliers
@@ -46,9 +46,9 @@ namespace AllWindowsForms
             //read from DB for products, suppliers.
 
             //since the products table Key:ID is auto incremental，this will get the KeyIdentity. +1 will give you the ID of next new record. 
+            //as mentioned, this is not the correct method. Will use output during commit 
             productsDBKeyIdentity = products.Last().productId;
             display();
-
         }
 
         private void ProdMngForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -70,8 +70,9 @@ namespace AllWindowsForms
         /// </summary>
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            btnDelete.Enabled = false;
             mode = 1;
-            //this button will be enabled once selected 1 porudct in the list box
+            //this button will only be enabled once selected 1 porudct in the list box
             //so no need to check selected or not
 
             selectedIndex = listViewProducts.SelectedIndices[0];
@@ -136,9 +137,10 @@ namespace AllWindowsForms
                             newProduct.productId = selectedProduct.productId;
                             //update the list
                             products[selectedIndex] = newProduct;
-                            success = true;
+
                             //commit to products table
                             //commit to products_supplier table as well
+                            success = true;
                         }
 
                         break;
@@ -151,12 +153,15 @@ namespace AllWindowsForms
                             
                             //add new product to list                 
                             products.Add(newProduct);
-                            success = true;
+                            
                             //commit to products table
 
                             //commit to products_supplier table as well
                             //get the productID for the new added product, which is needed when commit to products_supplier table
+                            //not correct, will change to output when commit
                             productsDBKeyIdentity++;
+
+                            success = true;
 
                         }
                         break;
