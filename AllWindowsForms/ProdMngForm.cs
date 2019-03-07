@@ -22,6 +22,9 @@ namespace AllWindowsForms
         //since the products list only get synced with DB once when form loaded,
         //this is required when new products are added, to calulate the productID for commit to supplier_product table without resync with DB.
         //also required in some rare situation, such as user added one new product then deleted it, need the productID to delete from DB.
+
+         //still have bug when user add one new record, then deleted it then close the program and reopen the program. the keyidentity key won't be the same one as in DB
+         //can be solved with output when don't commit. I will explain later.
         int productsDBKeyIdentity;
 
         //Init List of DataTransfer Object products, products_suppliers,suppliers
