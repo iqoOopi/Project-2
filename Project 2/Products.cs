@@ -12,19 +12,8 @@ namespace ClassLibrary
     /// </summary>
     public class Products
     {
-        private int ProductId;//int auto Incremental primary Key, Do Not commit to DB
-        private string ProdName;//char length<=50
-
-        public int productId {
-            get { return ProductId; }
-            set { ProductId = value; }        
-        }
-        public string prodName
-        {
-            get { return ProdName; }
-
-            set { ProdName = value; }
-        }
+        public int ProductId { get; set; }
+        public string ProdName { get; set; }
 
         /// <summary>
         /// Constructor for Read from DB

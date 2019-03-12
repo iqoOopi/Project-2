@@ -47,8 +47,8 @@ namespace AllWindowsForms
 
             //since the products table Key:ID is auto incremental，this will get the KeyIdentity. +1 will give you the ID of next new record. 
             //as mentioned, this is not the correct method. Will use output during commit 
-            productsDBKeyIdentity = products.Last().productId;
-            display();
+            productsDBKeyIdentity = products.Last().ProductId;
+            Display();
         }
 
         private void ProdMngForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -80,7 +80,7 @@ namespace AllWindowsForms
 
             //set selected product name and supplier name to textbox and combobox. 
 
-            txtProdName.Text = selectedProduct.prodName;
+            txtProdName.Text = selectedProduct.ProdName;
             //in order to show supplier name for selected product, need a loop search in products_supplier class 
 
             //show input area
@@ -94,7 +94,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            prepareForNextOperation();
+            PrepareForNextOperation();
             mode = 2;
             pnlDetails.Visible = true;
 
@@ -134,7 +134,7 @@ namespace AllWindowsForms
                         if (validator.checkNoDuplicate<Products>(products, newProduct, selectedProduct))
                         {
                             //assign old productId to the edited product
-                            newProduct.productId = selectedProduct.productId;
+                            newProduct.ProductId = selectedProduct.ProductId;
                             //update the list
                             products[selectedIndex] = newProduct;
 
@@ -173,7 +173,7 @@ namespace AllWindowsForms
             if (success)
             {
                 //if success saved to DB,then refresh the display and hide input area
-                prepareForNextOperation();
+                PrepareForNextOperation();
             }
 
         }
@@ -183,7 +183,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            prepareForNextOperation();
+            PrepareForNextOperation();
         }
 
 
@@ -192,7 +192,7 @@ namespace AllWindowsForms
         /// </summary>
         private void btnClear_Click(object sender, EventArgs e)
         {
-            clearInput();
+            ClearInput();
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace AllWindowsForms
             if (confirmResult == DialogResult.No)
             {
                 //if no, clear selection and prepare for next operation
-                prepareForNextOperation();
+                PrepareForNextOperation();
                 return;
             }
 
@@ -218,11 +218,11 @@ namespace AllWindowsForms
             products.RemoveAt(selectedIndex);
             //disable delete button to prevent false delete
 
-            prepareForNextOperation();
+            PrepareForNextOperation();
  
         }
 
-        private void display()
+        private void Display()
         {
             listViewProducts.Clear();
             //List<ListViewItem> arrayItems = new List<ListViewItem>();
@@ -230,7 +230,7 @@ namespace AllWindowsForms
             listViewProducts.Columns.Add("Supplier",-2,HorizontalAlignment.Left);
             foreach (Products prod in products)
             {
-                ListViewItem item = new ListViewItem(prod.prodName);
+                ListViewItem item = new ListViewItem(prod.ProdName);
                 //
                 item.SubItems.Add("supplier name go here");
                 listViewProducts.Items.Add(item);
@@ -244,7 +244,7 @@ namespace AllWindowsForms
         /// <summary>
         /// clear input
         /// </summary>
-        private void clearInput()
+        private void ClearInput()
         {
             txtProdName.Text = "";
             comboBoxSupplier.Text = "";
@@ -253,12 +253,12 @@ namespace AllWindowsForms
         /// <summary>
         /// prepare the button status and internal variable for next operation
         /// </summary>
-        private void prepareForNextOperation()
+        private void PrepareForNextOperation()
         {
             selectedIndex = -1;//none is selected in listview
             mode = 0;//no edit,no add
-            display();//refresh the display
-            clearInput();//clear the textbox,combobox ************maybe need to be changed later when have supplier class
+            Display();//refresh the display
+            ClearInput();//clear the textbox,combobox ************maybe need to be changed later when have supplier class
             pnlDetails.Visible = false; //hide input area
             btnDelete.Enabled = false; //disable delete button
             btnEdit.Enabled = false; //disable edit button
