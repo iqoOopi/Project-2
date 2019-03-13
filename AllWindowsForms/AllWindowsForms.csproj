@@ -90,6 +90,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassDB\ClassDB.csproj">
+      <Project>{4d1651ba-1c88-4359-b800-e0485e9f5d86}</Project>
+      <Name>ClassDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Project 2\ClassLibrary.csproj">
       <Project>{cfe83c2d-1000-4391-a30c-9209c8a9e34e}</Project>
       <Name>ClassLibrary</Name>

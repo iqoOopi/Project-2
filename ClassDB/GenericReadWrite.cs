@@ -32,13 +32,12 @@ namespace ClassDB
                                 PropertyInfo[] properties = obj.GetType().GetProperties();
                                 foreach (PropertyInfo property in properties)
                                 {
-
-                                    property.SetValue(obj,Convert.ChangeType(dr[property.Name],property.GetType()));
+                                property.SetValue(obj, Convert.ChangeType(dr[property.Name], property.PropertyType));
+                                
                                 }
                                 classData.Add(obj);
                             }
                         }
-
                     }
                     catch (Exception ex)
                     {

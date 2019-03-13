@@ -17,6 +17,11 @@ namespace ClassLibrary
         public int ProductId { get; set; }
         public string ProdName { get; set; }
 
+        public Products()
+        {
+
+        }
+
         /// <summary>
         /// Constructor for Read from DB
         /// </summary>

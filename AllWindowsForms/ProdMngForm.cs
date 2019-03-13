@@ -1,4 +1,5 @@
-﻿using ClassLibrary;
+﻿using ClassDB;
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,8 +39,8 @@ namespace AllWindowsForms
         private void ProdMngForm_Load(object sender, EventArgs e)
         {
             //data for testing
-            products.Add(new Products(123, "test1"));
-            products.Add(new Products(234, "test2"));
+            products = GenericReadWrite.GenericRead<Products>("Products");
+            
 
 
 
