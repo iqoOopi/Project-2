@@ -17,6 +17,9 @@ namespace ClassLibrary
         public int ProductId { get; set; }
         public string ProdName { get; set; }
 
+        /// <summary>
+        /// no parameter Constructor for use in generic Read
+        /// </summary>
         public Products()
         {
 
@@ -51,10 +54,10 @@ namespace ClassLibrary
             return base.ToString();
         }
 
-  /// <summary>
-  /// Should Put in parient class
-  /// </summary>
-  /// <returns></returns>
+        /// <summary>
+        /// Override, return all the field Name to a string that could be used in sqlSyntax, like: "ProductId,ProdName"
+        /// </summary>
+        /// <returns> a string </returns>
         public override string FieldToSqlSyntax()
         {
             StringBuilder builder = new StringBuilder();
@@ -67,6 +70,10 @@ namespace ClassLibrary
             return builder.ToString();
         }
 
+        /// <summary>
+        /// override, return the column name used in ORDER BY 
+        /// </summary>
+        /// <returns></returns>
         public override string KeyFieldName()
         {
             return "ProductId";
