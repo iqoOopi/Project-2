@@ -44,6 +44,13 @@
     <Compile Include="ClassDB.cs" />
     <Compile Include="GenericReadWrite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TravelExpertDB.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Project 2\ClassLibrary.csproj">
+      <Project>{cfe83c2d-1000-4391-a30c-9209c8a9e34e}</Project>
+      <Name>ClassLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

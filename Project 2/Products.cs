@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Project_2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace ClassLibrary
     /// Henry March 1st
     /// Refer to "Products" Table in DB, need commit prior to table "products_suppliers" as Id is requried
     /// </summary>
-    public class Products
+    public class Products:ParentClass
     {
         public int ProductId { get; set; }
         public string ProdName { get; set; }
@@ -44,13 +46,25 @@ namespace ClassLibrary
             return base.ToString();
         }
 
-        /// <summary>
-        /// Generate MySQL command for save new product to DB
-        /// </summary>
-        /// <returns></returns>
-        public string AddToSQL()
+  /// <summary>
+  /// Should Put in parient class
+  /// </summary>
+  /// <returns></returns>
+        public override string FieldToSqlSyntax()
         {
-            return null;
+            StringBuilder builder = new StringBuilder();
+            PropertyInfo[] properties = GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                builder.Append(property.Name).Append(",");
+            }
+            builder.Length--;//remove the last ","
+            return builder.ToString();
+        }
+
+        public override string KeyFieldName()
+        {
+            return "ProductId";
         }
 
         /// <summary>
