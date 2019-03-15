@@ -113,9 +113,7 @@ namespace AllWindowsForms
             {
                 case 1://edit existing record
                     {
-                        //update results, 1 for success
-                        int proTblUpdResult = 0;
-                        int prod_supTblUpdResult = 0;
+                        
                        
                         //check duplication, will allow the edited product has the same name as selectedProduct
                         //this is for situation that user doesn't change anything or only changed supplier
@@ -123,37 +121,21 @@ namespace AllWindowsForms
                         {
                             //assign old productId to the edited product
                             newProduct.ProductId = selectedProduct.ProductId;
-
-                            //since we gonna update 2 tables, use transcation here
-                            using (SqlConnection connection = TravelExpertDB.GetConnection())
+                            //update DB
+                            try
                             {
-                                connection.Open();
-                                SqlTransaction transaction = connection.BeginTransaction();
-                                try
+                                success = ProductsFormDB.Update(selectedProduct, newProduct);
+                                if (!success)
                                 {
-                                    //update products table
-                                    proTblUpdResult = GenericDB.GenericUpdate<Products>("Products", selectedProduct, newProduct, connection, transaction);
-                                    //update products_supplier table as well
-                                    prod_supTblUpdResult = 1;//setting for test updating products table
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                    transaction.Rollback();
-                                }
-                                
-                                //if both update are succeed, commit the change otherwise rollback
-                                if(prod_supTblUpdResult==1 && proTblUpdResult==1)
-                                {
-                                    transaction.Commit();
-                                    success = true;
-                                }
-                                else
-                                {
-                                    transaction.Rollback();
-                                }
-                                
+                                    MessageBox.Show("Data has been changed during your editing, please try again!");
+                                } 
                             }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                            
+                            
 
                             //update the list
                             LoadAndDisplayData();
