@@ -515,6 +515,7 @@
             // listViewProducts
             // 
             this.listViewProducts.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listViewProducts.FullRowSelect = true;
             this.listViewProducts.Location = new System.Drawing.Point(4, 5);
             this.listViewProducts.MultiSelect = false;
             this.listViewProducts.Name = "listViewProducts";
