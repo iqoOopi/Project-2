@@ -94,8 +94,8 @@ namespace ClassDB
         /// <param name="tableName">Name of the DB Table</param>
         /// <param name="oldObj">the unchanged object for checking concurrency issue</param>
         /// <param name="newObj">the changed object</param>
-        /// <param name="sqlCon">to receive outside connection so that enable transcation </param>
-        /// <param name="sqlTran">to receive outside transcation so that enable commit or rollback </param>
+        /// <param name="sqlCon">Optional argument:to receive outside connection so that enable transcation </param>
+        /// <param name="sqlTran">Optional argument:to receive outside transcation so that enable commit or rollback </param>
         /// <returns>the number of affect record, should be 1 if succeed</returns>
         public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null)
         {
