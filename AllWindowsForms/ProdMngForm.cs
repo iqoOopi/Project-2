@@ -40,17 +40,7 @@ namespace AllWindowsForms
         private void ProdMngForm_Load(object sender, EventArgs e)
         {
             //load data from DB
-            products = GenericDB.GenericRead<Products>("Products");
-            
-
-
-
-            //read from DB for products, suppliers.
-
-            //since the products table Key:ID is auto incremental，this will get the KeyIdentity. +1 will give you the ID of next new record. 
-            //as mentioned, this is not the correct method. Will use output during commit 
-            productsDBKeyIdentity = products.Last().ProductId;
-            Display();
+            LoadAndDisplayData();
         }
 
         private void ProdMngForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -152,7 +142,7 @@ namespace AllWindowsForms
                                     //update products table
                                     proTblUpdResult = GenericDB.GenericUpdate<Products>("Products", selectedProduct, newProduct, connection, transaction);
                                     //update products_supplier table as well
-                                    proTblUpdResult = 1;//setting for test updating products table
+                                    prod_supTblUpdResult = 1;//setting for test updating products table
                                 }
                                 catch (Exception ex)
                                 {
@@ -160,12 +150,11 @@ namespace AllWindowsForms
                                     transaction.Rollback();
                                 }
                                 
-                                
-
                                 //if both update are succeed, commit the change otherwise rollback
-                                if(prod_supTblUpdResult==1&& proTblUpdResult==1)
+                                if(prod_supTblUpdResult==1 && proTblUpdResult==1)
                                 {
                                     transaction.Commit();
+                                    success = true;
                                 }
                                 else
                                 {
@@ -174,10 +163,9 @@ namespace AllWindowsForms
                                 
                             }
 
-
                             //update the list
-                            products[selectedIndex] = newProduct;
-                            success = true;
+                            LoadAndDisplayData();
+                            
                         }
 
                         break;
@@ -192,11 +180,6 @@ namespace AllWindowsForms
                             products.Add(newProduct);
                             
                             //commit to products table
-
-                            //commit to products_supplier table as well
-                            //get the productID for the new added product, which is needed when commit to products_supplier table
-                            //not correct, will change to output when commit
-                            productsDBKeyIdentity++;
 
                             success = true;
 
@@ -259,24 +242,6 @@ namespace AllWindowsForms
  
         }
 
-        private void Display()
-        {
-            listViewProducts.Clear();
-            //List<ListViewItem> arrayItems = new List<ListViewItem>();
-            listViewProducts.Columns.Add("Name",-2,HorizontalAlignment.Left);
-            listViewProducts.Columns.Add("Supplier",-2,HorizontalAlignment.Left);
-            foreach (Products prod in products)
-            {
-                ListViewItem item = new ListViewItem(prod.ProdName);
-                //
-                item.SubItems.Add("supplier name go here");
-                listViewProducts.Items.Add(item);
-            }
-            //This is to fix Microsoft's design fraud of -2 doesn't auto work on first column, it will force first column to take all space cause it won't resize when added new coloum
-            //this is stupid.
-            listViewProducts.Columns[0].Width = -2;
-            listViewProducts.Columns[1].Width = -2;
-        }
 
         /// <summary>
         /// clear input
@@ -299,6 +264,35 @@ namespace AllWindowsForms
             pnlDetails.Visible = false; //hide input area
             btnDelete.Enabled = false; //disable delete button
             btnEdit.Enabled = false; //disable edit button
+        }
+
+        private void LoadAndDisplayData()
+        {
+            //load data from DB
+            products = GenericDB.GenericRead<Products>("Products");
+
+            //load listview to show the data
+            Display();
+        }
+
+
+        private void Display()
+        {
+            listViewProducts.Clear();
+            //List<ListViewItem> arrayItems = new List<ListViewItem>();
+            listViewProducts.Columns.Add("Name", -2, HorizontalAlignment.Left);
+            listViewProducts.Columns.Add("Supplier", -2, HorizontalAlignment.Left);
+            foreach (Products prod in products)
+            {
+                ListViewItem item = new ListViewItem(prod.ProdName);
+                //
+                item.SubItems.Add("supplier name go here");
+                listViewProducts.Items.Add(item);
+            }
+            //This is to fix Microsoft's design fraud of -2 doesn't auto work on first column, it will force first column to take all space cause it won't resize when added new coloum
+            //this is stupid.
+            listViewProducts.Columns[0].Width = -2;
+            listViewProducts.Columns[1].Width = -2;
         }
     }
 }
