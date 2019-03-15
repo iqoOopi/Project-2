@@ -92,8 +92,8 @@ namespace AllWindowsForms
             bool success = false;
             //validate input
             //Check both required field are not empty
-            if (!validator.IsProvided(txtProdName, "Product Name") ||
-                !validator.IsProvided(comboBoxSupplier, "Supplier"))
+            if (!validator.IsProvided(txtProdName, "Product Name"))
+                
             {
                 return;
             }
@@ -223,7 +223,6 @@ namespace AllWindowsForms
         private void ClearInput()
         {
             txtProdName.Text = "";
-            comboBoxSupplier.Text = "";
         }
 
         /// <summary>
@@ -254,19 +253,13 @@ namespace AllWindowsForms
         {
             listViewProducts.Clear();
             //List<ListViewItem> arrayItems = new List<ListViewItem>();
-            listViewProducts.Columns.Add("Name", -2, HorizontalAlignment.Left);
-            listViewProducts.Columns.Add("Supplier", -2, HorizontalAlignment.Left);
+            listViewProducts.Columns.Add("Product Name:", -2, HorizontalAlignment.Left);
             foreach (Products prod in products)
             {
                 ListViewItem item = new ListViewItem(prod.ProdName);
-                //
-                item.SubItems.Add("supplier name go here");
                 listViewProducts.Items.Add(item);
             }
-            //This is to fix Microsoft's design fraud of -2 doesn't auto work on first column, it will force first column to take all space cause it won't resize when added new coloum
-            //this is stupid.
-            listViewProducts.Columns[0].Width = -2;
-            listViewProducts.Columns[1].Width = -2;
+            listViewProducts.Columns[0].Width = listViewProducts.Width- SystemInformation.VerticalScrollBarWidth-4;
         }
     }
 }
