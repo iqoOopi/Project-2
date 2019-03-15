@@ -1,5 +1,4 @@
-﻿using Project_2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +11,7 @@ namespace ClassLibrary
     /// Henry March 1st
     /// Refer to "Products" Table in DB, need commit prior to table "products_suppliers" as Id is requried
     /// </summary>
-    public class Products:ParentClass
+    public class Products
     {
         public int ProductId { get; set; }
         public string ProdName { get; set; }
@@ -54,48 +53,6 @@ namespace ClassLibrary
             return base.ToString();
         }
 
-        /// <summary>
-        /// Override, return all the field Name to a string that could be used in sqlSyntax, like: "ProductId,ProdName"
-        /// </summary>
-        /// <returns> a string </returns>
-        public override string FieldToSqlSyntax()
-        {
-            StringBuilder builder = new StringBuilder();
-            PropertyInfo[] properties = GetType().GetProperties();
-            foreach (PropertyInfo property in properties)
-            {
-                builder.Append(property.Name).Append(",");
-            }
-            builder.Length--;//remove the last ","
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// override, return the column name used in ORDER BY 
-        /// </summary>
-        /// <returns></returns>
-        public override string KeyFieldName()
-        {
-            return "ProductId";
-        }
-
-        /// <summary>
-        /// Generate MySQL command for updating existing product
-        /// </summary>
-        /// <returns></returns>
-        public string EditToSQL()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Generate MySQL command 
-        /// </summary>
-        /// <returns></returns>
-        public string DeleteFromSQL()
-        {
-            return null;
-        }
 
         //-----------------------------------------------------------------------
         // Equals and HashCode to compare existing products to avoid duplicate

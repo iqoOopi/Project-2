@@ -39,7 +39,7 @@ namespace AllWindowsForms
         private void ProdMngForm_Load(object sender, EventArgs e)
         {
             //load data from DB
-            products = GenericReadWrite.GenericRead<Products>("Products");
+            products = GenericDB.GenericRead<Products>("Products");
             
 
 
