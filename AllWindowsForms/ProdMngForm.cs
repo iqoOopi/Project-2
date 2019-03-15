@@ -20,10 +20,10 @@ namespace AllWindowsForms
         //hold the index of the selected existing product,-1 means none selected
         int selectedIndex = -1;
 
-        //Init List of DataTransfer Object products, products_suppliers,suppliers
+        //Init List of DataTransfer Object products, products_suppliers
         List<Products> products = new List<Products>();
-        //user selected product also be used as oldProduct when update
-        Products selectedProduct;
+        
+        Products selectedProduct;//user selected product also be used as oldProduct when update
         public ProdMngForm()
         {
             InitializeComponent();
