@@ -21,7 +21,9 @@ namespace ClassDB
         /// <summary>
         /// Generic Reading method for get instants of certain Class from corresponding DB Tables
         /// </summary>
-        /// <typeparam name="T"> Generic Type, could be Products, packages etc.</typeparam>
+        /// <typeparam name="T"> Generic Type, could be Products, packages etc. 
+        /// ***** the Classes mush have a constructor that takes 0 argument.
+        /// </typeparam>
         /// <param name="tableName">Corresponding Table Name in DB</param>
         /// <returns>A list of requried entity classes for the corresponding DB </returns>
         public static List<T> GenericRead<T>(string tableName) //need inherit from ParentClass so that I can call the extra method
@@ -83,77 +85,112 @@ namespace ClassDB
             return classData;//returen results
         }
 
-
-        public static int GenericUpdate<T>(string tableName, T oldObj, T newObj)
+        /// <summary>
+        /// Generic update a record in DB
+        /// </summary>
+        /// <typeparam name="T">Generic class
+        /// ***** the Classes mush have a constructor that takes 0 argument.
+        /// </typeparam>
+        /// <param name="tableName">Name of the DB Table</param>
+        /// <param name="oldObj">the unchanged object for checking concurrency issue</param>
+        /// <param name="newObj">the changed object</param>
+        /// <param name="sqlCon">to receive outside connection so that enable transcation </param>
+        /// <param name="sqlTran">to receive outside transcation so that enable commit or rollback </param>
+        /// <returns></returns>
+        public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null)
         {
             int count = 0;
-            using (SqlConnection connection = TravelExpertDB.GetConnection())//using method could auto close resources, so the connection got closed automatically
+            bool useOutsideConnection=true;//indatictor of outside connection received
+            
+            //if no outside connection received, set indatictor to false, then start the connection.
+            if(sqlCon == null)
             {
-                //Prepare the Update Sql Syntax
-                StringBuilder FieldToSqlSet = new StringBuilder();
-                PropertyInfo[] properties = oldObj.GetType().GetProperties();
-                properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to update PK
-                foreach (PropertyInfo property in properties)
+                useOutsideConnection = false;
+                sqlCon = TravelExpertDB.GetConnection();
+            }
+
+            //Prepare the Update Sql Syntax
+            StringBuilder FieldToSqlSet = new StringBuilder();
+            PropertyInfo[] properties = oldObj.GetType().GetProperties();
+            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to update PK
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
+            }
+            FieldToSqlSet.Length--;//remove the last ","
+
+            //prepare the sql syntax for concurrency check
+            StringBuilder FieldToSqlWhere = new StringBuilder();
+            properties = oldObj.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
+               .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
+               .Append(" AND ");
+            }
+            FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
+            string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
+                                 " WHERE " + FieldToSqlWhere;
+
+            SqlCommand cmd = new SqlCommand(selectStatement, sqlCon);
+
+            //if outside transcation passed in, bound the sql command with the transcation 
+            if (sqlTran != null)
+            {
+                cmd.Transaction = sqlTran;
+            }
+
+            PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
+                                                                               //if T is Products Class,
+                                                                               //properties will looks like {ProductID, prodName}
+
+            //bound @new 
+            newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
+            foreach (PropertyInfo property in newObjProperties)
+            {
+                if (property.GetValue(newObj) == null)
                 {
-                    FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
+                    cmd.Parameters.AddWithValue("@New" + property.Name, DBNull.Value);
                 }
-                FieldToSqlSet.Length--;//remove the last ","
-
-                //prepare the sql syntax for concurrency check
-                StringBuilder FieldToSqlWhere = new StringBuilder();
-                properties = oldObj.GetType().GetProperties();
-                foreach (PropertyInfo property in properties)
+                else
                 {
-                    FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
-                   .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
-                   .Append(" AND ");
-                }
-                FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
-
-                string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
-                                     " WHERE " + FieldToSqlWhere;
-
-                using (SqlCommand cmd = new SqlCommand(selectStatement, connection))//auto close Sqlcommand
-                {
-
-
-                    PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
-                                                                                       //if T is Products Class,
-                                                                                       //properties will looks like {ProductID, prodName}
-                                                                                       //bound @new 
-                    newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
-                    foreach (PropertyInfo property in newObjProperties)
-                    {
-                        if (property.GetValue(newObj) == null)
-                        {
-                            cmd.Parameters.AddWithValue("@New" + property.Name, DBNull.Value);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@New" + property.Name, property.GetValue(newObj, null));
-                        }
-                    }
-
-                    //Bound @old
-                    PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
-                                                                                       //if T is Products Class,
-                                                                                       //properties will looks like {ProductID, prodName}
-                    foreach (PropertyInfo property in oldObjProperties)
-                    {
-                        if (property.GetValue(oldObj) == null)
-                        {
-                            cmd.Parameters.AddWithValue("@Old" + property.Name, DBNull.Value);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@Old" + property.Name, property.GetValue(oldObj, null));
-                        }
-                    }
-
-                    connection.Open();
-                    count = cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@New" + property.Name, property.GetValue(newObj, null));
                 }
             }
+
+            //Bound @old
+            PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
+                                                                               //if T is Products Class,
+                                                                               //properties will looks like {ProductID, prodName}
+            foreach (PropertyInfo property in oldObjProperties)
+            {
+                if (property.GetValue(oldObj) == null)
+                {
+                    cmd.Parameters.AddWithValue("@Old" + property.Name, DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@Old" + property.Name, property.GetValue(oldObj, null));
+                }
+            }
+
+            //if no outsideConnection passed in, open the connection
+            if (!useOutsideConnection)
+            {
+                sqlCon.Open();
+            }
+
+            //execute the query
+            count = cmd.ExecuteNonQuery();
+
+            ////if no outsideConnection passed in, close the connection
+            if (!useOutsideConnection)
+            {
+                sqlCon.Close();
+            }
+
+
             return count;
         }
 
