@@ -75,6 +75,7 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.listViewProducts = new System.Windows.Forms.ListView();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.prodMngFormMenuStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPg1Products.SuspendLayout();
@@ -333,6 +334,7 @@
             // 
             // tabPg1Products
             // 
+            this.tabPg1Products.Controls.Add(this.groupBox2);
             this.tabPg1Products.Controls.Add(this.groupBox1);
             this.tabPg1Products.Controls.Add(this.listViewProducts);
             this.tabPg1Products.Location = new System.Drawing.Point(4, 29);
@@ -365,9 +367,9 @@
             this.pnlDetails.Controls.Add(this.btnSave);
             this.pnlDetails.Controls.Add(this.label1);
             this.pnlDetails.Controls.Add(this.panel1);
-            this.pnlDetails.Location = new System.Drawing.Point(8, 83);
+            this.pnlDetails.Location = new System.Drawing.Point(7, 83);
             this.pnlDetails.Name = "pnlDetails";
-            this.pnlDetails.Size = new System.Drawing.Size(374, 115);
+            this.pnlDetails.Size = new System.Drawing.Size(375, 115);
             this.pnlDetails.TabIndex = 6;
             this.pnlDetails.Visible = false;
             // 
@@ -491,6 +493,15 @@
             this.listViewProducts.View = System.Windows.Forms.View.Details;
             this.listViewProducts.SelectedIndexChanged += new System.EventHandler(this.listViewProducts_SelectedIndexChanged);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(401, 5);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(493, 216);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Related Suppliers:";
+            // 
             // ProdMngForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -568,5 +579,6 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
