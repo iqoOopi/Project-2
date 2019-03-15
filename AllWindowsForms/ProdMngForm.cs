@@ -22,6 +22,7 @@ namespace AllWindowsForms
 
         //Init List of DataTransfer Object products, products_suppliers,suppliers
         List<Products> products = new List<Products>();
+        //user selected product also be used as oldProduct when update
         Products selectedProduct;
         public ProdMngForm()
         {
