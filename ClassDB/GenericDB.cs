@@ -176,19 +176,15 @@ namespace ClassDB
             }
 
             //if no outsideConnection passed in, open the connection
-            //if there is outsideConnection, let the outside handle connection open and close
             if (!useOutsideConnection)
             {
                 sqlCon.Open();
-            }
-
-            //execute the query
-            count = cmd.ExecuteNonQuery();
-
-            ////if no outsideConnection passed in, close the connection
-            if (!useOutsideConnection)
-            {
+                //execute the query
+                count = cmd.ExecuteNonQuery();
                 sqlCon.Close();
+            } else
+            {   //OutsideConnection received, just execute the query,let the outside handle connection open and close
+                count = cmd.ExecuteNonQuery();
             }
 
             // should return 1 if succeed
