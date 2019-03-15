@@ -96,7 +96,7 @@ namespace ClassDB
         /// <param name="newObj">the changed object</param>
         /// <param name="sqlCon">to receive outside connection so that enable transcation </param>
         /// <param name="sqlTran">to receive outside transcation so that enable commit or rollback </param>
-        /// <returns></returns>
+        /// <returns>the number of affect record, should be 1 if succeed</returns>
         public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null)
         {
             int count = 0;
@@ -176,6 +176,7 @@ namespace ClassDB
             }
 
             //if no outsideConnection passed in, open the connection
+            //if there is outsideConnection, let the outside handle connection open and close
             if (!useOutsideConnection)
             {
                 sqlCon.Open();
@@ -190,7 +191,7 @@ namespace ClassDB
                 sqlCon.Close();
             }
 
-
+            // should return 1 if succeed
             return count;
         }
 

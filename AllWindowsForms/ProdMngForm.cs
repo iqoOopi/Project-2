@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -130,17 +131,52 @@ namespace AllWindowsForms
             {
                 case 1://edit existing record
                     {
+                        //update results, 1 for success
+                        int proTblUpdResult = 0;
+                        int prod_supTblUpdResult = 0;
+                       
                         //check duplication, will allow the edited product has the same name as selectedProduct
                         //this is for situation that user doesn't change anything or only changed supplier
                         if (validator.checkNoDuplicate<Products>(products, newProduct, selectedProduct))
                         {
                             //assign old productId to the edited product
                             newProduct.ProductId = selectedProduct.ProductId;
+
+                            //since we gonna update 2 tables, use transcation here
+                            using (SqlConnection connection = TravelExpertDB.GetConnection())
+                            {
+                                connection.Open();
+                                SqlTransaction transaction = connection.BeginTransaction();
+                                try
+                                {
+                                    //update products table
+                                    proTblUpdResult = GenericDB.GenericUpdate<Products>("Products", selectedProduct, newProduct, connection, transaction);
+                                    //update products_supplier table as well
+                                    proTblUpdResult = 1;//setting for test updating products table
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                    transaction.Rollback();
+                                }
+                                
+                                
+
+                                //if both update are succeed, commit the change otherwise rollback
+                                if(prod_supTblUpdResult==1&& proTblUpdResult==1)
+                                {
+                                    transaction.Commit();
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                }
+                                
+                            }
+
+
                             //update the list
                             products[selectedIndex] = newProduct;
-
-                            //commit to products table
-                            //commit to products_supplier table as well
                             success = true;
                         }
 
