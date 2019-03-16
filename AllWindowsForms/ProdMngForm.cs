@@ -124,8 +124,13 @@ namespace AllWindowsForms
                             //update DB
                             try
                             {
-                                success = ProductsFormDB.Update(selectedProduct, newProduct);
-                                if (!success)
+                                //execute the query and get result
+                                int result = GenericDB.GenericUpdate<Products>("Products", selectedProduct, newProduct);
+                                if (result==1)
+                                {
+                                    success = true;
+                                }
+                                else
                                 {
                                     MessageBox.Show("Data has been changed during your editing, please try again!");
                                 } 
