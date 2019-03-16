@@ -11,7 +11,7 @@ namespace ClassDB
     public static class ProductsFormDB
     {
         public static bool Update(Products oldProd,Products newProd)
-        {//linda comment ha ha
+        {
             //update results, 1 for success
             int proTblUpdResult = 0;
             int prod_supTblUpdResult = 0;
