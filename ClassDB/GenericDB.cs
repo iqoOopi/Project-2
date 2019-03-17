@@ -214,6 +214,10 @@ namespace ClassDB
             bool useOutsideConnection = true;//indatictor of outside connection received
             string PKcolumnName;//hold primary key column name 
             PropertyInfo[] properties = newObj.GetType().GetProperties();//get properties from newObj
+            PKcolumnName = properties[0].Name;
+            //-------------------------------------------------------------
+            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
+            //-------------------------------------------------------------
 
             //if no outside connection received, set indatictor to false, then start the connection.
             if (sqlCon == null)
@@ -222,13 +226,17 @@ namespace ClassDB
                 sqlCon = TravelExpertDB.GetConnection();
             }
 
+            //prepare the sql syntax for Where for concurrency check
+            StringBuilder FieldToSqlWhere = new StringBuilder();
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
+               .Append(" AND ");
+            }
+            FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
             //Prepare the Insert Sql Syntax
             StringBuilder FieldToSqlInsert = new StringBuilder();
-           
-            PKcolumnName = properties[0].Name;
-            //-------------------------------------------------------------
-            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
-            //-------------------------------------------------------------
             FieldToSqlInsert.Append("(");
             foreach (PropertyInfo property in properties)
             {
@@ -247,20 +255,13 @@ namespace ClassDB
             FieldToSqlValues.Length = FieldToSqlValues.Length - 1;//remove the last ","
             FieldToSqlValues.Append(")");
 
-            StringBuilder FieldToSqlWhere = new StringBuilder();
-            foreach (PropertyInfo property in properties)
-            {
-                FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
-               .Append(" AND ");
-            }
-            FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
-
-            string selectStatement = "IF NOT EXISTS (SELECT 1 FROM " + tableName+" WHERE "+FieldToSqlWhere+")"+
+            //Insert Statement
+            string insertStatement = "IF NOT EXISTS (SELECT 1 FROM " + tableName+" WHERE "+FieldToSqlWhere+")"+
                                  "INSERT INTO " + tableName + FieldToSqlInsert +
                                  " OUTPUT INSERTED."+PKcolumnName+
                                  " VALUES " + FieldToSqlValues;
 
-            SqlCommand cmd = new SqlCommand(selectStatement, sqlCon);
+            SqlCommand cmd = new SqlCommand(insertStatement, sqlCon);
 
             //if outside transcation passed in, bound the sql command with the transcation 
             if (sqlTran != null)
