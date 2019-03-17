@@ -29,12 +29,12 @@ namespace ClassDB
         public static List<T> GenericRead<T>(string tableName) //need inherit from ParentClass so that I can call the extra method
         {
             List<T> classData = new List<T>();//List to hold result
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();//get field of given class
 
-            T obj = Activator.CreateInstance<T>();//create an instant of Class T, something like: Products obj=new Products();
-                                                  //can't use T obj = new T()
             //prepare the Sql Syntax for the query
             StringBuilder FieldToSqlSyntax = new StringBuilder();
-            PropertyInfo[] properties = obj.GetType().GetProperties();
+            
             foreach (PropertyInfo property in properties)
             {
                 FieldToSqlSyntax.Append(property.Name).Append(",");
@@ -101,14 +101,13 @@ namespace ClassDB
             int count = 0;
             bool useOutsideConnection=true;//indatictor of outside connection received
 
-            PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
-                                                                               //if T is Products Class,
-                                                                               //properties will looks like {ProductID, prodName}
-            newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
+            Type type = typeof(T);
 
-            PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
-                                                                               //if T is Products Class,
-                                                                               //properties will looks like {ProductID, prodName}
+            PropertyInfo[] PropertiesWithPK = type.GetProperties();//get all the field of this entity class
+                                                                     //if T is Products Class,
+                                                                     //properties will looks like {ProductID, prodName}
+            PropertyInfo[] PropertiesExceptPK = PropertiesWithPK.Skip(1).ToArray();//skip the primary key, as we don't need to update
+
 
             //if no outside connection received, set indatictor to false, then start the connection.
             if (sqlCon == null)
@@ -119,7 +118,7 @@ namespace ClassDB
 
             //prepare the sql syntax for concurrency check
             StringBuilder FieldToSqlWhere = new StringBuilder();
-            foreach (PropertyInfo property in oldObjProperties)
+            foreach (PropertyInfo property in PropertiesWithPK)
             {
                 FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
                .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
@@ -130,7 +129,7 @@ namespace ClassDB
 
             //Prepare the Update Sql Syntax
             StringBuilder FieldToSqlSet = new StringBuilder();
-            foreach (PropertyInfo property in newObjProperties)
+            foreach (PropertyInfo property in PropertiesExceptPK)
             {
                 FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
             }
@@ -151,7 +150,7 @@ namespace ClassDB
 
 
             //bound @new 
-            foreach (PropertyInfo property in newObjProperties)
+            foreach (PropertyInfo property in PropertiesExceptPK)
             {
                 if (property.GetValue(newObj) == null)
                 {
@@ -164,7 +163,7 @@ namespace ClassDB
             }
 
             //Bound @old
-            foreach (PropertyInfo property in oldObjProperties)
+            foreach (PropertyInfo property in PropertiesWithPK)
             {
                 if (property.GetValue(oldObj) == null)
                 {
@@ -210,10 +209,11 @@ namespace ClassDB
             int PKinserted = -1; //PK for new inserted value
             bool useOutsideConnection = true;//indatictor of outside connection received
             string PKcolumnName;//hold primary key column name 
-            PropertyInfo[] properties = newObj.GetType().GetProperties();//get properties from newObj
-            PKcolumnName = properties[0].Name;
+            Type type = typeof(T);
+            PropertyInfo[] propertiesWithPK = type.GetProperties();//get properties from newObj
+            PKcolumnName = propertiesWithPK[0].Name;
             //-------------------------------------------------------------
-            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
+            PropertyInfo[] propertiesExceptPK = propertiesWithPK.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
             //-------------------------------------------------------------
 
             //if no outside connection received, set indatictor to false, then start the connection.
@@ -225,7 +225,7 @@ namespace ClassDB
 
             //prepare the sql syntax for Where for concurrency check
             StringBuilder FieldToSqlWhere = new StringBuilder();
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in propertiesExceptPK)
             {
                 FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
                .Append(" AND ");
@@ -235,7 +235,7 @@ namespace ClassDB
             //Prepare the Insert Sql Syntax
             StringBuilder FieldToSqlInsert = new StringBuilder();
             FieldToSqlInsert.Append("(");
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in propertiesExceptPK)
             {
                 FieldToSqlInsert.Append(property.Name).Append(",");
             }
@@ -245,7 +245,7 @@ namespace ClassDB
             //prepare the sql syntax for VALUES
             StringBuilder FieldToSqlValues = new StringBuilder();
             FieldToSqlValues.Append("(");
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in propertiesExceptPK)
             {
                 FieldToSqlValues.Append("@").Append(property.Name).Append(",");
             }
@@ -267,7 +267,7 @@ namespace ClassDB
             }
 
             //bound VALUES
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in propertiesExceptPK)
             {
                 if (property.GetValue(newObj) == null)
                 {
