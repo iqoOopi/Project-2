@@ -101,34 +101,42 @@ namespace ClassDB
         {
             int count = 0;
             bool useOutsideConnection=true;//indatictor of outside connection received
-            
+
+            PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
+                                                                               //if T is Products Class,
+                                                                               //properties will looks like {ProductID, prodName}
+            newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
+
+            PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
+                                                                               //if T is Products Class,
+                                                                               //properties will looks like {ProductID, prodName}
+
             //if no outside connection received, set indatictor to false, then start the connection.
-            if(sqlCon == null)
+            if (sqlCon == null)
             {
                 useOutsideConnection = false;
                 sqlCon = TravelExpertDB.GetConnection();
             }
 
-            //Prepare the Update Sql Syntax
-            StringBuilder FieldToSqlSet = new StringBuilder();
-            PropertyInfo[] properties = oldObj.GetType().GetProperties();
-            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to update PK
-            foreach (PropertyInfo property in properties)
-            {
-                FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
-            }
-            FieldToSqlSet.Length--;//remove the last ","
-
             //prepare the sql syntax for concurrency check
             StringBuilder FieldToSqlWhere = new StringBuilder();
-            properties = oldObj.GetType().GetProperties();
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in oldObjProperties)
             {
                 FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
                .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
                .Append(" AND ");
             }
             FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
+
+            //Prepare the Update Sql Syntax
+            StringBuilder FieldToSqlSet = new StringBuilder();
+            foreach (PropertyInfo property in newObjProperties)
+            {
+                FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
+            }
+            FieldToSqlSet.Length--;//remove the last ","
+
 
             string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
                                  " WHERE " + FieldToSqlWhere;
@@ -141,12 +149,10 @@ namespace ClassDB
                 cmd.Transaction = sqlTran;
             }
 
-            PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
-                                                                               //if T is Products Class,
-                                                                               //properties will looks like {ProductID, prodName}
+
 
             //bound @new 
-            newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
+
             foreach (PropertyInfo property in newObjProperties)
             {
                 if (property.GetValue(newObj) == null)
@@ -160,9 +166,7 @@ namespace ClassDB
             }
 
             //Bound @old
-            PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
-                                                                               //if T is Products Class,
-                                                                               //properties will looks like {ProductID, prodName}
+
             foreach (PropertyInfo property in oldObjProperties)
             {
                 if (property.GetValue(oldObj) == null)
@@ -222,7 +226,9 @@ namespace ClassDB
             StringBuilder FieldToSqlInsert = new StringBuilder();
            
             PKcolumnName = properties[0].Name;
+            //-------------------------------------------------------------
             properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
+            //-------------------------------------------------------------
             FieldToSqlInsert.Append("(");
             foreach (PropertyInfo property in properties)
             {
@@ -241,7 +247,16 @@ namespace ClassDB
             FieldToSqlValues.Length = FieldToSqlValues.Length - 1;//remove the last ","
             FieldToSqlValues.Append(")");
 
-            string selectStatement = "INSERT INTO " + tableName + FieldToSqlInsert +
+            StringBuilder FieldToSqlWhere = new StringBuilder();
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
+               .Append(" AND ");
+            }
+            FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
+            string selectStatement = "IF NOT EXISTS (SELECT 1 FROM " + tableName+" WHERE "+FieldToSqlWhere+")"+
+                                 "INSERT INTO " + tableName + FieldToSqlInsert +
                                  " OUTPUT INSERTED."+PKcolumnName+
                                  " VALUES " + FieldToSqlValues;
 

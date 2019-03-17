@@ -137,8 +137,7 @@ namespace AllWindowsForms
                             {
                                 MessageBox.Show(ex.Message);
                             }
-                            
-                            
+                                                  
                         }
 
                         break;
@@ -146,8 +145,6 @@ namespace AllWindowsForms
                 case 2://add new record.
                     {
                         //check duplication, new product can not have the same name as existing products
-                        products = GenericDB.GenericRead<Products>("Products");//reload data from DB, in case there are new products added during the adding
-                                                                               //still concurrency issue could happen
                         if (validator.checkNoDuplicate<Products>(products, newProduct))
                         {
                             //commit to products table
