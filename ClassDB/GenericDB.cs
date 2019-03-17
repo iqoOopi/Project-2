@@ -194,100 +194,84 @@ namespace ClassDB
 
         //Henry working on 
 
-        //public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null)
-        //{
-        //    int count = 0;
-        //    bool useOutsideConnection = true;//indatictor of outside connection received
+        public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null)
+        {
+            int PKinserted = -1;
+            bool useOutsideConnection = true;//indatictor of outside connection received
+            string PKcolumnName;//hold primary key column name 
+            PropertyInfo[] properties = newObj.GetType().GetProperties();//get properties from newObj
 
-        //    //if no outside connection received, set indatictor to false, then start the connection.
-        //    if (sqlCon == null)
-        //    {
-        //        useOutsideConnection = false;
-        //        sqlCon = TravelExpertDB.GetConnection();
-        //    }
+            //if no outside connection received, set indatictor to false, then start the connection.
+            if (sqlCon == null)
+            {
+                useOutsideConnection = false;
+                sqlCon = TravelExpertDB.GetConnection();
+            }
 
-        //    //Prepare the Insert Sql Syntax
-        //    StringBuilder FieldToSqlInsert = new StringBuilder();
-        //    PropertyInfo[] properties = newObj.GetType().GetProperties();
-        //    properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
-        //    foreach (PropertyInfo property in properties)
-        //    {
-        //        FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
-        //    }
-        //    FieldToSqlSet.Length--;//remove the last ","
+            //Prepare the Insert Sql Syntax
+            StringBuilder FieldToSqlInsert = new StringBuilder();
+           
+            PKcolumnName = properties[0].Name;
+            properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
+            FieldToSqlInsert.Append("(");
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlInsert.Append(property.Name).Append(",");
+            }
+            FieldToSqlInsert.Length--;//remove the last ","
+            FieldToSqlInsert.Append(")");
 
-        //    //prepare the sql syntax for concurrency check
-        //    StringBuilder FieldToSqlWhere = new StringBuilder();
-        //    properties = oldObj.GetType().GetProperties();
-        //    foreach (PropertyInfo property in properties)
-        //    {
-        //        FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
-        //       .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
-        //       .Append(" AND ");
-        //    }
-        //    FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+            //prepare the sql syntax for VALUES
+            StringBuilder FieldToSqlValues = new StringBuilder();
+            FieldToSqlValues.Append("(");
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlValues.Append("@").Append(property.Name).Append(",");
+            }
+            FieldToSqlValues.Length = FieldToSqlValues.Length - 1;//remove the last ","
+            FieldToSqlValues.Append(")");
 
-        //    string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
-        //                         " WHERE " + FieldToSqlWhere;
+            string selectStatement = "INSERT INTO " + tableName + FieldToSqlInsert +
+                                 " OUTPUT INSERTED."+PKcolumnName+
+                                 " VALUES " + FieldToSqlValues;
 
-        //    SqlCommand cmd = new SqlCommand(selectStatement, sqlCon);
+            SqlCommand cmd = new SqlCommand(selectStatement, sqlCon);
 
-        //    //if outside transcation passed in, bound the sql command with the transcation 
-        //    if (sqlTran != null)
-        //    {
-        //        cmd.Transaction = sqlTran;
-        //    }
+            //if outside transcation passed in, bound the sql command with the transcation 
+            if (sqlTran != null)
+            {
+                cmd.Transaction = sqlTran;
+            }
 
-        //    PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
-        //                                                                       //if T is Products Class,
-        //                                                                       //properties will looks like {ProductID, prodName}
+            //bound VALUES
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.GetValue(newObj) == null)
+                {
+                    cmd.Parameters.AddWithValue("@" + property.Name, DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(newObj, null));
+                }
+            }
 
-        //    //bound @new 
-        //    newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
-        //    foreach (PropertyInfo property in newObjProperties)
-        //    {
-        //        if (property.GetValue(newObj) == null)
-        //        {
-        //            cmd.Parameters.AddWithValue("@New" + property.Name, DBNull.Value);
-        //        }
-        //        else
-        //        {
-        //            cmd.Parameters.AddWithValue("@New" + property.Name, property.GetValue(newObj, null));
-        //        }
-        //    }
+            //if no outsideConnection passed in, open the connection
+            if (!useOutsideConnection)
+            {
+                sqlCon.Open();
+                //execute the query
+                PKinserted = (int)cmd.ExecuteScalar();
+                sqlCon.Close();
+            }
+            else
+            {   //OutsideConnection received, just execute the query,let the outside handle connection open and close
+                PKinserted = (int)cmd.ExecuteScalar();
+            }
 
-        //    //Bound @old
-        //    PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
-        //                                                                       //if T is Products Class,
-        //                                                                       //properties will looks like {ProductID, prodName}
-        //    foreach (PropertyInfo property in oldObjProperties)
-        //    {
-        //        if (property.GetValue(oldObj) == null)
-        //        {
-        //            cmd.Parameters.AddWithValue("@Old" + property.Name, DBNull.Value);
-        //        }
-        //        else
-        //        {
-        //            cmd.Parameters.AddWithValue("@Old" + property.Name, property.GetValue(oldObj, null));
-        //        }
-        //    }
-
-        //    //if no outsideConnection passed in, open the connection
-        //    if (!useOutsideConnection)
-        //    {
-        //        sqlCon.Open();
-        //        //execute the query
-        //        count = cmd.ExecuteNonQuery();
-        //        sqlCon.Close();
-        //    }
-        //    else
-        //    {   //OutsideConnection received, just execute the query,let the outside handle connection open and close
-        //        count = cmd.ExecuteNonQuery();
-        //    }
-
-        //    // should return 1 if succeed
-        //    return count;
-        //}
+            // should return 1 if succeed
+            return PKinserted;
+        }
 
     }
 }

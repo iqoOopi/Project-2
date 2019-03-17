@@ -113,8 +113,6 @@ namespace AllWindowsForms
             {
                 case 1://edit existing record
                     {
-                        
-                       
                         //check duplication, will allow the edited product has the same name as selectedProduct
                         //this is for situation that user doesn't change anything or only changed supplier
                         if (validator.checkNoDuplicate<Products>(products, newProduct, selectedProduct))
@@ -141,10 +139,6 @@ namespace AllWindowsForms
                             }
                             
                             
-
-                            //update the list
-                            LoadAndDisplayData();
-                            
                         }
 
                         break;
@@ -152,15 +146,27 @@ namespace AllWindowsForms
                 case 2://add new record.
                     {
                         //check duplication, new product can not have the same name as existing products
+                        products = GenericDB.GenericRead<Products>("Products");//reload data from DB, in case there are new products added during the adding
+                                                                               //still concurrency issue could happen
                         if (validator.checkNoDuplicate<Products>(products, newProduct))
                         {
-                            
-                            //add new product to list                 
-                            products.Add(newProduct);
-                            
                             //commit to products table
-
-                            success = true;
+                            try
+                            {
+                                int result=GenericDB.GenericInsert<Products>("Products", newProduct);
+                                if (result > 0)
+                                {
+                                    success = true;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Other users ");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
 
                         }
                         break;
@@ -169,9 +175,11 @@ namespace AllWindowsForms
                     break;
             }
 
+            //update the list
+            LoadAndDisplayData();
+            //reset the input
             if (success)
             {
-                //if success saved to DB,then refresh the display and hide input area
                 PrepareForNextOperation();
             }
 
@@ -237,7 +245,6 @@ namespace AllWindowsForms
         {
             selectedIndex = -1;//none is selected in listview
             mode = 0;//no edit,no add
-            Display();//refresh the display
             ClearInput();//clear the textbox,combobox ************maybe need to be changed later when have supplier class
             pnlDetails.Visible = false; //hide input area
             btnDelete.Enabled = false; //disable delete button
