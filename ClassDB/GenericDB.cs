@@ -192,11 +192,21 @@ namespace ClassDB
         }
 
 
-        //Henry working on 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T">Generic class
+        /// ***** the Classes mush have a constructor that takes 0 argument.
+        /// </typeparam>
+        /// <param name="tableName">Name of the DB Table</param>
+        /// <param name="newObj"> the new record you want to insert</param>
+        /// <param name="sqlCon">Optional Connection</param>
+        /// <param name="sqlTran">Optional Transcation</param>
+        /// <returns> the Primary Key value of the new inserted record.</returns>
         public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null)
         {
-            int PKinserted = -1;
+            int PKinserted = -1; //PK for new inserted value
             bool useOutsideConnection = true;//indatictor of outside connection received
             string PKcolumnName;//hold primary key column name 
             PropertyInfo[] properties = newObj.GetType().GetProperties();//get properties from newObj
