@@ -23,7 +23,8 @@ namespace AllWindowsForms
         //Init List of DataTransfer Object products, products_suppliers
         List<Products> products = new List<Products>();
         List<ProductsSuppliers> allProductsSuppliers = new List<ProductsSuppliers>();
-        List<ProductsSuppliers> relatedProductsSuppliers = new List<ProductsSuppliers>();
+        List<ProductsSuppliers> relatedProductsSuppliers;
+        List<Suppliers> allSuppliers = new List<Suppliers>();
         Products selectedProduct;//user selected product also be used as oldProduct when update
         public ProdMngForm()
         {
@@ -46,8 +47,11 @@ namespace AllWindowsForms
         /// </summary>
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
+            relatedProductsSuppliers = new List<ProductsSuppliers>();//reset the list
             btnEdit.Enabled = true;
             btnDelete.Enabled = true;
+
+            //check selection and display related supplier info.
             if (listViewProducts.SelectedItems.Count > 0)
             { 
                 selectedIndex = listViewProducts.SelectedIndices[0];
@@ -60,12 +64,10 @@ namespace AllWindowsForms
                         relatedProductsSuppliers.Add(item);
                     }
                 }
-                productsSuppliersBindingSource.DataSource = relatedProductsSuppliers;
+                productsSuppliersDataGridView.DataSource = relatedProductsSuppliers;
+
+
             }
-            
-
-           
-
         }
 
         /// <summary>
@@ -275,10 +277,9 @@ namespace AllWindowsForms
         private void LoadAndDisplayData()
         {
             //load data from DB
-            allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
             products = GenericDB.GenericRead<Products>("Products");
-
-
+            allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
+            allSuppliers = GenericDB.GenericRead<Suppliers>("Suppliers");
             //load listview to show the data
             Display();
         }

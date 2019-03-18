@@ -75,10 +75,8 @@ namespace ClassDB
                                     args.Add(null);
                                 }
                             }
-                            Object[] test = new object[20];
-                            test = args.ToArray();
-                            object[] argstest = { 1,null,5492 };
-                            T tempObj = (T)Activator.CreateInstance(typeof(T),argstest);//create an instant of entityClass with args
+
+                            T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
 
                             classData.Add(tempObj);//add temp entity class to the result List
                         }

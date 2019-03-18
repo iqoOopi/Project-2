@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibary
+namespace ClassLibrary
 {
     /// <summary>
     /// Hoora - March
@@ -15,6 +15,12 @@ namespace ClassLibary
     {
         // Constructor:
         public Suppliers() { }
+
+        public Suppliers(int supplierId, string supName)
+        {
+            SupplierId = supplierId;
+            SupName = supName;
+        }
 
 
         // properties:
