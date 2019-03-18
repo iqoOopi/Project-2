@@ -218,10 +218,19 @@ namespace AllWindowsForms
             selectedIndex = listViewProducts.SelectedIndices[0];
             selectedProduct = products[selectedIndex];
             //remoe from DB
+            try
+            {
+                //might code to a way that it can delete all the related supplier 
+                GenericDB.GenericDelete<Products>("Products", selectedProduct);
+            }
+            catch
+            {
+                MessageBox.Show("The record has been modified or deleted already, please try agian!");
+            }
+            
 
-            products.RemoveAt(selectedIndex);
+            LoadAndDisplayData();
             //disable delete button to prevent false delete
-
             PrepareForNextOperation();
  
         }

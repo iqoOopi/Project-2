@@ -53,11 +53,10 @@ namespace ClassDB
                     {
                         while (dr.Read())
                         {
-                            T tempObj = Activator.CreateInstance<T>();//temp entity class
-                            PropertyInfo[] tempProperties = tempObj.GetType().GetProperties();//get all the field of this entity class
-                                                                                              //if T is Products Class,
-                                                                                              //properties will looks like {ProductID, prodName}
-                            foreach (PropertyInfo property in tempProperties)
+                           
+                            List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
+
+                            foreach (PropertyInfo property in properties)
                             {
                                 if (dr[property.Name] != DBNull.Value)
                                 {
@@ -67,14 +66,17 @@ namespace ClassDB
                                     Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
                                     //cast the reader result (Object type) to correct type and then assign the value.
                                     //if T is Products Class, It's just like tempObj.ProductID=Convert.toInt32(dr["ProductID"])
-                                    property.SetValue(tempObj, Convert.ChangeType(dr[property.Name], t));
+
+                                    args.Add(Convert.ChangeType(dr[property.Name], t));//add to the args list
                                 }
                                 else
                                 {
                                     //DBNull.Value in DB table, so set the property to null
-                                    property.SetValue(tempObj, null);
+                                    args.Add(null);
                                 }
                             }
+                            T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
+
                             classData.Add(tempObj);//add temp entity class to the result List
                         }
                     }
@@ -296,5 +298,78 @@ namespace ClassDB
             return PKinserted;
         }
 
+
+        public static int GenericDelete<T>(string tableName, T Obj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null)
+        {
+            int result;
+            bool useOutsideConnection = true;//indatictor of outside connection received
+            string PKcolumnName;//hold primary key column name 
+            Type type = typeof(T);
+            PropertyInfo[] propertiesWithPK = type.GetProperties();//get properties from newObj
+            PKcolumnName = propertiesWithPK[0].Name;
+            //-------------------------------------------------------------
+            PropertyInfo[] propertiesExceptPK = propertiesWithPK.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
+            //-------------------------------------------------------------
+
+            //if no outside connection received, set indatictor to false, then start the connection.
+            if (sqlCon == null)
+            {
+                useOutsideConnection = false;
+                sqlCon = TravelExpertDB.GetConnection();
+            }
+
+            //prepare the sql syntax for Where for concurrency check
+            StringBuilder FieldToSqlWhere = new StringBuilder();
+            foreach (PropertyInfo property in propertiesExceptPK)
+            {
+                FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
+               .Append(" AND ");
+            }
+            FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
+
+
+            //Insert Statement
+            string deleteStatement =
+                                 "DELETE FROM " + tableName +
+                                 " WHERE " + FieldToSqlWhere;
+
+            SqlCommand cmd = new SqlCommand(deleteStatement, sqlCon);
+
+            //if outside transcation passed in, bound the sql command with the transcation 
+            if (sqlTran != null)
+            {
+                cmd.Transaction = sqlTran;
+            }
+
+            //bound VALUES
+            foreach (PropertyInfo property in propertiesExceptPK)
+            {
+                if (property.GetValue(Obj) == null)
+                {
+                    cmd.Parameters.AddWithValue("@" + property.Name, DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(Obj, null));
+                }
+            }
+
+            //if no outsideConnection passed in, open the connection
+            if (!useOutsideConnection)
+            {
+                sqlCon.Open();
+                //execute the query
+                result = cmd.ExecuteNonQuery();
+                sqlCon.Close();
+            }
+            else
+            {   //OutsideConnection received, just execute the query,let the outside handle connection open and close
+                result = cmd.ExecuteNonQuery();
+            }
+
+            // should return the PK of new inserted record if succeed
+            return result;
+        }
     }
 }
