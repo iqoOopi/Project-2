@@ -53,20 +53,30 @@ namespace AllWindowsForms
 
             //check selection and display related supplier info.
             if (listViewProducts.SelectedItems.Count > 0)
-            { 
+            {
                 selectedIndex = listViewProducts.SelectedIndices[0];
                 selectedProduct = products[selectedIndex];
                 int selectedProductId = selectedProduct.ProductId;
-                foreach (ProductsSuppliers item in allProductsSuppliers)
+                foreach (ProductsSuppliers prodSup in allProductsSuppliers)
                 {
-                    if (selectedProductId == item.ProductId)
+                    if (selectedProductId == prodSup.ProductId)
                     {
-                        relatedProductsSuppliers.Add(item);
+                        relatedProductsSuppliers.Add(prodSup);
                     }
                 }
                 productsSuppliersDataGridView.DataSource = relatedProductsSuppliers;
-
-
+                foreach (DataGridViewRow row in productsSuppliersDataGridView.Rows)
+                {
+                   int id= (int)row.Cells["SupplierId"].Value;
+                    foreach  (Suppliers item in allSuppliers)
+                    {
+                        if (item.SupplierId==id)
+                        {
+                            row.Cells["SupplierName"].Value = item.SupName;
+                        }
+                    }
+                    
+                }
             }
         }
 
