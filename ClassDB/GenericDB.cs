@@ -53,11 +53,10 @@ namespace ClassDB
                     {
                         while (dr.Read())
                         {
-                            T tempObj = Activator.CreateInstance<T>();//temp entity class
-                            PropertyInfo[] tempProperties = tempObj.GetType().GetProperties();//get all the field of this entity class
-                                                                                              //if T is Products Class,
-                                                                                              //properties will looks like {ProductID, prodName}
-                            foreach (PropertyInfo property in tempProperties)
+                           
+                            List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
+
+                            foreach (PropertyInfo property in properties)
                             {
                                 if (dr[property.Name] != DBNull.Value)
                                 {
@@ -67,14 +66,17 @@ namespace ClassDB
                                     Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
                                     //cast the reader result (Object type) to correct type and then assign the value.
                                     //if T is Products Class, It's just like tempObj.ProductID=Convert.toInt32(dr["ProductID"])
-                                    property.SetValue(tempObj, Convert.ChangeType(dr[property.Name], t));
+
+                                    args.Add(Convert.ChangeType(dr[property.Name], t));//add to the args list
                                 }
                                 else
                                 {
                                     //DBNull.Value in DB table, so set the property to null
-                                    property.SetValue(tempObj, null);
+                                    args.Add(null);
                                 }
                             }
+                            T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
+
                             classData.Add(tempObj);//add temp entity class to the result List
                         }
                     }
