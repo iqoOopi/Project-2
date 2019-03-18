@@ -138,7 +138,7 @@
             // 
             // suppliersBindingSource
             // 
-            this.suppliersBindingSource.DataSource = typeof(ClassLibary.Suppliers);
+            this.suppliersBindingSource.DataSource = typeof(ClassLibrary.Suppliers);
             // 
             // bindingNavigatorCountItem
             // 
