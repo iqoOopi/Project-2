@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SuppliersMngForm));
             System.Windows.Forms.Label supNameLabel;
             System.Windows.Forms.Label supplierIdLabel;
             System.Windows.Forms.Label affDescLabel;
             System.Windows.Forms.Label affiliationIdLabel;
             System.Windows.Forms.Label affNameLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SuppliersMngForm));
             this.suppliersBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.suppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.suppliersBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.supNameComboBox = new System.Windows.Forms.ComboBox();
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
-            this.suppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierContactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierContactsDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,6 +85,51 @@
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // supNameLabel
+            // 
+            supNameLabel.AutoSize = true;
+            supNameLabel.Location = new System.Drawing.Point(22, 50);
+            supNameLabel.Name = "supNameLabel";
+            supNameLabel.Size = new System.Drawing.Size(79, 13);
+            supNameLabel.TabIndex = 1;
+            supNameLabel.Text = "Supplier Name:";
+            // 
+            // supplierIdLabel
+            // 
+            supplierIdLabel.AutoSize = true;
+            supplierIdLabel.Location = new System.Drawing.Point(22, 77);
+            supplierIdLabel.Name = "supplierIdLabel";
+            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
+            supplierIdLabel.TabIndex = 3;
+            supplierIdLabel.Text = "Supplier Id:";
+            // 
+            // affDescLabel
+            // 
+            affDescLabel.AutoSize = true;
+            affDescLabel.Location = new System.Drawing.Point(357, 47);
+            affDescLabel.Name = "affDescLabel";
+            affDescLabel.Size = new System.Drawing.Size(108, 13);
+            affDescLabel.TabIndex = 6;
+            affDescLabel.Text = "Affiliation Description:";
+            // 
+            // affiliationIdLabel
+            // 
+            affiliationIdLabel.AutoSize = true;
+            affiliationIdLabel.Location = new System.Drawing.Point(357, 73);
+            affiliationIdLabel.Name = "affiliationIdLabel";
+            affiliationIdLabel.Size = new System.Drawing.Size(64, 13);
+            affiliationIdLabel.TabIndex = 8;
+            affiliationIdLabel.Text = "Affiliation Id:";
+            // 
+            // affNameLabel
+            // 
+            affNameLabel.AutoSize = true;
+            affNameLabel.Location = new System.Drawing.Point(357, 99);
+            affNameLabel.Name = "affNameLabel";
+            affNameLabel.Size = new System.Drawing.Size(83, 13);
+            affNameLabel.TabIndex = 10;
+            affNameLabel.Text = "Affiliation Name:";
+            // 
             // suppliersBindingNavigator
             // 
             this.suppliersBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
@@ -114,6 +159,35 @@
             this.suppliersBindingNavigator.Size = new System.Drawing.Size(927, 25);
             this.suppliersBindingNavigator.TabIndex = 0;
             this.suppliersBindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // suppliersBindingSource
+            // 
+            this.suppliersBindingSource.DataSource = typeof(Project_2.Suppliers);
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -147,16 +221,9 @@
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -179,26 +246,8 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // suppliersBindingNavigatorSaveItem
             // 
@@ -209,15 +258,6 @@
             this.suppliersBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.suppliersBindingNavigatorSaveItem.Text = "Save Data";
             // 
-            // supNameLabel
-            // 
-            supNameLabel.AutoSize = true;
-            supNameLabel.Location = new System.Drawing.Point(22, 50);
-            supNameLabel.Name = "supNameLabel";
-            supNameLabel.Size = new System.Drawing.Size(79, 13);
-            supNameLabel.TabIndex = 1;
-            supNameLabel.Text = "Supplier Name:";
-            // 
             // supNameComboBox
             // 
             this.supNameComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.suppliersBindingSource, "SupName", true));
@@ -227,15 +267,6 @@
             this.supNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.supNameComboBox.TabIndex = 2;
             // 
-            // supplierIdLabel
-            // 
-            supplierIdLabel.AutoSize = true;
-            supplierIdLabel.Location = new System.Drawing.Point(22, 77);
-            supplierIdLabel.Name = "supplierIdLabel";
-            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
-            supplierIdLabel.TabIndex = 3;
-            supplierIdLabel.Text = "Supplier Id:";
-            // 
             // supplierIdTextBox
             // 
             this.supplierIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.suppliersBindingSource, "SupplierId", true));
@@ -243,10 +274,6 @@
             this.supplierIdTextBox.Name = "supplierIdTextBox";
             this.supplierIdTextBox.Size = new System.Drawing.Size(121, 20);
             this.supplierIdTextBox.TabIndex = 4;
-            // 
-            // suppliersBindingSource
-            // 
-            this.suppliersBindingSource.DataSource = typeof(Project_2.Suppliers);
             // 
             // supplierContactsBindingSource
             // 
@@ -275,7 +302,7 @@
             this.supplierContactsDataGridView.DataSource = this.supplierContactsBindingSource;
             this.supplierContactsDataGridView.Location = new System.Drawing.Point(12, 139);
             this.supplierContactsDataGridView.Name = "supplierContactsDataGridView";
-            this.supplierContactsDataGridView.Size = new System.Drawing.Size(895, 220);
+            this.supplierContactsDataGridView.Size = new System.Drawing.Size(895, 261);
             this.supplierContactsDataGridView.TabIndex = 5;
             // 
             // dataGridViewTextBoxColumn1
@@ -372,15 +399,6 @@
             // 
             this.affiliationsBindingSource.DataSource = typeof(Project_2.Affiliations);
             // 
-            // affDescLabel
-            // 
-            affDescLabel.AutoSize = true;
-            affDescLabel.Location = new System.Drawing.Point(357, 47);
-            affDescLabel.Name = "affDescLabel";
-            affDescLabel.Size = new System.Drawing.Size(108, 13);
-            affDescLabel.TabIndex = 6;
-            affDescLabel.Text = "Affiliation Description:";
-            // 
             // affDescTextBox
             // 
             this.affDescTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.affiliationsBindingSource, "AffDesc", true));
@@ -389,15 +407,6 @@
             this.affDescTextBox.Size = new System.Drawing.Size(100, 20);
             this.affDescTextBox.TabIndex = 7;
             // 
-            // affiliationIdLabel
-            // 
-            affiliationIdLabel.AutoSize = true;
-            affiliationIdLabel.Location = new System.Drawing.Point(357, 73);
-            affiliationIdLabel.Name = "affiliationIdLabel";
-            affiliationIdLabel.Size = new System.Drawing.Size(64, 13);
-            affiliationIdLabel.TabIndex = 8;
-            affiliationIdLabel.Text = "Affiliation Id:";
-            // 
             // affiliationIdTextBox
             // 
             this.affiliationIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.affiliationsBindingSource, "AffiliationId", true));
@@ -405,15 +414,6 @@
             this.affiliationIdTextBox.Name = "affiliationIdTextBox";
             this.affiliationIdTextBox.Size = new System.Drawing.Size(100, 20);
             this.affiliationIdTextBox.TabIndex = 9;
-            // 
-            // affNameLabel
-            // 
-            affNameLabel.AutoSize = true;
-            affNameLabel.Location = new System.Drawing.Point(357, 99);
-            affNameLabel.Name = "affNameLabel";
-            affNameLabel.Size = new System.Drawing.Size(83, 13);
-            affNameLabel.TabIndex = 10;
-            affNameLabel.Text = "Affiliation Name:";
             // 
             // affNameTextBox
             // 
