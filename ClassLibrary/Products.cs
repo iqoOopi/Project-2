@@ -17,7 +17,7 @@ namespace ClassLibrary
         public string ProdName { get; set; }
 
         /// <summary>
-        /// no parameter Constructor for use in generic Read
+        /// no parameter Constructor for use in genericDB
         /// </summary>
         public Products()
         {
