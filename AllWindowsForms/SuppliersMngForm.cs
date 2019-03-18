@@ -1,5 +1,5 @@
 ﻿using ClassDB;
-using ClassLibary;
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
