@@ -30,15 +30,14 @@
         {
             this.prodForm = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // prodForm
             // 
-            this.prodForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.prodForm.Location = new System.Drawing.Point(0, 0);
-            this.prodForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.prodForm.Location = new System.Drawing.Point(282, 120);
             this.prodForm.Name = "prodForm";
-            this.prodForm.Size = new System.Drawing.Size(1200, 692);
+            this.prodForm.Size = new System.Drawing.Size(75, 23);
             this.prodForm.TabIndex = 0;
             this.prodForm.Text = "prodForm";
             this.prodForm.UseVisualStyleBackColor = true;
@@ -46,22 +45,32 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(423, 278);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Location = new System.Drawing.Point(282, 181);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 35);
+            this.button2.Size = new System.Drawing.Size(88, 23);
             this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
+            this.button2.Text = "SuppliersForm";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(282, 243);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "&Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.prodForm);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "someForm2Test";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -73,5 +82,6 @@
 
         private System.Windows.Forms.Button prodForm;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnClose;
     }
 }

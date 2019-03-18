@@ -51,11 +51,10 @@ namespace ClassDB
                     connection.Open();
                     using (SqlDataReader dr = selectCommand.ExecuteReader())//auto close reader
                     {
+                        
                         while (dr.Read())
                         {
-                           
                             List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
-
                             foreach (PropertyInfo property in properties)
                             {
                                 if (dr[property.Name] != DBNull.Value)
@@ -68,6 +67,7 @@ namespace ClassDB
                                     //if T is Products Class, It's just like tempObj.ProductID=Convert.toInt32(dr["ProductID"])
 
                                     args.Add(Convert.ChangeType(dr[property.Name], t));//add to the args list
+                                    //args.Add(dr[property.Name]);
                                 }
                                 else
                                 {
@@ -75,7 +75,10 @@ namespace ClassDB
                                     args.Add(null);
                                 }
                             }
-                            T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
+                            Object[] test = new object[20];
+                            test = args.ToArray();
+                            object[] argstest = { 1,null,5492 };
+                            T tempObj = (T)Activator.CreateInstance(typeof(T),argstest);//create an instant of entityClass with args
 
                             classData.Add(tempObj);//add temp entity class to the result List
                         }

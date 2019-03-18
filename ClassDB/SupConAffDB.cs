@@ -8,22 +8,28 @@ using System.Threading.Tasks;
 
 namespace ClassDB
 {
-        /// <summary>
-        /// Hoora - March 
-        /// A data access class for dealing with suppliers info
-        /// </summary>
-    public static class SupplierContactsDB
+    /// <summary>
+    /// Hoora - March 
+    /// A data access class for dealing with suppliers info
+    /// </summary>
+    public static class SupConAffDB
     {
-        public static List<SupplierContacts> GetSupCont(int supplierId)
+        public static List<SupConAff> GetSupConAff(int supplierId)
         {
-            List<SupplierContacts> supplierContacts = new List<SupplierContacts>();
+            List<SupConAff> SupConAff = new List<SupConAff>();
 
-            SupplierContacts splCon;
+            SupConAff splConAff;
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId";
-
+            string SelectQuery = "SELECT SupplierContactId, SupConFirstName , SupConLastName, " +
+                "SupConCompany, SupConAddress, SupConCity, SupConProv, SupConPostal, SupConCountry, " +
+                "SupConBusPhone, SupConFax, SupConEmail, SupConURL, SupplierContacts.AffiliationId, " +
+                "SupplierId, AffName, AffDesc " +
+                "FROM SupplierContacts LEFT JOIN Affiliations " +
+                "ON SupplierContacts.AffiliationId = Affiliations.AffiliationId " +
+                "WHERE SupplierId = @SupplierId";             
+            
             SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
 
             cmnd.Parameters.AddWithValue("@SupplierId", supplierId);
@@ -34,171 +40,172 @@ namespace ClassDB
 
                 SqlDataReader dr = cmnd.ExecuteReader();
 
-                while(dr.Read())
+                while (dr.Read())
                 {
-                    splCon = new SupplierContacts();
+                    splConAff = new SupConAff();
 
-                    splCon.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]);
+                    splConAff.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]);
 
 
                     int SCFNameIndex = dr.GetOrdinal("SupConFirstName");
                     if (dr.IsDBNull(SCFNameIndex))
                     {
-                        splCon.SupConFirstName = null;
+                        splConAff.SupConFirstName = null;
                     }
                     else
                     {
-                        splCon.SupConFirstName = dr["SupConFirstName"].ToString();
+                        splConAff.SupConFirstName = dr["SupConFirstName"].ToString();
                     }
 
 
                     int SCFLNameIndex = dr.GetOrdinal("SupConLastName");
                     if (dr.IsDBNull(SCFLNameIndex))
                     {
-                        splCon.SupConLastName = null;
+                        splConAff.SupConLastName = null;
                     }
                     else
                     {
-                        splCon.SupConLastName = dr["SupConLastName"].ToString();
+                        splConAff.SupConLastName = dr["SupConLastName"].ToString();
                     }
 
 
                     int SCCompanyIndex = dr.GetOrdinal("SupConCompany");
                     if (dr.IsDBNull(SCCompanyIndex))
                     {
-                        splCon.SupConCompany = null;
+                        splConAff.SupConCompany = null;
                     }
                     else
                     {
-                        splCon.SupConCompany = dr["SupConCompany"].ToString();
+                        splConAff.SupConCompany = dr["SupConCompany"].ToString();
                     }
 
 
                     int SCAddressIndex = dr.GetOrdinal("SupConAddress");
                     if (dr.IsDBNull(SCAddressIndex))
                     {
-                        splCon.SupConAddress = null;
+                        splConAff.SupConAddress = null;
                     }
                     else
                     {
-                        splCon.SupConAddress = dr["SupConAddress"].ToString();
+                        splConAff.SupConAddress = dr["SupConAddress"].ToString();
                     }
 
 
                     int SCCityIndex = dr.GetOrdinal("SupConCity");
                     if (dr.IsDBNull(SCCityIndex))
                     {
-                        splCon.SupConCity = null;
+                        splConAff.SupConCity = null;
                     }
                     else
                     {
-                        splCon.SupConCity = dr["SupConCity"].ToString();
+                        splConAff.SupConCity = dr["SupConCity"].ToString();
                     }
 
 
                     int SCProvIndex = dr.GetOrdinal("SupConProv");
                     if (dr.IsDBNull(SCProvIndex))
                     {
-                        splCon.SupConProv = null;
+                        splConAff.SupConProv = null;
                     }
                     else
                     {
-                        splCon.SupConProv = dr["SupConProv"].ToString();
+                        splConAff.SupConProv = dr["SupConProv"].ToString();
                     }
 
 
                     int SCPostalIndex = dr.GetOrdinal("SupConPostal");
                     if (dr.IsDBNull(SCProvIndex))
                     {
-                        splCon.SupConPostal = null;
+                        splConAff.SupConPostal = null;
                     }
                     else
                     {
-                        splCon.SupConPostal = dr["SupConPostal"].ToString();
+                        splConAff.SupConPostal = dr["SupConPostal"].ToString();
                     }
 
 
                     int SCCountryIndex = dr.GetOrdinal("SupConCountry");
                     if (dr.IsDBNull(SCCountryIndex))
                     {
-                        splCon.SupConCountry = null;
+                        splConAff.SupConCountry = null;
                     }
                     else
                     {
-                        splCon.SupConCountry = dr["SupConCountry"].ToString();
+                        splConAff.SupConCountry = dr["SupConCountry"].ToString();
                     }
 
 
                     int SCBPhoneIndex = dr.GetOrdinal("SupConBusPhone");
                     if (dr.IsDBNull(SCBPhoneIndex))
                     {
-                        splCon.SupConBusPhone = null;
+                        splConAff.SupConBusPhone = null;
                     }
                     else
                     {
-                        splCon.SupConBusPhone = dr["SupConBusPhone"].ToString();
+                        splConAff.SupConBusPhone = dr["SupConBusPhone"].ToString();
                     }
 
 
                     int SCFaxIndex = dr.GetOrdinal("SupConFax");
                     if (dr.IsDBNull(SCFaxIndex))
                     {
-                        splCon.SupConFax = null;
+                        splConAff.SupConFax = null;
                     }
                     else
                     {
-                        splCon.SupConFax = dr["SupConFax"].ToString();
+                        splConAff.SupConFax = dr["SupConFax"].ToString();
                     }
 
 
                     int SCEmailIndex = dr.GetOrdinal("SupConEmail");
                     if (dr.IsDBNull(SCEmailIndex))
                     {
-                        splCon.SupConEmail = null;
+                        splConAff.SupConEmail = null;
                     }
                     else
                     {
-                        splCon.SupConEmail = dr["SupConEmail"].ToString();
+                        splConAff.SupConEmail = dr["SupConEmail"].ToString();
                     }
 
 
                     int SCURLIndex = dr.GetOrdinal("SupConURL");
                     if (dr.IsDBNull(SCURLIndex))
                     {
-                        splCon.SupConURL = null;
+                        splConAff.SupConURL = null;
                     }
                     else
                     {
-                        splCon.SupConURL = dr["SupConURL"].ToString();
+                        splConAff.SupConURL = dr["SupConURL"].ToString();
                     }
 
 
                     int AffIdIndex = dr.GetOrdinal("AffiliationID");
                     if (dr.IsDBNull(AffIdIndex))
                     {
-                        splCon.AffiliationID = null;
+                        splConAff.AffiliationID = null;
                     }
                     else
                     {
-                        splCon.AffiliationID = dr["AffiliationID"].ToString();
+                        splConAff.AffiliationID = dr["AffiliationID"].ToString();
 
                     }
 
 
                     int SupIdIndex = dr.GetOrdinal("SupplierId");
-                    if(dr.IsDBNull(SupIdIndex))
+                    if (dr.IsDBNull(SupIdIndex))
                     {
-                        splCon.SupplierId = null;
+                        splConAff.SupplierId = null;
                     }
                     else
                     {
-                        splCon.SupplierId = Convert.ToInt32(dr["SupplierId"]);
+                        splConAff.SupplierId = Convert.ToInt32(dr["SupplierId"]);
                     }
+                    SupConAff.Add(splConAff);
                 }
                 dr.Close();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -206,7 +213,7 @@ namespace ClassDB
             {
                 cnc.Close();
             }
-            return supplierContacts;
+            return SupConAff;
         }
     }
 }

@@ -22,7 +22,8 @@ namespace AllWindowsForms
 
         //Init List of DataTransfer Object products, products_suppliers
         List<Products> products = new List<Products>();
-        
+        List<ProductsSuppliers> allProductsSuppliers = new List<ProductsSuppliers>();
+        List<ProductsSuppliers> relatedProductsSuppliers = new List<ProductsSuppliers>();
         Products selectedProduct;//user selected product also be used as oldProduct when update
         public ProdMngForm()
         {
@@ -47,6 +48,24 @@ namespace AllWindowsForms
         {
             btnEdit.Enabled = true;
             btnDelete.Enabled = true;
+            if (listViewProducts.SelectedItems.Count > 0)
+            { 
+                selectedIndex = listViewProducts.SelectedIndices[0];
+                selectedProduct = products[selectedIndex];
+                int selectedProductId = selectedProduct.ProductId;
+                foreach (ProductsSuppliers item in allProductsSuppliers)
+                {
+                    if (selectedProductId == item.ProductId)
+                    {
+                        relatedProductsSuppliers.Add(item);
+                    }
+                }
+                productsSuppliersBindingSource.DataSource = relatedProductsSuppliers;
+            }
+            
+
+           
+
         }
 
         /// <summary>
@@ -56,11 +75,9 @@ namespace AllWindowsForms
         {
             btnDelete.Enabled = false;
             mode = 1;
-            //this button will only be enabled once selected 1 porudct in the list box
-            //so no need to check selected or not
 
-            selectedIndex = listViewProducts.SelectedIndices[0];
-            selectedProduct = products[selectedIndex];
+            
+           
 
             //set selected product name and supplier name to textbox and combobox. 
 
@@ -215,8 +232,6 @@ namespace AllWindowsForms
                 return;
             }
 
-            selectedIndex = listViewProducts.SelectedIndices[0];
-            selectedProduct = products[selectedIndex];
             //remoe from DB
             try
             {
@@ -260,7 +275,9 @@ namespace AllWindowsForms
         private void LoadAndDisplayData()
         {
             //load data from DB
+            allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
             products = GenericDB.GenericRead<Products>("Products");
+
 
             //load listview to show the data
             Display();

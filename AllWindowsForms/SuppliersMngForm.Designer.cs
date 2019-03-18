@@ -31,9 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label supNameLabel;
             System.Windows.Forms.Label supplierIdLabel;
-            System.Windows.Forms.Label affDescLabel;
-            System.Windows.Forms.Label affiliationIdLabel;
-            System.Windows.Forms.Label affNameLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SuppliersMngForm));
             this.suppliersBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
@@ -51,8 +48,8 @@
             this.suppliersBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.supNameComboBox = new System.Windows.Forms.ComboBox();
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
-            this.supplierContactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierContactsDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,21 +64,18 @@
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AffName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AffDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierContactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.affiliationsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.affDescTextBox = new System.Windows.Forms.TextBox();
-            this.affiliationIdTextBox = new System.Windows.Forms.TextBox();
-            this.affNameTextBox = new System.Windows.Forms.TextBox();
+            this.btnExit = new System.Windows.Forms.Button();
             supNameLabel = new System.Windows.Forms.Label();
             supplierIdLabel = new System.Windows.Forms.Label();
-            affDescLabel = new System.Windows.Forms.Label();
-            affiliationIdLabel = new System.Windows.Forms.Label();
-            affNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingNavigator)).BeginInit();
             this.suppliersBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supplierContactsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactsDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supplierContactsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,33 +96,6 @@
             supplierIdLabel.Size = new System.Drawing.Size(60, 13);
             supplierIdLabel.TabIndex = 3;
             supplierIdLabel.Text = "Supplier Id:";
-            // 
-            // affDescLabel
-            // 
-            affDescLabel.AutoSize = true;
-            affDescLabel.Location = new System.Drawing.Point(357, 47);
-            affDescLabel.Name = "affDescLabel";
-            affDescLabel.Size = new System.Drawing.Size(108, 13);
-            affDescLabel.TabIndex = 6;
-            affDescLabel.Text = "Affiliation Description:";
-            // 
-            // affiliationIdLabel
-            // 
-            affiliationIdLabel.AutoSize = true;
-            affiliationIdLabel.Location = new System.Drawing.Point(357, 73);
-            affiliationIdLabel.Name = "affiliationIdLabel";
-            affiliationIdLabel.Size = new System.Drawing.Size(64, 13);
-            affiliationIdLabel.TabIndex = 8;
-            affiliationIdLabel.Text = "Affiliation Id:";
-            // 
-            // affNameLabel
-            // 
-            affNameLabel.AutoSize = true;
-            affNameLabel.Location = new System.Drawing.Point(357, 99);
-            affNameLabel.Name = "affNameLabel";
-            affNameLabel.Size = new System.Drawing.Size(83, 13);
-            affNameLabel.TabIndex = 10;
-            affNameLabel.Text = "Affiliation Name:";
             // 
             // suppliersBindingNavigator
             // 
@@ -171,7 +138,7 @@
             // 
             // suppliersBindingSource
             // 
-            this.suppliersBindingSource.DataSource = typeof(Project_2.Suppliers);
+            this.suppliersBindingSource.DataSource = typeof(ClassLibary.Suppliers);
             // 
             // bindingNavigatorCountItem
             // 
@@ -261,11 +228,14 @@
             // supNameComboBox
             // 
             this.supNameComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.suppliersBindingSource, "SupName", true));
+            this.supNameComboBox.DataSource = this.suppliersBindingSource;
+            this.supNameComboBox.DisplayMember = "SupName";
             this.supNameComboBox.FormattingEnabled = true;
             this.supNameComboBox.Location = new System.Drawing.Point(111, 47);
             this.supNameComboBox.Name = "supNameComboBox";
             this.supNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.supNameComboBox.TabIndex = 2;
+            this.supNameComboBox.SelectedIndexChanged += new System.EventHandler(this.supNameComboBox_SelectedIndexChanged);
             // 
             // supplierIdTextBox
             // 
@@ -275,15 +245,12 @@
             this.supplierIdTextBox.Size = new System.Drawing.Size(121, 20);
             this.supplierIdTextBox.TabIndex = 4;
             // 
-            // supplierContactsBindingSource
-            // 
-            this.supplierContactsBindingSource.DataSource = typeof(Project_2.SupplierContacts);
-            // 
             // supplierContactsDataGridView
             // 
             this.supplierContactsDataGridView.AutoGenerateColumns = false;
             this.supplierContactsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.supplierContactsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn15,
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
@@ -298,12 +265,19 @@
             this.dataGridViewTextBoxColumn12,
             this.dataGridViewTextBoxColumn13,
             this.dataGridViewTextBoxColumn14,
-            this.dataGridViewTextBoxColumn15});
+            this.AffName,
+            this.AffDesc});
             this.supplierContactsDataGridView.DataSource = this.supplierContactsBindingSource;
-            this.supplierContactsDataGridView.Location = new System.Drawing.Point(12, 139);
+            this.supplierContactsDataGridView.Location = new System.Drawing.Point(20, 106);
             this.supplierContactsDataGridView.Name = "supplierContactsDataGridView";
             this.supplierContactsDataGridView.Size = new System.Drawing.Size(895, 261);
             this.supplierContactsDataGridView.TabIndex = 5;
+            // 
+            // dataGridViewTextBoxColumn15
+            // 
+            this.dataGridViewTextBoxColumn15.DataPropertyName = "SupplierId";
+            this.dataGridViewTextBoxColumn15.HeaderText = "SupplierId";
+            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -389,51 +363,42 @@
             this.dataGridViewTextBoxColumn14.HeaderText = "AffiliationID";
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             // 
-            // dataGridViewTextBoxColumn15
+            // AffName
             // 
-            this.dataGridViewTextBoxColumn15.DataPropertyName = "SupplierId";
-            this.dataGridViewTextBoxColumn15.HeaderText = "SupplierId";
-            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+            this.AffName.HeaderText = "AffiliationName";
+            this.AffName.Name = "AffName";
+            this.AffName.ReadOnly = true;
+            // 
+            // AffDesc
+            // 
+            this.AffDesc.HeaderText = "AffiliationDescription";
+            this.AffDesc.Name = "AffDesc";
+            this.AffDesc.ReadOnly = true;
+            // 
+            // supplierContactsBindingSource
+            // 
+            this.supplierContactsBindingSource.DataSource = typeof(ClassLibary.SupplierContacts);
             // 
             // affiliationsBindingSource
             // 
-            this.affiliationsBindingSource.DataSource = typeof(Project_2.Affiliations);
+            this.affiliationsBindingSource.DataSource = typeof(ClassLibary.Affiliations);
             // 
-            // affDescTextBox
+            // btnExit
             // 
-            this.affDescTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.affiliationsBindingSource, "AffDesc", true));
-            this.affDescTextBox.Location = new System.Drawing.Point(487, 44);
-            this.affDescTextBox.Name = "affDescTextBox";
-            this.affDescTextBox.Size = new System.Drawing.Size(100, 20);
-            this.affDescTextBox.TabIndex = 7;
-            // 
-            // affiliationIdTextBox
-            // 
-            this.affiliationIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.affiliationsBindingSource, "AffiliationId", true));
-            this.affiliationIdTextBox.Location = new System.Drawing.Point(487, 70);
-            this.affiliationIdTextBox.Name = "affiliationIdTextBox";
-            this.affiliationIdTextBox.Size = new System.Drawing.Size(100, 20);
-            this.affiliationIdTextBox.TabIndex = 9;
-            // 
-            // affNameTextBox
-            // 
-            this.affNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.affiliationsBindingSource, "AffName", true));
-            this.affNameTextBox.Location = new System.Drawing.Point(487, 96);
-            this.affNameTextBox.Name = "affNameTextBox";
-            this.affNameTextBox.Size = new System.Drawing.Size(100, 20);
-            this.affNameTextBox.TabIndex = 11;
+            this.btnExit.Location = new System.Drawing.Point(799, 77);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 6;
+            this.btnExit.Text = "&Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // SuppliersMngForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 412);
-            this.Controls.Add(affDescLabel);
-            this.Controls.Add(this.affDescTextBox);
-            this.Controls.Add(affiliationIdLabel);
-            this.Controls.Add(this.affiliationIdTextBox);
-            this.Controls.Add(affNameLabel);
-            this.Controls.Add(this.affNameTextBox);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.supplierContactsDataGridView);
             this.Controls.Add(supNameLabel);
             this.Controls.Add(this.supNameComboBox);
@@ -447,8 +412,8 @@
             this.suppliersBindingNavigator.ResumeLayout(false);
             this.suppliersBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supplierContactsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactsDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supplierContactsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -475,6 +440,8 @@
         private System.Windows.Forms.TextBox supplierIdTextBox;
         private System.Windows.Forms.BindingSource supplierContactsBindingSource;
         private System.Windows.Forms.DataGridView supplierContactsDataGridView;
+        private System.Windows.Forms.BindingSource affiliationsBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -489,10 +456,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.BindingSource affiliationsBindingSource;
-        private System.Windows.Forms.TextBox affDescTextBox;
-        private System.Windows.Forms.TextBox affiliationIdTextBox;
-        private System.Windows.Forms.TextBox affNameTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AffName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AffDesc;
+        private System.Windows.Forms.Button btnExit;
     }
 }
