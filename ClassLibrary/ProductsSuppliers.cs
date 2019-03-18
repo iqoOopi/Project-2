@@ -11,7 +11,7 @@ namespace ClassLibrary
 /// </summary>
     public class ProductsSuppliers
     {
-        public int ProductSupplerId { get; set; }
+        public int ProductSupplierId { get; set; }
 
         public int? ProductId { get; set; }
 
