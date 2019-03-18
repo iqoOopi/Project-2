@@ -16,5 +16,7 @@ namespace ClassLibrary
         public int? ProductId { get; set; }
 
         public int? SupplierId { get; set; }
+
+        public ProductsSuppliers(int ProductsSupplierID, int? ProductId, int? SupplierId) { }
     }
 }

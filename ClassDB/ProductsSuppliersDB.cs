@@ -39,7 +39,7 @@ namespace ClassDB
                 while (dr.Read())
                 {
                     ps = new ProductsSuppliers();
-                    ps.ProductSupplerId = Convert.ToInt32(dr["ProductSupplerId"]);
+                    ps.ProductSupplierId = Convert.ToInt32(dr["ProductSupplierId"]);
                     ps.ProductId = Convert.ToInt32(dr["ProductId"]);
                     ps.SupplierId = Convert.ToInt32(dr["SupplierId"]);
 
