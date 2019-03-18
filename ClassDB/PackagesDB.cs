@@ -26,7 +26,7 @@ namespace ClassDB
                 while (SqlReader.Read())
                 {
                     package = new Package();
-                    package.PackageID = 
+                    
                     
 
 
