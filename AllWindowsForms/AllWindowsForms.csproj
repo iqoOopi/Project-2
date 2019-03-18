@@ -85,6 +85,9 @@
     <EmbeddedResource Include="SuppliersMngForm.resx">
       <DependentUpon>SuppliersMngForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\ClassLibrary.ProductsSuppliers.datasource">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\Project_2.Affiliations.datasource" />
     <None Include="Properties\DataSources\Project_2.SupplierContacts.datasource" />
     <None Include="Properties\DataSources\Project_2.Suppliers.datasource" />
