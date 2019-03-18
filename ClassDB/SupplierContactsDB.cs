@@ -14,7 +14,7 @@ namespace ClassDB
         /// </summary>
     public static class SupplierContactsDB
     {
-        public static List<SupplierContacts> GetSupCont()
+        public static List<SupplierContacts> GetSupCont(int supplierId)
         {
             List<SupplierContacts> supplierContacts = new List<SupplierContacts>();
 
@@ -22,9 +22,11 @@ namespace ClassDB
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            string SelectQuery = "SELECT * FROM SupplierContacts";
+            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId";
 
             SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+
+            cmnd.Parameters.AddWithValue("@SupplierId", supplierId);
 
             try
             {

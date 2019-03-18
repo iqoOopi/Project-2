@@ -15,16 +15,17 @@ namespace ClassDB
     /// 
     public static class AffiliationsDB
     {
-        public static List<Affiliations> GetAff()
+        public static Affiliations GetAff(string affiliationId)
         {
-            List<Affiliations> affiliations = new List<Affiliations>();
-            Affiliations afl;
+            Affiliations afl = new Affiliations();
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            string SelectQuery = "SELECT * FROM Affiliations";
+            string SelectQuery = "SELECT * FROM Affiliations WHERE AffiliationId = @AffiliationId";
 
             SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+
+            cmnd.Parameters.AddWithValue("@AffiliationId", affiliationId);
 
             try
             {
@@ -32,7 +33,7 @@ namespace ClassDB
 
                 SqlDataReader dr = cmnd.ExecuteReader();
 
-                while (dr.Read())
+                if (dr.Read())
                 {
                     afl = new Affiliations();
                     afl.AffiliationId =dr["AffiliationId"].ToString();
@@ -57,9 +58,7 @@ namespace ClassDB
                     else
                     {
                         afl.AffDesc = dr["AffDesc"].ToString();
-                    }
-
-                    affiliations.Add(afl);
+                    }                    
                 }
                 dr.Close();
             }
@@ -71,7 +70,7 @@ namespace ClassDB
             {
                 cnc.Close();
             }
-            return affiliations;
+            return afl;
         }
     }
 }
