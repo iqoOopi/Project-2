@@ -26,7 +26,7 @@ namespace ClassDB
                     //update products table
                     proTblUpdResult = GenericDB.GenericUpdate<Products>("Products", oldProd, newProd, connection, transaction);
                     //update products_supplier table as well
-                    prod_supTblUpdResult = 1;//setting for test updating products table
+                    prod_supTblUpdResult = 1;//setting for testing updating products table
                 }
                 catch (Exception ex)
                 {

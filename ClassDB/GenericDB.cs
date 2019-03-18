@@ -32,7 +32,6 @@ namespace ClassDB
 
             T obj = Activator.CreateInstance<T>();//create an instant of Class T, something like: Products obj=new Products();
                                                   //can't use T obj = new T()
-
             //prepare the Sql Syntax for the query
             StringBuilder FieldToSqlSyntax = new StringBuilder();
             PropertyInfo[] properties = obj.GetType().GetProperties();
@@ -152,7 +151,6 @@ namespace ClassDB
 
 
             //bound @new 
-
             foreach (PropertyInfo property in newObjProperties)
             {
                 if (property.GetValue(newObj) == null)
@@ -166,7 +164,6 @@ namespace ClassDB
             }
 
             //Bound @old
-
             foreach (PropertyInfo property in oldObjProperties)
             {
                 if (property.GetValue(oldObj) == null)
@@ -295,7 +292,7 @@ namespace ClassDB
                 PKinserted = (int)cmd.ExecuteScalar();
             }
 
-            // should return 1 if succeed
+            // should return the PK of new inserted record if succeed
             return PKinserted;
         }
 
