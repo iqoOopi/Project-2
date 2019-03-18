@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Affiliations.cs" />
+    <Compile Include="PackagesProductsSuppliers.cs" />
     <Compile Include="ProductsSuppliers.cs" />
     <Compile Include="SupConAff.cs" />
     <Compile Include="Suppliers.cs" />
