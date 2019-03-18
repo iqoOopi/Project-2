@@ -17,7 +17,12 @@ namespace ClassLibrary
 
         public int? SupplierId { get; set; }
 
-        public ProductsSuppliers(int ProductsSupplierID, int? ProductId, int? SupplierId) { }
+        public ProductsSuppliers(int prodSuppid, int? prodid, int? supid)
+        {
+            ProductSupplierId = prodSuppid;
+            ProductId = prodid;
+            SupplierId = supid;
+        }
 
         public ProductsSuppliers() { }
     }

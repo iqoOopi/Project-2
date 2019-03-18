@@ -15,7 +15,11 @@ namespace ClassLibrary
 
         public int ProductSupplierId { get; set; }
 
-        public PackagesProductsSuppliers(int PackageId, int ProductSupplierId) { }
+        public PackagesProductsSuppliers(int packid, int prodSupid)
+        {
+            PackageId = packid;
+            ProductSupplierId = prodSupid;
+        }
 
         public PackagesProductsSuppliers() { }
     }
