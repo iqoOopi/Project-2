@@ -60,6 +60,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StartingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartingForm.Designer.cs">
+      <DependentUpon>StartingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuppliersMngForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartingForm.resx">
+      <DependentUpon>StartingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SuppliersMngForm.resx">
       <DependentUpon>SuppliersMngForm.cs</DependentUpon>
