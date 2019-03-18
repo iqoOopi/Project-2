@@ -26,6 +26,17 @@ namespace AllWindowsForms
         {
             ProdMngForm prodMngFormInstant = new ProdMngForm();
             prodMngFormInstant.Show();
-                }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SuppliersMngForm suppliersMngFormInstant = new SuppliersMngForm();
+            suppliersMngFormInstant.Show();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
