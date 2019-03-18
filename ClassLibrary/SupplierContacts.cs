@@ -8,7 +8,7 @@ namespace Project_2
 {
     /// <summary>
     /// Hoora - March
-    /// Class to create suppliers objects
+    /// Class to create supplier contact objects
     /// </summary>
     public class SupplierContacts
     {
