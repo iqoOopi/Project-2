@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_2
+namespace ClassLibrary
 {/// <summary>
 /// Linda Wallace
 /// Business class for ProductsSuppliers table
