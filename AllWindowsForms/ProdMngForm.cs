@@ -25,6 +25,7 @@ namespace AllWindowsForms
         List<ProductsSuppliers> allProductsSuppliers = new List<ProductsSuppliers>();
         List<ProductsSuppliers> relatedProductsSuppliers;
         List<Suppliers> allSuppliers = new List<Suppliers>();
+        List<Suppliers> relatedSuppliers;
         Products selectedProduct;//user selected product also be used as oldProduct when update
         public ProdMngForm()
         {
@@ -48,6 +49,7 @@ namespace AllWindowsForms
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
             relatedProductsSuppliers = new List<ProductsSuppliers>();//reset the list
+            relatedSuppliers = new List<Suppliers>();
             btnEdit.Enabled = true;
             btnDelete.Enabled = true;
 
@@ -73,6 +75,7 @@ namespace AllWindowsForms
                         if (item.SupplierId==id)
                         {
                             row.Cells["SupplierName"].Value = item.SupName;
+                            relatedSuppliers.Add(item);
                         }
                     }
                     
@@ -306,6 +309,93 @@ namespace AllWindowsForms
                 listViewProducts.Items.Add(item);
             }
             listViewProducts.Columns[0].Width = listViewProducts.Width- SystemInformation.VerticalScrollBarWidth-4;
+        }
+
+
+
+        //----------------------------------------------------------------------------------------------------
+        //below is right side of the form for changing related suppliers
+        Suppliers selectedSuppliers;
+        ProductsSuppliers selectedProdSup;
+        int supMode = 0;//1 for edit, 2 for add
+        private void productsSuppliersDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            SupPrepareForNextOperation();
+            btnSupEdit.Enabled = true;
+            btnSupDel.Enabled = true;
+            comboxSup.DataSource = allSuppliers;
+            if(productsSuppliersDataGridView.SelectedRows.Count>0)
+            {
+                int index = productsSuppliersDataGridView.SelectedRows[0].Index;
+                if (relatedSuppliers.Count > 0)
+                {
+                    selectedSuppliers = relatedSuppliers[index];
+                    selectedProdSup = relatedProductsSuppliers[index];
+                }
+             
+            }
+        }
+
+        private void btnSupEdit_Click(object sender, EventArgs e)
+        {
+            pnlSupInfo.Visible = true;
+            supMode = 1;
+            comboxSup.SelectedValue = selectedSuppliers.SupplierId;
+        }
+
+
+        private void SupPrepareForNextOperation()
+        {
+            supMode = 0;//no edit,no add
+            pnlSupInfo.Visible = false;
+        }
+
+        private void btnSupDel_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure to delete this item ?",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.No)
+            {
+                //if no, clear selection and prepare for next operation
+                SupPrepareForNextOperation();
+                return;
+            }
+            try
+            {
+                GenericDB.GenericDelete("Products_Suppliers", selectedProdSup);
+                LoadAndDisplayData();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSupAdd_Click(object sender, EventArgs e)
+        {
+            pnlSupInfo.Visible = true;
+            supMode = 2;
+        }
+
+        private void btnSupSave_Click(object sender, EventArgs e)
+        {
+            bool success = false;
+            switch (supMode)
+            {
+                case 1:// in edit
+                    {
+
+                        break;
+                    }
+                case 2://in add
+                    {
+                        ProductsSuppliers temProdSup = new ProductsSuppliers(); 
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
     }
 }

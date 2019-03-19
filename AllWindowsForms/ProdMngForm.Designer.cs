@@ -64,6 +64,9 @@
             this.tabPg1Products = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.productsSuppliersDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SupplierId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SupplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productsSuppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pnlDetails = new System.Windows.Forms.Panel();
@@ -92,9 +95,19 @@
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.productsSuppliersBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SupplierId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SupplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSupDel = new System.Windows.Forms.Button();
+            this.btnSupEdit = new System.Windows.Forms.Button();
+            this.btnSupAdd = new System.Windows.Forms.Button();
+            this.pnlSupInfo = new System.Windows.Forms.Panel();
+            this.btnSupCancel = new System.Windows.Forms.Button();
+            this.btnSupSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboxSup = new System.Windows.Forms.ComboBox();
+            this.suppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.prodMngFormMenuStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPg1Products.SuspendLayout();
@@ -107,6 +120,11 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersBindingNavigator)).BeginInit();
             this.productsSuppliersBindingNavigator.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.pnlSupInfo.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // prodMngFormMenuStrip
@@ -373,6 +391,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.productsSuppliersDataGridView);
             this.groupBox2.Location = new System.Drawing.Point(401, 5);
             this.groupBox2.Name = "groupBox2";
@@ -396,6 +415,33 @@
             this.productsSuppliersDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.productsSuppliersDataGridView.Size = new System.Drawing.Size(481, 191);
             this.productsSuppliersDataGridView.TabIndex = 0;
+            this.productsSuppliersDataGridView.SelectionChanged += new System.EventHandler(this.productsSuppliersDataGridView_SelectionChanged);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "ProductSupplierId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id:";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 52;
+            // 
+            // SupplierId
+            // 
+            this.SupplierId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SupplierId.DataPropertyName = "SupplierId";
+            this.SupplierId.HeaderText = "Supplier Id:";
+            this.SupplierId.Name = "SupplierId";
+            this.SupplierId.ReadOnly = true;
+            this.SupplierId.Width = 114;
+            // 
+            // SupplierName
+            // 
+            this.SupplierName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SupplierName.HeaderText = "Supplier Name:";
+            this.SupplierName.Name = "SupplierName";
+            this.SupplierName.ReadOnly = true;
+            this.SupplierName.Width = 142;
             // 
             // productsSuppliersBindingSource
             // 
@@ -539,6 +585,7 @@
             // listViewProducts
             // 
             this.listViewProducts.FullRowSelect = true;
+            this.listViewProducts.HideSelection = false;
             this.listViewProducts.Location = new System.Drawing.Point(4, 5);
             this.listViewProducts.MultiSelect = false;
             this.listViewProducts.Name = "listViewProducts";
@@ -672,31 +719,136 @@
             this.productsSuppliersBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.productsSuppliersBindingNavigatorSaveItem.Text = "Save Data";
             // 
-            // dataGridViewTextBoxColumn1
+            // groupBox3
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ProductSupplierId";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id:";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 52;
+            this.groupBox3.Controls.Add(this.pnlSupInfo);
+            this.groupBox3.Controls.Add(this.panel2);
+            this.groupBox3.Location = new System.Drawing.Point(6, 218);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(481, 203);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Edit or Add New Related Supplier";
             // 
-            // SupplierId
+            // panel2
             // 
-            this.SupplierId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SupplierId.DataPropertyName = "SupplierId";
-            this.SupplierId.HeaderText = "Supplier Id:";
-            this.SupplierId.Name = "SupplierId";
-            this.SupplierId.ReadOnly = true;
-            this.SupplierId.Width = 114;
+            this.panel2.Controls.Add(this.btnSupDel);
+            this.panel2.Controls.Add(this.btnSupEdit);
+            this.panel2.Controls.Add(this.btnSupAdd);
+            this.panel2.Location = new System.Drawing.Point(56, 27);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(375, 50);
+            this.panel2.TabIndex = 6;
             // 
-            // SupplierName
+            // btnSupDel
             // 
-            this.SupplierName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SupplierName.HeaderText = "Supplier Name:";
-            this.SupplierName.Name = "SupplierName";
-            this.SupplierName.ReadOnly = true;
-            this.SupplierName.Width = 142;
+            this.btnSupDel.Enabled = false;
+            this.btnSupDel.Location = new System.Drawing.Point(154, 12);
+            this.btnSupDel.Name = "btnSupDel";
+            this.btnSupDel.Size = new System.Drawing.Size(75, 30);
+            this.btnSupDel.TabIndex = 4;
+            this.btnSupDel.Text = "Delete";
+            this.btnSupDel.UseVisualStyleBackColor = true;
+            this.btnSupDel.Click += new System.EventHandler(this.btnSupDel_Click);
+            // 
+            // btnSupEdit
+            // 
+            this.btnSupEdit.Enabled = false;
+            this.btnSupEdit.Location = new System.Drawing.Point(27, 12);
+            this.btnSupEdit.Name = "btnSupEdit";
+            this.btnSupEdit.Size = new System.Drawing.Size(75, 30);
+            this.btnSupEdit.TabIndex = 4;
+            this.btnSupEdit.Text = "Edit";
+            this.btnSupEdit.UseVisualStyleBackColor = true;
+            this.btnSupEdit.Click += new System.EventHandler(this.btnSupEdit_Click);
+            // 
+            // btnSupAdd
+            // 
+            this.btnSupAdd.Location = new System.Drawing.Point(276, 12);
+            this.btnSupAdd.Name = "btnSupAdd";
+            this.btnSupAdd.Size = new System.Drawing.Size(75, 30);
+            this.btnSupAdd.TabIndex = 4;
+            this.btnSupAdd.Text = "Add";
+            this.btnSupAdd.UseVisualStyleBackColor = true;
+            this.btnSupAdd.Click += new System.EventHandler(this.btnSupAdd_Click);
+            // 
+            // pnlSupInfo
+            // 
+            this.pnlSupInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlSupInfo.Controls.Add(this.btnSupCancel);
+            this.pnlSupInfo.Controls.Add(this.btnSupSave);
+            this.pnlSupInfo.Controls.Add(this.label3);
+            this.pnlSupInfo.Controls.Add(this.panel5);
+            this.pnlSupInfo.Location = new System.Drawing.Point(56, 83);
+            this.pnlSupInfo.Name = "pnlSupInfo";
+            this.pnlSupInfo.Size = new System.Drawing.Size(375, 115);
+            this.pnlSupInfo.TabIndex = 6;
+            this.pnlSupInfo.Visible = false;
+            // 
+            // btnSupCancel
+            // 
+            this.btnSupCancel.Location = new System.Drawing.Point(274, 75);
+            this.btnSupCancel.Name = "btnSupCancel";
+            this.btnSupCancel.Size = new System.Drawing.Size(75, 32);
+            this.btnSupCancel.TabIndex = 4;
+            this.btnSupCancel.Text = "&Cancel";
+            this.btnSupCancel.UseVisualStyleBackColor = true;
+            this.btnSupCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnSupSave
+            // 
+            this.btnSupSave.Location = new System.Drawing.Point(26, 75);
+            this.btnSupSave.Name = "btnSupSave";
+            this.btnSupSave.Size = new System.Drawing.Size(75, 32);
+            this.btnSupSave.TabIndex = 4;
+            this.btnSupSave.Text = "&Save";
+            this.btnSupSave.UseVisualStyleBackColor = true;
+            this.btnSupSave.Click += new System.EventHandler(this.btnSupSave_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 14);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 20);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Supplier  Info:";
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.comboxSup);
+            this.panel5.Controls.Add(this.label4);
+            this.panel5.Location = new System.Drawing.Point(0, 37);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(375, 32);
+            this.panel5.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 6);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Name:";
+            // 
+            // comboxSup
+            // 
+            this.comboxSup.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.suppliersBindingSource, "SupplierId", true));
+            this.comboxSup.DataSource = this.suppliersBindingSource;
+            this.comboxSup.DisplayMember = "SupName";
+            this.comboxSup.FormattingEnabled = true;
+            this.comboxSup.Location = new System.Drawing.Point(85, 3);
+            this.comboxSup.Name = "comboxSup";
+            this.comboxSup.Size = new System.Drawing.Size(287, 28);
+            this.comboxSup.TabIndex = 1;
+            this.comboxSup.ValueMember = "SupplierId";
+            // 
+            // suppliersBindingSource
+            // 
+            this.suppliersBindingSource.DataSource = typeof(ClassLibrary.Suppliers);
             // 
             // ProdMngForm
             // 
@@ -729,6 +881,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersBindingNavigator)).EndInit();
             this.productsSuppliersBindingNavigator.ResumeLayout(false);
             this.productsSuppliersBindingNavigator.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.pnlSupInfo.ResumeLayout(false);
+            this.pnlSupInfo.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -801,5 +960,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn SupplierId;
         private System.Windows.Forms.DataGridViewTextBoxColumn SupplierName;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnSupDel;
+        private System.Windows.Forms.Button btnSupEdit;
+        private System.Windows.Forms.Button btnSupAdd;
+        private System.Windows.Forms.Panel pnlSupInfo;
+        private System.Windows.Forms.Button btnSupCancel;
+        private System.Windows.Forms.Button btnSupSave;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboxSup;
+        private System.Windows.Forms.BindingSource suppliersBindingSource;
     }
 }
