@@ -80,6 +80,7 @@ namespace AllWindowsForms
                     }
                     
                 }
+                SupPrepareForNextOperation();
             }
         }
 
@@ -320,12 +321,13 @@ namespace AllWindowsForms
         int supMode = 0;//1 for edit, 2 for add
         private void productsSuppliersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            SupPrepareForNextOperation();
-            btnSupEdit.Enabled = true;
-            btnSupDel.Enabled = true;
+            
+
             comboxSup.DataSource = allSuppliers;
             if(productsSuppliersDataGridView.SelectedRows.Count>0)
             {
+                btnSupEdit.Enabled = true;
+                btnSupDel.Enabled = true;
                 int index = productsSuppliersDataGridView.SelectedRows[0].Index;
                 if (relatedSuppliers.Count > 0)
                 {
@@ -348,6 +350,9 @@ namespace AllWindowsForms
         {
             supMode = 0;//no edit,no add
             pnlSupInfo.Visible = false;
+            btnSupDel.Enabled = false;
+            btnSupEdit.Enabled = false;
+            productsSuppliersDataGridView.ClearSelection();
         }
 
         private void btnSupDel_Click(object sender, EventArgs e)
