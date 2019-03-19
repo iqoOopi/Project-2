@@ -395,12 +395,30 @@ namespace AllWindowsForms
                     }
                 case 2://in add
                     {
-                        ProductsSuppliers temProdSup = new ProductsSuppliers(); 
+                        //need constructor
+                        ProductsSuppliers temProdSup = new ProductsSuppliers();
+                        temProdSup.ProductId = selectedProduct.ProductId;
+                        temProdSup.SupplierId = (int)comboxSup.SelectedValue;
+
+                        if(validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, temProdSup))
+                        {
+                            try
+                            {
+                                GenericDB.GenericInsert<ProductsSuppliers>("Products_Suppliers", temProdSup);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("other users");
+                            }
+                        }
+                        
                         break;
                     }
                 default:
                     break;
             }
+            SupPrepareForNextOperation();
+            LoadAndDisplayData();
         }
     }
 }
