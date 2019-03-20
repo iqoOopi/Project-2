@@ -56,6 +56,7 @@ namespace AllWindowsForms
             //check selection and display related supplier info.
             if (listViewProducts.SelectedItems.Count > 0)
             {
+
                 selectedIndex = listViewProducts.SelectedIndices[0];
                 selectedProduct = products[selectedIndex];
                 int selectedProductId = selectedProduct.ProductId;
@@ -81,6 +82,7 @@ namespace AllWindowsForms
                     
                 }
                 SupPrepareForNextOperation();
+                btnSupAdd.Enabled = true;
             }
         }
 
@@ -310,6 +312,14 @@ namespace AllWindowsForms
                 listViewProducts.Items.Add(item);
             }
             listViewProducts.Columns[0].Width = listViewProducts.Width- SystemInformation.VerticalScrollBarWidth-4;
+
+            //reselect previous selected products after editing, also could trigger the selectindexchange event so that refresh the products_supplier gridview
+            if(selectedIndex!=-1)
+            {
+                listViewProducts.Items[selectedIndex].Selected = true;
+                listViewProducts.Items[selectedIndex].Focused = true;
+            }
+
         }
 
 
@@ -352,6 +362,7 @@ namespace AllWindowsForms
             pnlSupInfo.Visible = false;
             btnSupDel.Enabled = false;
             btnSupEdit.Enabled = false;
+            btnSupAdd.Enabled = false;
             productsSuppliersDataGridView.ClearSelection();
         }
 
@@ -385,30 +396,49 @@ namespace AllWindowsForms
 
         private void btnSupSave_Click(object sender, EventArgs e)
         {
-            bool success = false;
+            ProductsSuppliers newProdSup = new ProductsSuppliers();
+            //selectedProdSup hold the oldProdSup value;
+            newProdSup.ProductId = selectedProduct.ProductId;
+            newProdSup.SupplierId = (int)comboxSup.SelectedValue;
+
             switch (supMode)
             {
                 case 1:// in edit
                     {
-
-                        break;
-                    }
-                case 2://in add
-                    {
-                        //need constructor
-                        ProductsSuppliers temProdSup = new ProductsSuppliers();
-                        temProdSup.ProductId = selectedProduct.ProductId;
-                        temProdSup.SupplierId = (int)comboxSup.SelectedValue;
-
-                        if(validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, temProdSup))
+                        //check local duplicate issue with other prodSup (except itself)
+                        if (validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup,selectedProdSup))
                         {
                             try
                             {
-                                GenericDB.GenericInsert<ProductsSuppliers>("Products_Suppliers", temProdSup);
-                            }
-                            catch
+                                int count=GenericDB.GenericUpdate("Products_Suppliers", selectedProdSup, newProdSup);
+                                if (count != 1)
+                                {
+                                    MessageBox.Show("Concurrency Error!, Other User has edited this data! Click Yes to Reload the Data");
+                                }
+                            } catch (Exception ex)
                             {
-                                MessageBox.Show("other users");
+                                MessageBox.Show(ex.Message);
+                            } 
+                        }
+                            break;
+                    }
+                case 2://in add
+                    {
+  
+                        if(validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup))
+                        {
+                            try
+                            {
+                                //Check concurrenty issue where other user could added the same data
+                                int insertedKey=GenericDB.GenericInsert<ProductsSuppliers>("Products_Suppliers", newProdSup);
+                                if (insertedKey == 0)
+                                {
+                                    MessageBox.Show("Concurrency Error!, Other User has added same Data!, Click Yes to Reload the Data");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
                             }
                         }
                         
@@ -417,6 +447,12 @@ namespace AllWindowsForms
                 default:
                     break;
             }
+            SupPrepareForNextOperation();
+            LoadAndDisplayData();
+        }
+
+        private void btnSupCancel_Click(object sender, EventArgs e)
+        {
             SupPrepareForNextOperation();
             LoadAndDisplayData();
         }

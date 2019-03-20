@@ -287,7 +287,8 @@ namespace ClassDB
             {
                 sqlCon.Open();
                 //execute the query
-                PKinserted = (int)cmd.ExecuteScalar();
+                PKinserted = Convert.ToInt32(cmd.ExecuteScalar());
+                // = (int)
                 sqlCon.Close();
             }
             else
