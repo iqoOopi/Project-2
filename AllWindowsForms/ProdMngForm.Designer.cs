@@ -394,7 +394,7 @@
             this.groupBox3.Size = new System.Drawing.Size(481, 203);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Edit or Add New Related Supplier";
+            this.groupBox3.Text = "Select One Supplier to Edit or Add New:";
             // 
             // pnlSupInfo
             // 

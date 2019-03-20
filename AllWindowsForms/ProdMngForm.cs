@@ -255,9 +255,9 @@ namespace AllWindowsForms
                 //might code to a way that it can delete all the related supplier 
                 GenericDB.GenericDelete<Products>("Products", selectedProduct);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("The record has been modified or deleted already, please try agian!");
+                MessageBox.Show(ex.Message);
             }
 
             PrepareForNextOperation();
