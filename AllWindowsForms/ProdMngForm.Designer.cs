@@ -74,7 +74,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnSupDel = new System.Windows.Forms.Button();
-            this.btnSupEdit = new System.Windows.Forms.Button();
             this.btnSupAdd = new System.Windows.Forms.Button();
             this.productsSuppliersDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -478,7 +477,6 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.btnSupDel);
-            this.panel2.Controls.Add(this.btnSupEdit);
             this.panel2.Controls.Add(this.btnSupAdd);
             this.panel2.Location = new System.Drawing.Point(56, 27);
             this.panel2.Name = "panel2";
@@ -495,17 +493,6 @@
             this.btnSupDel.Text = "Delete";
             this.btnSupDel.UseVisualStyleBackColor = true;
             this.btnSupDel.Click += new System.EventHandler(this.btnSupDel_Click);
-            // 
-            // btnSupEdit
-            // 
-            this.btnSupEdit.Enabled = false;
-            this.btnSupEdit.Location = new System.Drawing.Point(27, 12);
-            this.btnSupEdit.Name = "btnSupEdit";
-            this.btnSupEdit.Size = new System.Drawing.Size(75, 30);
-            this.btnSupEdit.TabIndex = 4;
-            this.btnSupEdit.Text = "Edit";
-            this.btnSupEdit.UseVisualStyleBackColor = true;
-            this.btnSupEdit.Click += new System.EventHandler(this.btnSupEdit_Click);
             // 
             // btnSupAdd
             // 
@@ -809,7 +796,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnSupDel;
-        private System.Windows.Forms.Button btnSupEdit;
         private System.Windows.Forms.Button btnSupAdd;
         private System.Windows.Forms.Panel pnlSupInfo;
         private System.Windows.Forms.Button btnSupCancel;

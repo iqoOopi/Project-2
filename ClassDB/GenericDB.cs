@@ -81,6 +81,9 @@ namespace ClassDB
                         }
 
 
+                        //----------------------------------------------------------------------------
+                        //below is another way that required a constructor with parameters, this does not support default constructor
+                        //------------------------------------------------------------------------------
                         //while (dr.Read())
                         //{
                         //    List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
@@ -128,17 +131,37 @@ namespace ClassDB
         /// <param name="sqlCon">Optional argument:to receive outside connection so that enable transcation </param>
         /// <param name="sqlTran">Optional argument:to receive outside transcation so that enable commit or rollback </param>
         /// <returns>the number of affect record, should be 1 if succeed</returns>
-        public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null)
+        public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null,int[] FieldIndexToCheck=null)
         {
             int count = 0;
             bool useOutsideConnection=true;//indatictor of outside connection received
-
+            PropertyInfo[] propToCheckDup;//hold the property names that needed when checking duplicated info againest the existing records in DB 
             Type type = typeof(T);
 
             PropertyInfo[] PropertiesWithPK = type.GetProperties();//get all the field of this entity class
                                                                      //if T is Products Class,
                                                                      //properties will looks like {ProductID, prodName}
             PropertyInfo[] PropertiesExceptPK = PropertiesWithPK.Skip(1).ToArray();//skip the primary key, as we don't need to update
+
+            //set checking list according to argument, for example. For packages, we only check name, startDate, endDate. if these 3 property value are the same
+            //then we concern those 2 packages are the same and this duplicate insert should be prevented.
+            if (FieldIndexToCheck != null)
+            {
+                //if passed in, then only check passed in property
+                propToCheckDup = new PropertyInfo[FieldIndexToCheck.Length];
+                int i = 0;
+                foreach (int id in FieldIndexToCheck)
+                {
+                    propToCheckDup[i] = PropertiesWithPK[id];
+                    i++;
+                }
+            }
+            else
+            {
+                //default, check all property except PK
+                propToCheckDup = PropertiesExceptPK;
+            }
+
 
 
             //if no outside connection received, set indatictor to false, then start the connection.
@@ -235,8 +258,9 @@ namespace ClassDB
         /// <param name="newObj"> the new record you want to insert</param>
         /// <param name="sqlCon">Optional Connection</param>
         /// <param name="sqlTran">Optional Transcation</param>
+        /// /// <param name="FieldIndexToCheck">Optional,the index of property names that needed when checking duplicated info againest the existing records in DB </param>
         /// <returns> the Primary Key value of the new inserted record.</returns>
-        public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null)
+        public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null, int[] FieldIndexToCheck = null)
         {
             int PKinserted = -1; //PK for new inserted value
             bool useOutsideConnection = true;//indatictor of outside connection received
@@ -244,9 +268,31 @@ namespace ClassDB
             Type type = typeof(T);
             PropertyInfo[] propertiesWithPK = type.GetProperties();//get properties from newObj
             PKcolumnName = propertiesWithPK[0].Name;
+            PropertyInfo[] propToCheckDup;//hold the property names that needed when checking duplicated info againest the existing records in DB 
             //-------------------------------------------------------------
             PropertyInfo[] propertiesExceptPK = propertiesWithPK.Skip(1).ToArray();//skip the primary key, as we don't need to insert PK
-            //-------------------------------------------------------------
+                                                                                   //-------------------------------------------------------------
+
+            //set checking list according to argument, for example. For packages, we only check name, startDate, endDate. if these 3 property value are the same
+            //then we concern those 2 packages are the same and this duplicate insert should be prevented.
+            if(FieldIndexToCheck!=null)
+            {
+                //if passed in, then only check passed in property
+                propToCheckDup = new PropertyInfo[FieldIndexToCheck.Length];
+                int i = 0;
+                foreach (int id in FieldIndexToCheck)
+                {
+                    propToCheckDup[i] = propertiesWithPK[id];
+                    i++;
+                }
+            }
+            else
+            {
+                //default, check all property except PK
+                propToCheckDup = propertiesExceptPK;
+            }
+
+            
 
             //if no outside connection received, set indatictor to false, then start the connection.
             if (sqlCon == null)
@@ -257,7 +303,7 @@ namespace ClassDB
 
             //prepare the sql syntax for Where for concurrency check
             StringBuilder FieldToSqlWhere = new StringBuilder();
-            foreach (PropertyInfo property in propertiesExceptPK)
+            foreach (PropertyInfo property in propToCheckDup)
             {
                 FieldToSqlWhere.Append(property.Name + "=@" + property.Name)
                .Append(" AND ");
