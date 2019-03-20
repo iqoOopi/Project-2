@@ -295,7 +295,7 @@ namespace AllWindowsForms
             //load data from DB
             products = GenericDB.GenericRead<Products>("Products");
             allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
-            allSuppliers = GenericDB.GenericRead<Suppliers>("Suppliers");
+            allSuppliers = GenericDB.GenericRead<Suppliers>("Suppliers",2);
             //load listview to show the data
             Display();
         }

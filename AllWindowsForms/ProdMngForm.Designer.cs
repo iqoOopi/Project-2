@@ -453,6 +453,7 @@
             this.comboxSup.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.suppliersBindingSource, "SupplierId", true));
             this.comboxSup.DataSource = this.suppliersBindingSource;
             this.comboxSup.DisplayMember = "SupName";
+            this.comboxSup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboxSup.FormattingEnabled = true;
             this.comboxSup.Location = new System.Drawing.Point(85, 3);
             this.comboxSup.Name = "comboxSup";
