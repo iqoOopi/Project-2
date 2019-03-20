@@ -130,6 +130,7 @@ namespace ClassDB
         /// <param name="newObj">the changed object</param>
         /// <param name="sqlCon">Optional argument:to receive outside connection so that enable transcation </param>
         /// <param name="sqlTran">Optional argument:to receive outside transcation so that enable commit or rollback </param>
+        /// <param name="FieldIndexToCheck">Optional,the index of property names that needed when checking concurrency caused duplicated info againest the existing records in DB </param>
         /// <returns>the number of affect record, should be 1 if succeed</returns>
         public static int GenericUpdate<T>(string tableName, T oldObj, T newObj,SqlConnection sqlCon=null, SqlTransaction sqlTran=null,int[] FieldIndexToCheck=null)
         {
@@ -162,7 +163,27 @@ namespace ClassDB
                 propToCheckDup = PropertiesExceptPK;
             }
 
+            //build the where satement used in check concurrey
+            StringBuilder FieldToSqlCheckWhere = new StringBuilder();
+            foreach (PropertyInfo property in propToCheckDup)
+            {
+                FieldToSqlCheckWhere.Append(property.Name + "=@New" + property.Name)
+               .Append(" AND ");
+            }
+            FieldToSqlCheckWhere.Length = FieldToSqlCheckWhere.Length - 5;//remove the last " AND "
 
+            bool needToCheckConcurrencyDup = false;
+
+            //For the concurrenty duplication checking list, if at least one required property's value has been changed then need perform a concurrency dup check.
+                foreach (PropertyInfo property in propToCheckDup)
+                {
+                    if (property.GetValue(oldObj) != property.GetValue(newObj))
+                    {
+                        needToCheckConcurrencyDup = true;
+                    break;
+                    }
+                }
+  
 
             //if no outside connection received, set indatictor to false, then start the connection.
             if (sqlCon == null)
@@ -190,11 +211,24 @@ namespace ClassDB
             }
             FieldToSqlSet.Length--;//remove the last ","
 
+            SqlCommand cmd;
+            if (needToCheckConcurrencyDup == false)
+            {
+                //no value change for requried property in concurrency checking list
+                string updateStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
+                     " WHERE " + FieldToSqlWhere;
 
-            string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
-                                 " WHERE " + FieldToSqlWhere;
+                cmd = new SqlCommand(updateStatement, sqlCon);
+            }
+            else
+            {
+                //there are changes amont the value of required property, so perfromed a concurrency check
+                string updateStatement = "IF NOT EXISTS (SELECT 1 FROM " + tableName + " WHERE " + FieldToSqlCheckWhere + ") " +
+                    "UPDATE " + tableName + " SET " + FieldToSqlSet +
+                     " WHERE " + FieldToSqlWhere;
+                cmd = new SqlCommand(updateStatement, sqlCon);
+            }
 
-            SqlCommand cmd = new SqlCommand(selectStatement, sqlCon);
 
             //if outside transcation passed in, bound the sql command with the transcation 
             if (sqlTran != null)
@@ -258,7 +292,7 @@ namespace ClassDB
         /// <param name="newObj"> the new record you want to insert</param>
         /// <param name="sqlCon">Optional Connection</param>
         /// <param name="sqlTran">Optional Transcation</param>
-        /// /// <param name="FieldIndexToCheck">Optional,the index of property names that needed when checking duplicated info againest the existing records in DB </param>
+        /// <param name="FieldIndexToCheck">Optional,the index of property names that needed when checking concurrency caused duplicated info againest the existing records in DB </param>
         /// <returns> the Primary Key value of the new inserted record.</returns>
         public static int GenericInsert<T>(string tableName, T newObj, SqlConnection sqlCon = null, SqlTransaction sqlTran = null, int[] FieldIndexToCheck = null)
         {
