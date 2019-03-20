@@ -1,5 +1,5 @@
 ﻿using ClassDB;
-using Project_2;
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +16,7 @@ namespace AllWindowsForms
     {
         Suppliers supplier;
         int supplierId;
-        string affiliationId;
+        // string affiliationId;
 
 
         public SuppliersMngForm()
@@ -29,25 +29,44 @@ namespace AllWindowsForms
         {
             DisplaySuppliers();
             supplierId = 69;
-            DisplaySupContacts(supplierId);
-            affiliationId = "ACTAPGY";
-            DisplayAffiliation(affiliationId);
+            DisplaySupConAff(supplierId);
+            //affiliationId = "ACTAPGY";
+            //DisplayAffiliation(affiliationId);
+        }
+
+        private void supNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (supNameComboBox.SelectedItem != null)
+            {
+                GetId();
+                DisplaySupConAff(supplierId);
+            }
+        }
+
+        private void GetId()
+        {
+            if (supNameComboBox.SelectedItem != null)
+            {
+                supplier = (Suppliers)supNameComboBox.SelectedItem;
+                supplierId = supplier.SupplierId;
+            }
         }
 
 
-        private void DisplayAffiliation(string affiliationId)
-        {
-            Affiliations affiliation = new Affiliations();
-            AffiliationsDB.GetAff(affiliationId);
-            affiliationsBindingSource.DataSource = affiliation;
-        }
+        //private void DisplayAffiliation(string affiliationId)
+        //{
+        //    Affiliations affiliation = new Affiliations();
+        //    AffiliationsDB.GetAff(affiliationId);
+        //    affiliationsBindingSource.DataSource = affiliation;
+        //}
 
 
-        private void DisplaySupContacts(int supId)
+        private void DisplaySupConAff(int supId)
         {
-            List<SupplierContacts> SupContacts = new List<SupplierContacts>();
-            SupContacts = SupplierContactsDB.GetSupCont(supId);
-            supplierContactsBindingSource.DataSource = SupContacts;
+            List<SupConAff> supConAff = new List<SupConAff>();
+            supConAff = SupConAffDB.GetSupConAff(supId);
+            supplierContactsDataGridView.DataSource = supConAff;
+            //supplierContactsBindingSource.DataSource = supConAff;
         }
 
 
@@ -57,5 +76,11 @@ namespace AllWindowsForms
             suppliers = SuppliersDB.GetSup();
             suppliersBindingSource.DataSource = suppliers;
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
     }
 }

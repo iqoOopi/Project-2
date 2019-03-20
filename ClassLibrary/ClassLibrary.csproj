@@ -45,6 +45,9 @@
   <ItemGroup>
     <Compile Include="Affiliations.cs" />
     <Compile Include="Packages.cs" />
+    <Compile Include="PackagesProductsSuppliers.cs" />
+    <Compile Include="ProductsSuppliers.cs" />
+    <Compile Include="SupConAff.cs" />
     <Compile Include="Suppliers.cs" />
     <Compile Include="Products.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProdMngForm));
             this.prodMngFormMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +63,24 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPg1Products = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.pnlSupInfo = new System.Windows.Forms.Panel();
+            this.btnSupCancel = new System.Windows.Forms.Button();
+            this.btnSupSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.comboxSup = new System.Windows.Forms.ComboBox();
+            this.suppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSupDel = new System.Windows.Forms.Button();
+            this.btnSupEdit = new System.Windows.Forms.Button();
+            this.btnSupAdd = new System.Windows.Forms.Button();
+            this.productsSuppliersDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SupplierId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SupplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productsSuppliersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -79,6 +98,14 @@
             this.prodMngFormMenuStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPg1Products.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.pnlSupInfo.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -87,6 +114,7 @@
             // 
             // prodMngFormMenuStrip
             // 
+            this.prodMngFormMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.prodMngFormMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
@@ -95,7 +123,7 @@
             this.prodMngFormMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.prodMngFormMenuStrip.Name = "prodMngFormMenuStrip";
             this.prodMngFormMenuStrip.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.prodMngFormMenuStrip.Size = new System.Drawing.Size(910, 25);
+            this.prodMngFormMenuStrip.Size = new System.Drawing.Size(910, 27);
             this.prodMngFormMenuStrip.TabIndex = 0;
             this.prodMngFormMenuStrip.Text = "prodMngFormMenuStrip";
             // 
@@ -113,7 +141,7 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -122,7 +150,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // openToolStripMenuItem
@@ -131,13 +159,13 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.openToolStripMenuItem.Text = "&Open";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(160, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -145,19 +173,19 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -165,7 +193,7 @@
             this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.printToolStripMenuItem.Text = "&Print";
             // 
             // printPreviewToolStripMenuItem
@@ -173,18 +201,18 @@
             this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
             this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(160, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
             // editToolStripMenuItem
@@ -199,27 +227,27 @@
             this.toolStripSeparator4,
             this.selectAllToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 19);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(157, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -227,7 +255,7 @@
             this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -236,7 +264,7 @@
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -245,18 +273,18 @@
             this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.pasteToolStripMenuItem.Text = "&Paste";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(157, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // toolsToolStripMenuItem
@@ -265,19 +293,19 @@
             this.customizeToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 19);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(52, 21);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // helpToolStripMenuItem
@@ -289,47 +317,47 @@
             this.toolStripSeparator5,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // contentsToolStripMenuItem
             // 
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.contentsToolStripMenuItem.Text = "&Contents";
             // 
             // indexToolStripMenuItem
             // 
             this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.indexToolStripMenuItem.Text = "&Index";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.searchToolStripMenuItem.Text = "&Search";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(124, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPg1Products);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 25);
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(910, 470);
+            this.tabControl1.Size = new System.Drawing.Size(910, 468);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPg1Products
@@ -341,19 +369,201 @@
             this.tabPg1Products.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPg1Products.Name = "tabPg1Products";
             this.tabPg1Products.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPg1Products.Size = new System.Drawing.Size(902, 437);
+            this.tabPg1Products.Size = new System.Drawing.Size(902, 435);
             this.tabPg1Products.TabIndex = 0;
             this.tabPg1Products.Text = "Products";
             this.tabPg1Products.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox3);
+            this.groupBox2.Controls.Add(this.productsSuppliersDataGridView);
             this.groupBox2.Location = new System.Drawing.Point(401, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(493, 216);
+            this.groupBox2.Size = new System.Drawing.Size(493, 427);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Related Suppliers:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.pnlSupInfo);
+            this.groupBox3.Controls.Add(this.panel2);
+            this.groupBox3.Location = new System.Drawing.Point(6, 218);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(481, 203);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Select One Supplier to Edit or Add New:";
+            // 
+            // pnlSupInfo
+            // 
+            this.pnlSupInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlSupInfo.Controls.Add(this.btnSupCancel);
+            this.pnlSupInfo.Controls.Add(this.btnSupSave);
+            this.pnlSupInfo.Controls.Add(this.label3);
+            this.pnlSupInfo.Controls.Add(this.panel5);
+            this.pnlSupInfo.Location = new System.Drawing.Point(56, 83);
+            this.pnlSupInfo.Name = "pnlSupInfo";
+            this.pnlSupInfo.Size = new System.Drawing.Size(375, 115);
+            this.pnlSupInfo.TabIndex = 6;
+            this.pnlSupInfo.Visible = false;
+            // 
+            // btnSupCancel
+            // 
+            this.btnSupCancel.Location = new System.Drawing.Point(274, 75);
+            this.btnSupCancel.Name = "btnSupCancel";
+            this.btnSupCancel.Size = new System.Drawing.Size(75, 32);
+            this.btnSupCancel.TabIndex = 4;
+            this.btnSupCancel.Text = "&Cancel";
+            this.btnSupCancel.UseVisualStyleBackColor = true;
+            this.btnSupCancel.Click += new System.EventHandler(this.btnSupCancel_Click);
+            // 
+            // btnSupSave
+            // 
+            this.btnSupSave.Location = new System.Drawing.Point(153, 75);
+            this.btnSupSave.Name = "btnSupSave";
+            this.btnSupSave.Size = new System.Drawing.Size(75, 32);
+            this.btnSupSave.TabIndex = 4;
+            this.btnSupSave.Text = "&Save";
+            this.btnSupSave.UseVisualStyleBackColor = true;
+            this.btnSupSave.Click += new System.EventHandler(this.btnSupSave_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 14);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 20);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Supplier  Info:";
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.comboxSup);
+            this.panel5.Controls.Add(this.label4);
+            this.panel5.Location = new System.Drawing.Point(0, 37);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(375, 32);
+            this.panel5.TabIndex = 2;
+            // 
+            // comboxSup
+            // 
+            this.comboxSup.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.suppliersBindingSource, "SupplierId", true));
+            this.comboxSup.DataSource = this.suppliersBindingSource;
+            this.comboxSup.DisplayMember = "SupName";
+            this.comboxSup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboxSup.FormattingEnabled = true;
+            this.comboxSup.Location = new System.Drawing.Point(85, 3);
+            this.comboxSup.Name = "comboxSup";
+            this.comboxSup.Size = new System.Drawing.Size(287, 28);
+            this.comboxSup.TabIndex = 1;
+            this.comboxSup.ValueMember = "SupplierId";
+            // 
+            // suppliersBindingSource
+            // 
+            this.suppliersBindingSource.DataSource = typeof(ClassLibrary.Suppliers);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 6);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Name:";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnSupDel);
+            this.panel2.Controls.Add(this.btnSupEdit);
+            this.panel2.Controls.Add(this.btnSupAdd);
+            this.panel2.Location = new System.Drawing.Point(56, 27);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(375, 50);
+            this.panel2.TabIndex = 6;
+            // 
+            // btnSupDel
+            // 
+            this.btnSupDel.Enabled = false;
+            this.btnSupDel.Location = new System.Drawing.Point(154, 12);
+            this.btnSupDel.Name = "btnSupDel";
+            this.btnSupDel.Size = new System.Drawing.Size(75, 30);
+            this.btnSupDel.TabIndex = 4;
+            this.btnSupDel.Text = "Delete";
+            this.btnSupDel.UseVisualStyleBackColor = true;
+            this.btnSupDel.Click += new System.EventHandler(this.btnSupDel_Click);
+            // 
+            // btnSupEdit
+            // 
+            this.btnSupEdit.Enabled = false;
+            this.btnSupEdit.Location = new System.Drawing.Point(27, 12);
+            this.btnSupEdit.Name = "btnSupEdit";
+            this.btnSupEdit.Size = new System.Drawing.Size(75, 30);
+            this.btnSupEdit.TabIndex = 4;
+            this.btnSupEdit.Text = "Edit";
+            this.btnSupEdit.UseVisualStyleBackColor = true;
+            this.btnSupEdit.Click += new System.EventHandler(this.btnSupEdit_Click);
+            // 
+            // btnSupAdd
+            // 
+            this.btnSupAdd.Enabled = false;
+            this.btnSupAdd.Location = new System.Drawing.Point(276, 12);
+            this.btnSupAdd.Name = "btnSupAdd";
+            this.btnSupAdd.Size = new System.Drawing.Size(75, 30);
+            this.btnSupAdd.TabIndex = 4;
+            this.btnSupAdd.Text = "Add";
+            this.btnSupAdd.UseVisualStyleBackColor = true;
+            this.btnSupAdd.Click += new System.EventHandler(this.btnSupAdd_Click);
+            // 
+            // productsSuppliersDataGridView
+            // 
+            this.productsSuppliersDataGridView.AutoGenerateColumns = false;
+            this.productsSuppliersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.productsSuppliersDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.SupplierId,
+            this.SupplierName});
+            this.productsSuppliersDataGridView.DataSource = this.productsSuppliersBindingSource;
+            this.productsSuppliersDataGridView.Location = new System.Drawing.Point(6, 25);
+            this.productsSuppliersDataGridView.Name = "productsSuppliersDataGridView";
+            this.productsSuppliersDataGridView.ReadOnly = true;
+            this.productsSuppliersDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.productsSuppliersDataGridView.Size = new System.Drawing.Size(481, 191);
+            this.productsSuppliersDataGridView.TabIndex = 0;
+            this.productsSuppliersDataGridView.SelectionChanged += new System.EventHandler(this.productsSuppliersDataGridView_SelectionChanged);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "ProductSupplierId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id:";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 52;
+            // 
+            // SupplierId
+            // 
+            this.SupplierId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SupplierId.DataPropertyName = "SupplierId";
+            this.SupplierId.HeaderText = "Supplier Id:";
+            this.SupplierId.Name = "SupplierId";
+            this.SupplierId.ReadOnly = true;
+            this.SupplierId.Width = 114;
+            // 
+            // SupplierName
+            // 
+            this.SupplierName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SupplierName.HeaderText = "Supplier Name:";
+            this.SupplierName.Name = "SupplierName";
+            this.SupplierName.ReadOnly = true;
+            this.SupplierName.Width = 142;
+            // 
+            // productsSuppliersBindingSource
+            // 
+            this.productsSuppliersBindingSource.DataSource = typeof(ClassLibrary.ProductsSuppliers);
             // 
             // groupBox1
             // 
@@ -493,6 +703,7 @@
             // listViewProducts
             // 
             this.listViewProducts.FullRowSelect = true;
+            this.listViewProducts.HideSelection = false;
             this.listViewProducts.Location = new System.Drawing.Point(4, 5);
             this.listViewProducts.MultiSelect = false;
             this.listViewProducts.Name = "listViewProducts";
@@ -520,6 +731,16 @@
             this.prodMngFormMenuStrip.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPg1Products.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.pnlSupInfo.ResumeLayout(false);
+            this.pnlSupInfo.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).EndInit();
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productsSuppliersBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
@@ -580,5 +801,23 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView productsSuppliersDataGridView;
+        private System.Windows.Forms.BindingSource productsSuppliersBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SupplierId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SupplierName;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnSupDel;
+        private System.Windows.Forms.Button btnSupEdit;
+        private System.Windows.Forms.Button btnSupAdd;
+        private System.Windows.Forms.Panel pnlSupInfo;
+        private System.Windows.Forms.Button btnSupCancel;
+        private System.Windows.Forms.Button btnSupSave;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboxSup;
+        private System.Windows.Forms.BindingSource suppliersBindingSource;
     }
 }

@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibary
+namespace ClassLibrary
 {
     /// <summary>
     /// Hoora - March
     /// Class to create supplier contact objects
     /// </summary>
-    public class SupplierContacts
+    public class SupConAff
     {
         // Constructor:
-        public SupplierContacts() { }
+        public SupConAff() { }
+
 
         // properties:
         public int SupplierContactId { get; set; }
@@ -45,6 +46,11 @@ namespace ClassLibary
         public string AffiliationID { get; set; }
 
         public int? SupplierId { get; set; }
+
+        public string AffName { get; set; }
+
+        public string AffDesc { get; set; }
+
 
         // methods:
         public override string ToString()

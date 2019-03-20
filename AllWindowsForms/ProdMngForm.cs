@@ -22,7 +22,10 @@ namespace AllWindowsForms
 
         //Init List of DataTransfer Object products, products_suppliers
         List<Products> products = new List<Products>();
-        
+        List<ProductsSuppliers> allProductsSuppliers = new List<ProductsSuppliers>();
+        List<ProductsSuppliers> relatedProductsSuppliers;
+        List<Suppliers> allSuppliers = new List<Suppliers>();
+        List<Suppliers> relatedSuppliers;
         Products selectedProduct;//user selected product also be used as oldProduct when update
         public ProdMngForm()
         {
@@ -45,8 +48,42 @@ namespace AllWindowsForms
         /// </summary>
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
+            relatedProductsSuppliers = new List<ProductsSuppliers>();//reset the list
+            relatedSuppliers = new List<Suppliers>();
             btnEdit.Enabled = true;
             btnDelete.Enabled = true;
+
+            //check selection and display related supplier info.
+            if (listViewProducts.SelectedItems.Count > 0)
+            {
+
+                selectedIndex = listViewProducts.SelectedIndices[0];
+                selectedProduct = products[selectedIndex];
+                int selectedProductId = selectedProduct.ProductId;
+                foreach (ProductsSuppliers prodSup in allProductsSuppliers)
+                {
+                    if (selectedProductId == prodSup.ProductId)
+                    {
+                        relatedProductsSuppliers.Add(prodSup);
+                    }
+                }
+                productsSuppliersDataGridView.DataSource = relatedProductsSuppliers;
+                foreach (DataGridViewRow row in productsSuppliersDataGridView.Rows)
+                {
+                   int id= (int)row.Cells["SupplierId"].Value;
+                    foreach  (Suppliers item in allSuppliers)
+                    {
+                        if (item.SupplierId==id)
+                        {
+                            row.Cells["SupplierName"].Value = item.SupName;
+                            relatedSuppliers.Add(item);
+                        }
+                    }
+                    
+                }
+                SupPrepareForNextOperation();
+                btnSupAdd.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -56,11 +93,9 @@ namespace AllWindowsForms
         {
             btnDelete.Enabled = false;
             mode = 1;
-            //this button will only be enabled once selected 1 porudct in the list box
-            //so no need to check selected or not
 
-            selectedIndex = listViewProducts.SelectedIndices[0];
-            selectedProduct = products[selectedIndex];
+            
+           
 
             //set selected product name and supplier name to textbox and combobox. 
 
@@ -172,13 +207,12 @@ namespace AllWindowsForms
                     break;
             }
 
-            //update the list
-            LoadAndDisplayData();
-            //reset the input
+
             if (success)
             {
                 PrepareForNextOperation();
             }
+            LoadAndDisplayData();
 
         }
 
@@ -215,15 +249,19 @@ namespace AllWindowsForms
                 return;
             }
 
-            selectedIndex = listViewProducts.SelectedIndices[0];
-            selectedProduct = products[selectedIndex];
             //remoe from DB
-
-            products.RemoveAt(selectedIndex);
-            //disable delete button to prevent false delete
+            try
+            {
+                //might code to a way that it can delete all the related supplier 
+                GenericDB.GenericDelete<Products>("Products", selectedProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             PrepareForNextOperation();
- 
+            LoadAndDisplayData();
         }
 
 
@@ -252,7 +290,8 @@ namespace AllWindowsForms
         {
             //load data from DB
             products = GenericDB.GenericRead<Products>("Products");
-
+            allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
+            allSuppliers = GenericDB.GenericRead<Suppliers>("Suppliers",2);
             //load listview to show the data
             Display();
         }
@@ -269,6 +308,159 @@ namespace AllWindowsForms
                 listViewProducts.Items.Add(item);
             }
             listViewProducts.Columns[0].Width = listViewProducts.Width- SystemInformation.VerticalScrollBarWidth-4;
+
+            //reselect previous selected products after editing, also could trigger the selectindexchange event so that refresh the products_supplier gridview
+            if(selectedIndex!=-1)
+            {
+                listViewProducts.Select();
+                listViewProducts.Items[selectedIndex].Selected = true;
+                listViewProducts.Items[selectedIndex].Focused = true;
+            }
+
+        }
+
+
+
+        //----------------------------------------------------------------------------------------------------
+        //below is right side of the form for changing related suppliers
+        Suppliers selectedSuppliers;
+        ProductsSuppliers selectedProdSup;
+        int supMode = 0;//1 for edit, 2 for add
+        private void productsSuppliersDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            
+
+            comboxSup.DataSource = allSuppliers;
+            if(productsSuppliersDataGridView.SelectedRows.Count>0)
+            {
+                btnSupEdit.Enabled = true;
+                btnSupDel.Enabled = true;
+                pnlSupInfo.Visible = false;
+                int index = productsSuppliersDataGridView.SelectedRows[0].Index;
+                if (relatedSuppliers.Count > 0)
+                {
+                    selectedSuppliers = relatedSuppliers[index];
+                    selectedProdSup = relatedProductsSuppliers[index];
+                }
+             
+            }
+        }
+
+        private void btnSupEdit_Click(object sender, EventArgs e)
+        {
+            pnlSupInfo.Visible = true;
+            supMode = 1;
+            comboxSup.SelectedValue = selectedSuppliers.SupplierId;
+        }
+
+
+        private void SupPrepareForNextOperation()
+        {
+            supMode = 0;//no edit,no add
+            pnlSupInfo.Visible = false;
+            btnSupDel.Enabled = false;
+            btnSupEdit.Enabled = false;
+            btnSupAdd.Enabled = false;
+            productsSuppliersDataGridView.ClearSelection();
+        }
+
+        private void btnSupDel_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure to delete this item ?",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.No)
+            {
+                //if no, clear selection and prepare for next operation
+                SupPrepareForNextOperation();
+                return;
+            }
+            try
+            {
+                GenericDB.GenericDelete("Products_Suppliers", selectedProdSup);
+                LoadAndDisplayData();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSupAdd_Click(object sender, EventArgs e)
+        {
+            pnlSupInfo.Visible = true;
+            supMode = 2;
+        }
+
+        private void btnSupSave_Click(object sender, EventArgs e)
+        {
+            ProductsSuppliers newProdSup = new ProductsSuppliers();
+            //selectedProdSup hold the oldProdSup value;
+            newProdSup.ProductId = selectedProduct.ProductId;
+            newProdSup.SupplierId = (int)comboxSup.SelectedValue;
+            bool success = false;
+
+            switch (supMode)
+            {
+                case 1:// in edit
+                    {
+                        //check local duplicate issue with other prodSup (except itself)
+                        if (validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup,selectedProdSup))
+                        {
+                            try
+                            {
+                                int count=GenericDB.GenericUpdate("Products_Suppliers", selectedProdSup, newProdSup);
+                                if (count != 1)
+                                {
+                                    MessageBox.Show("Concurrency Error!, Other User has edited this data! Click Yes to Reload the Data");
+                                } else
+                                {
+                                    success = true;
+                                }
+                            } catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            } 
+                        }
+                            break;
+                    }
+                case 2://in add
+                    {
+  
+                        if(validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup))
+                        {
+                            try
+                            {
+                                //Check concurrenty issue where other user could added the same data
+                                int insertedKey=GenericDB.GenericInsert<ProductsSuppliers>("Products_Suppliers", newProdSup);
+                                if (insertedKey == 0)
+                                {
+                                    MessageBox.Show("Concurrency Error!, Other User has added same Data!, Click Yes to Reload the Data");
+                                }
+                                else
+                                {
+                                    success = true;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                        }
+                        
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+            LoadAndDisplayData();
+        }
+
+        private void btnSupCancel_Click(object sender, EventArgs e)
+        {
+
+            LoadAndDisplayData();
         }
     }
 }

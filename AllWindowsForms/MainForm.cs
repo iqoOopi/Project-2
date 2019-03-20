@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClassDB;
-using ClassLibrary;
 
 namespace AllWindowsForms
 {
@@ -28,13 +26,17 @@ namespace AllWindowsForms
         {
             ProdMngForm prodMngFormInstant = new ProdMngForm();
             prodMngFormInstant.Show();
-                }
+        }
 
-        private void PackLoad_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            Form1 LoadM = new Form1();
-            LoadM.Show();
+            SuppliersMngForm suppliersMngFormInstant = new SuppliersMngForm();
+            suppliersMngFormInstant.Show();
+        }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

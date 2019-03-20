@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="AffiliationsDB.cs" />
     <Compile Include="PackagesDB.cs" />
+    <Compile Include="PackagesProductsSuppliersDB.cs" />
+    <Compile Include="ProductsSuppliersDB.cs" />
+    <Compile Include="SupConAffDB.cs" />
     <Compile Include="SupplierContactsDB.cs" />
     <Compile Include="GenericDB.cs" />
     <Compile Include="ProductsFormDB.cs" />

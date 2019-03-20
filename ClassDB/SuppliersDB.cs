@@ -1,4 +1,4 @@
-﻿using Project_2;
+﻿using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -18,6 +18,7 @@ namespace ClassDB
         {
             List<Suppliers> suppliers = new List<Suppliers>();
             Suppliers spl;
+           
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 

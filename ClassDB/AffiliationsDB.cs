@@ -1,4 +1,4 @@
-﻿using Project_2;
+﻿using ClassLibary;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

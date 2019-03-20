@@ -66,6 +66,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StartingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartingForm.Designer.cs">
+      <DependentUpon>StartingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuppliersMngForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,12 +97,16 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StartingForm.resx">
+      <DependentUpon>StartingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SuppliersMngForm.resx">
       <DependentUpon>SuppliersMngForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Properties\DataSources\Project_2.Affiliations.datasource" />
-    <None Include="Properties\DataSources\Project_2.SupplierContacts.datasource" />
-    <None Include="Properties\DataSources\Project_2.Suppliers.datasource" />
+    <None Include="Properties\DataSources\ClassLibrary.ProductsSuppliers.datasource">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\ClassLibrary.Suppliers.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

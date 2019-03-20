@@ -42,7 +42,7 @@ namespace ClassDB
                         package.PackageName = (string)SqlReader["PkgName"];
                     }
                     //nextvalue
-                    if(SqlReader["PkgStartDate"] == DBNull.Value)
+                    if (SqlReader["PkgStartDate"] == DBNull.Value)
                     {
                         package.PackageStart = null;
                     }
@@ -52,7 +52,7 @@ namespace ClassDB
                     }
 
                     //next value
-                    if(SqlReader["PkgEndDate"] == DBNull.Value)
+                    if (SqlReader["PkgEndDate"] == DBNull.Value)
                     {
                         package.PackageEnd = null;
                     }
@@ -62,7 +62,7 @@ namespace ClassDB
                     }
 
                     //next value
-                    if(SqlReader["PkgDesc"] == DBNull.Value)
+                    if (SqlReader["PkgDesc"] == DBNull.Value)
                     {
                         package.Desc = null;
                     }
@@ -71,7 +71,7 @@ namespace ClassDB
                         package.Desc = (string)SqlReader["PkgDesc"];
                     }
                     //nextvalue
-                    if( SqlReader["PkgBasePrice"] == DBNull.Value)
+                    if (SqlReader["PkgBasePrice"] == DBNull.Value)
                     {
                         package.BasePrice = 0;
                     }
@@ -89,11 +89,11 @@ namespace ClassDB
                         package.AgencyCom = (decimal)SqlReader["PkgAgencyCommission"];
                     }
                     PackageList.Add(package);//add filled package
-                    
+
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -101,10 +101,10 @@ namespace ClassDB
             {
                 cnn.Close();
             }
-            
+
             return PackageList;
         }
-        
+
         public static void UpdateDB(int Counter)
         {/*
             string EditName = ;

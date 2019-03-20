@@ -49,7 +49,6 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
             this.ErrIDFind = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
             this.ErrName = new System.Windows.Forms.Label();
             this.ErrDesc = new System.Windows.Forms.Label();
             this.ErrBase = new System.Windows.Forms.Label();
@@ -243,7 +242,6 @@
             this.ErrIDFind.TabIndex = 21;
             this.ErrIDFind.Text = "ID not found";
             this.ErrIDFind.Visible = false;
-            
             // 
             // ErrName
             // 
@@ -354,7 +352,6 @@
             this.Controls.Add(this.ErrBase);
             this.Controls.Add(this.ErrDesc);
             this.Controls.Add(this.ErrName);
-            this.Controls.Add(this.button7);
             this.Controls.Add(this.ErrIDFind);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.textBox7);
@@ -407,7 +404,6 @@
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label ErrIDFind;
-        private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label ErrName;
         private System.Windows.Forms.Label ErrDesc;
         private System.Windows.Forms.Label ErrBase;
