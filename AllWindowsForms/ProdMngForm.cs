@@ -48,6 +48,7 @@ namespace AllWindowsForms
         /// </summary>
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
+            PrepareForNextOperation();
             relatedProductsSuppliers = new List<ProductsSuppliers>();//reset the list
             relatedSuppliers = new List<Suppliers>();
             btnEdit.Enabled = true;
