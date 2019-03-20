@@ -207,13 +207,12 @@ namespace AllWindowsForms
                     break;
             }
 
-            //update the list
-            LoadAndDisplayData();
-            //reset the input
+
             if (success)
             {
                 PrepareForNextOperation();
             }
+            LoadAndDisplayData();
 
         }
 
@@ -260,12 +259,9 @@ namespace AllWindowsForms
             {
                 MessageBox.Show("The record has been modified or deleted already, please try agian!");
             }
-            
 
-            LoadAndDisplayData();
-            //disable delete button to prevent false delete
             PrepareForNextOperation();
- 
+            LoadAndDisplayData();
         }
 
 
@@ -316,6 +312,7 @@ namespace AllWindowsForms
             //reselect previous selected products after editing, also could trigger the selectindexchange event so that refresh the products_supplier gridview
             if(selectedIndex!=-1)
             {
+                listViewProducts.Select();
                 listViewProducts.Items[selectedIndex].Selected = true;
                 listViewProducts.Items[selectedIndex].Focused = true;
             }
@@ -338,6 +335,7 @@ namespace AllWindowsForms
             {
                 btnSupEdit.Enabled = true;
                 btnSupDel.Enabled = true;
+                pnlSupInfo.Visible = false;
                 int index = productsSuppliersDataGridView.SelectedRows[0].Index;
                 if (relatedSuppliers.Count > 0)
                 {
@@ -400,6 +398,7 @@ namespace AllWindowsForms
             //selectedProdSup hold the oldProdSup value;
             newProdSup.ProductId = selectedProduct.ProductId;
             newProdSup.SupplierId = (int)comboxSup.SelectedValue;
+            bool success = false;
 
             switch (supMode)
             {
@@ -414,6 +413,9 @@ namespace AllWindowsForms
                                 if (count != 1)
                                 {
                                     MessageBox.Show("Concurrency Error!, Other User has edited this data! Click Yes to Reload the Data");
+                                } else
+                                {
+                                    success = true;
                                 }
                             } catch (Exception ex)
                             {
@@ -435,6 +437,10 @@ namespace AllWindowsForms
                                 {
                                     MessageBox.Show("Concurrency Error!, Other User has added same Data!, Click Yes to Reload the Data");
                                 }
+                                else
+                                {
+                                    success = true;
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -447,13 +453,13 @@ namespace AllWindowsForms
                 default:
                     break;
             }
-            SupPrepareForNextOperation();
+
             LoadAndDisplayData();
         }
 
         private void btnSupCancel_Click(object sender, EventArgs e)
         {
-            SupPrepareForNextOperation();
+
             LoadAndDisplayData();
         }
     }
