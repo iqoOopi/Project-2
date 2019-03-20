@@ -57,7 +57,7 @@
             this.ErrStart = new System.Windows.Forms.Label();
             this.ErrTotal = new System.Windows.Forms.Label();
             this.ErrDate = new System.Windows.Forms.Label();
-            this.test = new System.Windows.Forms.TextBox();
+            this.Entrybtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -331,19 +331,22 @@
             this.ErrDate.Text = "Start date must be before the end date";
             this.ErrDate.Visible = false;
             // 
-            // test
+            // Entrybtn
             // 
-            this.test.Location = new System.Drawing.Point(102, 317);
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(100, 20);
-            this.test.TabIndex = 31;
+            this.Entrybtn.Location = new System.Drawing.Point(379, 253);
+            this.Entrybtn.Name = "Entrybtn";
+            this.Entrybtn.Size = new System.Drawing.Size(75, 23);
+            this.Entrybtn.TabIndex = 32;
+            this.Entrybtn.Text = "New Entry";
+            this.Entrybtn.UseVisualStyleBackColor = true;
+            this.Entrybtn.Click += new System.EventHandler(this.Entrybtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 349);
-            this.Controls.Add(this.test);
+            this.Controls.Add(this.Entrybtn);
             this.Controls.Add(this.ErrDate);
             this.Controls.Add(this.ErrTotal);
             this.Controls.Add(this.ErrEnd);
@@ -374,7 +377,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Packages";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -412,7 +415,7 @@
         private System.Windows.Forms.Label ErrStart;
         private System.Windows.Forms.Label ErrTotal;
         private System.Windows.Forms.Label ErrDate;
-        private System.Windows.Forms.TextBox test;
+        private System.Windows.Forms.Button Entrybtn;
     }
 }
 

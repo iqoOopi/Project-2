@@ -32,8 +32,8 @@ namespace AllWindowsForms
 
         private void btnPackages_Click(object sender, EventArgs e)
         {
-            //Form newForm = new TODO NEED NAME OF PACKAGES FORM();
-            //newForm.Show();
+            Form M_Form = new Form1();
+            M_Form.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)

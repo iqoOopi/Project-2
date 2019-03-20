@@ -34,20 +34,20 @@ namespace AllWindowsForms
         }
         public void FillBoxes()
         {
-            List<Package> PackageList = PackagesDB.GetPackages();
-            NameBox.Text = Convert.ToString(PackageList[Counter].PackageName);
-            StartBox.Text = Convert.ToString(PackageList[Counter].PackageStart);
-            EndDate.Text = Convert.ToString(PackageList[Counter].PackageEnd);
-            DescBox.Text = Convert.ToString(PackageList[Counter].Desc);
-            BaseBox.Text = Convert.ToString(PackageList[Counter].BasePrice);
-            AgencyBox.Text = Convert.ToString(PackageList[Counter].AgencyCom);
+          //  List<Package> PackageList = PackagesDB.GetPackages();
+            NameBox.Text = Convert.ToString(Packages[Counter].PackageName);
+            StartBox.Text = Convert.ToString(Packages[Counter].PackageStart);
+            EndDate.Text = Convert.ToString(Packages[Counter].PackageEnd);
+            DescBox.Text = Convert.ToString(Packages[Counter].Desc);
+            BaseBox.Text = Convert.ToString(Packages[Counter].BasePrice);
+            AgencyBox.Text = Convert.ToString(Packages[Counter].AgencyCom);
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<Package> PackageList = PackagesDB.GetPackages();
-            if (Counter < (PackageList.Count-1))
+            //List<Package> PackageList = PackagesDB.GetPackages();
+            if (Counter < (Packages.Count-1))
             {
                 Counter++;
                 FillBoxes();
@@ -81,8 +81,8 @@ namespace AllWindowsForms
             bool Found = false;
             ErrIDFind.Visible = false;
              Int32.TryParse(textBox7.Text, out result);
-            List<Package> PackageList = PackagesDB.GetPackages();
-            foreach (Package Pk in PackageList)
+           // List<Package> PackageList = PackagesDB.GetPackages();
+            foreach (Package Pk in Packages)
             {
                 if(Pk.PackageID == result)
                 {
@@ -147,7 +147,8 @@ namespace AllWindowsForms
             bool Start = DateTime.TryParse(StartBox.Text, out ValidStrt);
             bool End = DateTime.TryParse(EndDate.Text, out ValidEnd);
 
-
+            bool nullcheck1 = false;
+            bool nullcheck2 = false;
 
 
 
@@ -157,18 +158,17 @@ namespace AllWindowsForms
             {
                 ErrName.Visible = true;
             }
-
+            //////////////////////////////
             if (StartBox.Text == "")
             {
-                Packages[Counter].PackageStart = null;
+                nullcheck1= true;
             }
             else if (pass == true)
             {
                 if (result1.Success)
                 {
                     //correct format date
-                    Packages[Counter].PackageStart = Convert.ToDateTime(Date1);
-                  
+                    pass = true;                  
                 }
                 else
                 {
@@ -182,7 +182,7 @@ namespace AllWindowsForms
             if (EndDate.Text == "")
             {
                 //null allowed
-                Packages[Counter].PackageEnd = null;
+                nullcheck2 = true;
 
             }
             else if(pass == true)
@@ -192,7 +192,7 @@ namespace AllWindowsForms
                     //correct format date
                     if (StartBox.Text == "")
                     {
-                        Packages[Counter].PackageEnd = Convert.ToDateTime(Date2);
+                     //   StartBox.Text = "";
                     }
                     else
                     {
@@ -260,18 +260,50 @@ namespace AllWindowsForms
                 ErrTotal.Visible = true;
             }
 
-            if ((ErrName.Visible == false) && (ErrStart.Visible == false) && (ErrEnd.Visible = false) && (ErrDesc.Visible = false) && // all values check out
-            (ErrBase.Visible = false) && (ErrAgency.Visible = false) && (ErrTotal.Visible = false) && (ErrDate.Visible = false))
+            if (((ErrName.Visible == false) & (ErrStart.Visible == false))&((ErrEnd.Visible == false)&(ErrDesc.Visible == false))&((ErrBase.Visible == false)&(ErrAgency.Visible == false))& ((ErrTotal.Visible == false)&(ErrDate.Visible == false)))
+                //UPDATE TO WHERE IF NO ERRORS APPEAR THEN RUNCURRENT IS FOR TESTING
             {
-
+               
                 //set object values and update sql
+                
+               Packages[Counter].PackageName = NameBox.Text;
+                
+                if (nullcheck1 == true)
+                {
+                    Packages[Counter].PackageStart = null;
+                }
+                else
+                {
+                    Packages[Counter].PackageStart = ValidStrt;
+                }
 
+                if (nullcheck2 == true)
+                {
+                    Packages[Counter].PackageEnd = null;
+                }
+                else
+                {
+                    Packages[Counter].PackageEnd = ValidEnd;
+                }
 
+                Packages[Counter].Desc = DescBox.Text;
+               
+                Packages[Counter].BasePrice = Convert.ToDecimal(BaseBox.Text);
+                Packages[Counter].AgencyCom = Convert.ToDecimal(AgencyBox.Text);
 
+                //call function to update
+                
+                
+                PackagesDB.UpdateDB(Counter,Packages[Counter]);
+                
             }
           
         }
-        
+
+        private void Entrybtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }

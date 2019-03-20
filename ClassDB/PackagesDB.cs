@@ -105,23 +105,58 @@ namespace ClassDB
             return PackageList;
         }
 
-        public static void UpdateDB(int Counter)
-        {/*
-            string EditName = ;
-            string EditDesc = ;
-            string UPname = "update Packages set PkgName=" + "'" + EditName + "'" + "where PackageId=" + Counter -1;
+        public static void UpdateDB(int Counter,Package package)
+        {
+            
+            string UPname = "update Packages set PkgName=" + "'" + package.PackageName + "'" + "where PackageId=" + (Counter + 1 );
+            string UPstart = "update Packages set PkgStartDate="  +"'"+ package.PackageStart+"'"  + "where PackageId=" + (Counter + 1 );
+            string UPend = "update Packages set PkgEndDate=" +"'"+ package.PackageEnd + "'"+  "where PackageId=" + (Counter + 1);
+            string UPdesc = "update Packages set PkgDesc=" + "'" + package.Desc + "'" + "where PackageId=" + (Counter + 1); // update statements
+            string UPBase = "update Packages set PkgBasePrice=" + package.BasePrice + "where PackageId=" + (Counter + 1);
+            string UPCom = "update Packages set PkgAgencyCommission=" + package.AgencyCom  + "where PackageId=" + (Counter + 1);
 
+            SqlConnection cnn = TravelExpertDB.GetConnection();
+            
 
-            string UPdesc = "update Packages set PkgName =" + "'" + EditDesc + "'" + "where PackageId =" Counter - 1;
+            SqlCommand selectName = new SqlCommand(UPname, cnn);
+            SqlCommand selectStart = new SqlCommand(UPstart, cnn);
+            SqlCommand selectEnd = new SqlCommand(UPend, cnn);
+            SqlCommand selectDesc = new SqlCommand(UPdesc, cnn);
+            SqlCommand selectBase = new SqlCommand(UPBase, cnn);
+            SqlCommand selectCom = new SqlCommand(UPCom, cnn);
 
-            */
+            try
+            {
+                cnn.Open();//open connection
 
-
-
-
-
-
-
+                SqlDataReader SqlReader1 = selectName.ExecuteReader();//executes query
+                cnn.Close();
+                cnn.Open();
+                SqlDataReader SqlReader2 = selectStart.ExecuteReader();
+                cnn.Close();
+                cnn.Open();
+                SqlDataReader SqlReader3 = selectEnd.ExecuteReader();
+                cnn.Close();
+                cnn.Open();
+                SqlDataReader SqlReader4 = selectDesc.ExecuteReader();
+                cnn.Close();
+                cnn.Open();
+                SqlDataReader SqlReader5 = selectBase.ExecuteReader();
+                cnn.Close();
+                cnn.Open();
+                SqlDataReader SqlReader6 = selectCom.ExecuteReader();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            
+            
 
 
 
