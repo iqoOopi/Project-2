@@ -52,11 +52,14 @@ namespace ClassDB
                     connection.Open();
                     using (SqlDataReader dr = selectCommand.ExecuteReader())//auto close reader
                     {
-                        
+
                         while (dr.Read())
                         {
-                            List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
-                            foreach (PropertyInfo property in properties)
+                            T tempObj = Activator.CreateInstance<T>();//temp entity class
+                            PropertyInfo[] tempProperties = tempObj.GetType().GetProperties();//get all the field of this entity class
+                                                                                              //if T is Products Class,
+                                                                                              //properties will looks like {ProductID, prodName}
+                            foreach (PropertyInfo property in tempProperties)
                             {
                                 if (dr[property.Name] != DBNull.Value)
                                 {
@@ -66,21 +69,46 @@ namespace ClassDB
                                     Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
                                     //cast the reader result (Object type) to correct type and then assign the value.
                                     //if T is Products Class, It's just like tempObj.ProductID=Convert.toInt32(dr["ProductID"])
-
-                                    args.Add(Convert.ChangeType(dr[property.Name], t));//add to the args list
-                                    //args.Add(dr[property.Name]);
+                                    property.SetValue(tempObj, Convert.ChangeType(dr[property.Name], t));
                                 }
                                 else
                                 {
                                     //DBNull.Value in DB table, so set the property to null
-                                    args.Add(null);
+                                    property.SetValue(tempObj, null);
                                 }
                             }
-
-                            T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
-
                             classData.Add(tempObj);//add temp entity class to the result List
                         }
+
+
+                        //while (dr.Read())
+                        //{
+                        //    List<Object> args = new List<Object>();//an list to hold the required args for certain entityClass
+                        //    foreach (PropertyInfo property in properties)
+                        //    {
+                        //        if (dr[property.Name] != DBNull.Value)
+                        //        {
+                        //            //if the property is nullable, etc "datatime?"(this is a nullable type with datatime type underlying it)
+                        //            //to get the actual type (datatime) out of "datatime?" by calling Nullable.GetUnderlyingType
+                        //            //if the property is not nullable, etc int, then the "??" will return right-side property.propertyType which is "int" since left side is "null". 
+                        //            Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                        //            //cast the reader result (Object type) to correct type and then assign the value.
+                        //            //if T is Products Class, It's just like tempObj.ProductID=Convert.toInt32(dr["ProductID"])
+
+                        //            args.Add(Convert.ChangeType(dr[property.Name], t));//add to the args list
+                        //            //args.Add(dr[property.Name]);
+                        //        }
+                        //        else
+                        //        {
+                        //            //DBNull.Value in DB table, so set the property to null
+                        //            args.Add(null);
+                        //        }
+                        //    }
+
+                        //    T tempObj = (T)Activator.CreateInstance(typeof(T),args.ToArray());//create an instant of entityClass with args
+
+                        //    classData.Add(tempObj);//add temp entity class to the result List
+                        //}
                     }
                 }
 
