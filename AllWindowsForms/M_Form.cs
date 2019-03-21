@@ -50,7 +50,9 @@ namespace AllWindowsForms
             if (Counter < (Packages.Count-1))
             {
                 Counter++;
+                 Packages = PackagesDB.GetPackages();
                 FillBoxes();
+              // Packages = Form2.liveupdate();
             }
             
         }
@@ -76,6 +78,7 @@ namespace AllWindowsForms
 
         private void button6_Click(object sender, EventArgs e)
         {
+            Packages = PackagesDB.GetPackages();
             int result;
             int i = 0;
             bool Found = false;

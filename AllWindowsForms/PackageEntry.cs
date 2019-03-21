@@ -17,6 +17,9 @@ namespace AllWindowsForms
 {
     public partial class Form2 : Form
     {
+
+
+        bool reset = false;
         public Form2()
         {
             InitializeComponent();
@@ -47,6 +50,23 @@ inner join Packages_Products_Suppliers PS on P.PackageId = PS.PackageId
 inner join Products_Suppliers PSP on PS.ProductSupplierId = PSP.ProductSupplierId
 inner join Products PDE on PSP.ProductId = PDE.ProductId
 */
+            
+            
+        }/*
+        public static List<Package> liveupdate()
+        {
+            if(  == true)
+            {
+                return PackagesDB.GetPackages();update list when changes are made
+            }
+            else
+            {
+                return PackagesDB.GetPackages();
+            }
+        }
+        */
+        private void button1_Click(object sender, EventArgs e)
+        {
             ErrName.Visible = false;
             ErrStart.Visible = false;
             ErrEnd.Visible = false;
@@ -83,27 +103,32 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
 
 
 
-
             if (PkgName.Text == "")
             {
                 ErrName.Visible = true;
+
             }
             //////////////////////////////
             if (PkgStart.Text == "")
             {
                 nullcheck1 = true;
+
             }
+
             else if (pass == true)
             {
                 if (result1.Success)
                 {
                     //correct format date
                     pass = true;
+
                 }
                 else
                 {
                     ErrStart.Visible = true;
+
                 }
+
             }
 
 
@@ -114,6 +139,7 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                 //null allowed
                 nullcheck2 = true;
 
+
             }
             else if (pass == true)
             {
@@ -122,7 +148,8 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                     //correct format date
                     if (PkgStart.Text == "")
                     {
-                        //   StartBox.Text = "";
+                        PkgStart.Text = "";
+
                     }
                     else
                     {
@@ -134,6 +161,7 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                         {
                             //err
                             ErrDate.Visible = true;
+
                         }
                         if (Convert.ToInt32(CompDate1[0]) == Convert.ToInt32(CompDate2[0]))
                         {
@@ -142,6 +170,7 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                             {
                                 //error
                                 ErrDate.Visible = true;
+
                             }
                             if (Convert.ToInt32(CompDate1[0]) == Convert.ToInt32(CompDate2[0]))
                             {
@@ -150,14 +179,17 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                                 {
                                     //error
                                     ErrDate.Visible = true;
+
                                 }
                                 if (Convert.ToInt32(CompDate1[2]) == Convert.ToInt32(CompDate2[2]))
                                 {
                                     //err
                                     ErrDate.Visible = true;
+
                                 }
 
                             }
+
                         }
 
                     }
@@ -167,7 +199,9 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                 else
                 {
                     ErrEnd.Visible = true;
+
                 }
+
             }
 
 
@@ -176,18 +210,22 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
             if (PkgDesc.Text == "")
             {
                 ErrDesc.Visible = true;
+
             }
             else if (Base == false)
             {
                 ErrBase.Visible = true;
+
             }
             else if (Com == false)
             {
                 ErrAgency.Visible = false;
+
             }
             else if (ValidCom > ValidBase)
             {
                 ErrTotal.Visible = true;
+
             }
 
             if (((ErrName.Visible == false) & (ErrStart.Visible == false)) & ((ErrEnd.Visible == false) & (ErrDesc.Visible == false)) & ((ErrBase.Visible == false) & (ErrAgency.Visible == false)) & ((ErrTotal.Visible == false) & (ErrDate.Visible == false)))
@@ -223,12 +261,23 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                 package.AgencyCom = Convert.ToDecimal(PkgCom.Text);
 
                 //call function to update
+                foreach()
+                if (package.PackageName == )
+                {
 
+                }
 
                 PackagesDB.InsertDB(package);
 
+                PkgName.Text = "";
+                PkgStart.Text = "";
+                PkgEnd.Text = "";
+                PkgDesc.Text = "";
+                PkgBase.Text = "";
+                PkgCom.Text = "";
 
             }
+            
         }
     }
         
