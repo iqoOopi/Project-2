@@ -1,6 +1,6 @@
-﻿namespace PackageEntry
+﻿namespace AllWindowsForms
 {
-    partial class Form1
+    partial class Form2
     {
         /// <summary>
         /// Required designer variable.
@@ -44,13 +44,15 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.ErrName = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.ErrStart = new System.Windows.Forms.Label();
             this.ErrDesc = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.ErrEnd = new System.Windows.Forms.Label();
+            this.ErrAgency = new System.Windows.Forms.Label();
+            this.ErrBase = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.Products = new System.Windows.Forms.ListBox();
+            this.ErrTotal = new System.Windows.Forms.Label();
+            this.ErrDate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -154,10 +156,9 @@
             this.button1.Location = new System.Drawing.Point(501, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 12;
+            this.button1.TabIndex = 26;
             this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
             // 
@@ -167,15 +168,16 @@
             this.button2.TabIndex = 13;
             this.button2.Text = "ClearAll";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(501, 206);
+            this.button3.Location = new System.Drawing.Point(507, 201);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 14;
+            this.button3.TabIndex = 25;
             this.button3.Text = "Cancel";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // ErrName
             // 
@@ -188,16 +190,16 @@
             this.ErrName.Text = "Cannot be null";
             this.ErrName.Visible = false;
             // 
-            // label8
+            // ErrStart
             // 
-            this.label8.AutoSize = true;
-            this.label8.ForeColor = System.Drawing.Color.Red;
-            this.label8.Location = new System.Drawing.Point(405, 54);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 13);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Invalid Date";
-            this.label8.Visible = false;
+            this.ErrStart.AutoSize = true;
+            this.ErrStart.ForeColor = System.Drawing.Color.Red;
+            this.ErrStart.Location = new System.Drawing.Point(405, 54);
+            this.ErrStart.Name = "ErrStart";
+            this.ErrStart.Size = new System.Drawing.Size(64, 13);
+            this.ErrStart.TabIndex = 16;
+            this.ErrStart.Text = "Invalid Date";
+            this.ErrStart.Visible = false;
             // 
             // ErrDesc
             // 
@@ -210,38 +212,38 @@
             this.ErrDesc.Text = "Cannot be null";
             this.ErrDesc.Visible = false;
             // 
-            // label10
+            // ErrEnd
             // 
-            this.label10.AutoSize = true;
-            this.label10.ForeColor = System.Drawing.Color.Red;
-            this.label10.Location = new System.Drawing.Point(405, 80);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(64, 13);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "Invalid Date";
-            this.label10.Visible = false;
+            this.ErrEnd.AutoSize = true;
+            this.ErrEnd.ForeColor = System.Drawing.Color.Red;
+            this.ErrEnd.Location = new System.Drawing.Point(405, 80);
+            this.ErrEnd.Name = "ErrEnd";
+            this.ErrEnd.Size = new System.Drawing.Size(64, 13);
+            this.ErrEnd.TabIndex = 17;
+            this.ErrEnd.Text = "Invalid Date";
+            this.ErrEnd.Visible = false;
             // 
-            // label11
+            // ErrAgency
             // 
-            this.label11.AutoSize = true;
-            this.label11.ForeColor = System.Drawing.Color.Red;
-            this.label11.Location = new System.Drawing.Point(405, 158);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(96, 13);
-            this.label11.TabIndex = 20;
-            this.label11.Text = "Invalid Commission";
-            this.label11.Visible = false;
+            this.ErrAgency.AutoSize = true;
+            this.ErrAgency.ForeColor = System.Drawing.Color.Red;
+            this.ErrAgency.Location = new System.Drawing.Point(405, 158);
+            this.ErrAgency.Name = "ErrAgency";
+            this.ErrAgency.Size = new System.Drawing.Size(96, 13);
+            this.ErrAgency.TabIndex = 20;
+            this.ErrAgency.Text = "Invalid Commission";
+            this.ErrAgency.Visible = false;
             // 
-            // label12
+            // ErrBase
             // 
-            this.label12.AutoSize = true;
-            this.label12.ForeColor = System.Drawing.Color.Red;
-            this.label12.Location = new System.Drawing.Point(405, 132);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 13);
-            this.label12.TabIndex = 19;
-            this.label12.Text = "Invalid Price";
-            this.label12.Visible = false;
+            this.ErrBase.AutoSize = true;
+            this.ErrBase.ForeColor = System.Drawing.Color.Red;
+            this.ErrBase.Location = new System.Drawing.Point(405, 132);
+            this.ErrBase.Name = "ErrBase";
+            this.ErrBase.Size = new System.Drawing.Size(65, 13);
+            this.ErrBase.TabIndex = 19;
+            this.ErrBase.Text = "Invalid Price";
+            this.ErrBase.Visible = false;
             // 
             // label7
             // 
@@ -260,18 +262,42 @@
             this.Products.Size = new System.Drawing.Size(120, 95);
             this.Products.TabIndex = 22;
             // 
-            // Form1
+            // ErrTotal
+            // 
+            this.ErrTotal.AutoSize = true;
+            this.ErrTotal.ForeColor = System.Drawing.Color.Red;
+            this.ErrTotal.Location = new System.Drawing.Point(313, 188);
+            this.ErrTotal.Name = "ErrTotal";
+            this.ErrTotal.Size = new System.Drawing.Size(188, 13);
+            this.ErrTotal.TabIndex = 23;
+            this.ErrTotal.Text = "Agency Must be lower than base price";
+            this.ErrTotal.Visible = false;
+            // 
+            // ErrDate
+            // 
+            this.ErrDate.AutoSize = true;
+            this.ErrDate.ForeColor = System.Drawing.Color.Red;
+            this.ErrDate.Location = new System.Drawing.Point(289, 211);
+            this.ErrDate.Name = "ErrDate";
+            this.ErrDate.Size = new System.Drawing.Size(206, 13);
+            this.ErrDate.TabIndex = 24;
+            this.ErrDate.Text = "Package end date must be after start date";
+            this.ErrDate.Visible = false;
+            // 
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 297);
+            this.Controls.Add(this.ErrDate);
+            this.Controls.Add(this.ErrTotal);
             this.Controls.Add(this.Products);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label12);
+            this.Controls.Add(this.ErrAgency);
+            this.Controls.Add(this.ErrBase);
             this.Controls.Add(this.ErrDesc);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.ErrEnd);
+            this.Controls.Add(this.ErrStart);
             this.Controls.Add(this.ErrName);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -288,7 +314,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "Form2";
             this.Text = "New Package";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -313,13 +339,15 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label ErrName;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label ErrStart;
         private System.Windows.Forms.Label ErrDesc;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label ErrEnd;
+        private System.Windows.Forms.Label ErrAgency;
+        private System.Windows.Forms.Label ErrBase;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ListBox Products;
+        private System.Windows.Forms.Label ErrTotal;
+        private System.Windows.Forms.Label ErrDate;
     }
 }
 

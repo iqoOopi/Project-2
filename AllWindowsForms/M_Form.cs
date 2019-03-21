@@ -34,7 +34,7 @@ namespace AllWindowsForms
         }
         public void FillBoxes()
         {
-          //  List<Package> PackageList = PackagesDB.GetPackages();
+            
             NameBox.Text = Convert.ToString(Packages[Counter].PackageName);
             StartBox.Text = Convert.ToString(Packages[Counter].PackageStart);
             EndDate.Text = Convert.ToString(Packages[Counter].PackageEnd);
@@ -302,6 +302,10 @@ namespace AllWindowsForms
 
         private void Entrybtn_Click(object sender, EventArgs e)
         {
+
+           Form EntryForm = new Form2 ();
+            EntryForm.Show();
+            
 
         }
     }
