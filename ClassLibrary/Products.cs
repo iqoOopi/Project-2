@@ -16,16 +16,18 @@ namespace ClassLibrary
         public int ProductId { get; set; }
         public string ProdName { get; set; }
 
-        /// <summary>
-        /// Constructor for Read from DB
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="prodName"></param>
-        public Products(int productId, string prodName)
-        {
-            ProductId = productId;
-            ProdName = prodName;
-        }
+        public Products() { }
+
+        ///// <summary>
+        ///// Constructor for Read from DB
+        ///// </summary>
+        ///// <param name="productId"></param>
+        ///// <param name="prodName"></param>
+        //public Products(int productId, string prodName)
+        //{
+        //    ProductId = productId;
+        //    ProdName = prodName;
+        //}
 
         /// <summary>
         /// Constructor for create new Product, Id should be NULL as it is auto incremental

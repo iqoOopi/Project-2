@@ -48,6 +48,7 @@ namespace AllWindowsForms
         /// </summary>
         private void listViewProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
+            PrepareForNextOperation();
             relatedProductsSuppliers = new List<ProductsSuppliers>();//reset the list
             relatedSuppliers = new List<Suppliers>();
             btnEdit.Enabled = true;
@@ -333,7 +334,7 @@ namespace AllWindowsForms
             comboxSup.DataSource = allSuppliers;
             if(productsSuppliersDataGridView.SelectedRows.Count>0)
             {
-                btnSupEdit.Enabled = true;
+                //btnSupEdit.Enabled = true;
                 btnSupDel.Enabled = true;
                 pnlSupInfo.Visible = false;
                 int index = productsSuppliersDataGridView.SelectedRows[0].Index;
@@ -346,12 +347,13 @@ namespace AllWindowsForms
             }
         }
 
-        private void btnSupEdit_Click(object sender, EventArgs e)
-        {
-            pnlSupInfo.Visible = true;
-            supMode = 1;
-            comboxSup.SelectedValue = selectedSuppliers.SupplierId;
-        }
+        //no need for a edit button
+        //private void btnSupEdit_Click(object sender, EventArgs e)
+        //{
+        //    pnlSupInfo.Visible = true;
+        //    supMode = 1;
+        //    comboxSup.SelectedValue = selectedSuppliers.SupplierId;
+        //}
 
 
         private void SupPrepareForNextOperation()
@@ -359,7 +361,7 @@ namespace AllWindowsForms
             supMode = 0;//no edit,no add
             pnlSupInfo.Visible = false;
             btnSupDel.Enabled = false;
-            btnSupEdit.Enabled = false;
+            //btnSupEdit.Enabled = false;
             btnSupAdd.Enabled = false;
             productsSuppliersDataGridView.ClearSelection();
         }
@@ -402,28 +404,29 @@ namespace AllWindowsForms
 
             switch (supMode)
             {
-                case 1:// in edit
-                    {
-                        //check local duplicate issue with other prodSup (except itself)
-                        if (validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup,selectedProdSup))
-                        {
-                            try
-                            {
-                                int count=GenericDB.GenericUpdate("Products_Suppliers", selectedProdSup, newProdSup);
-                                if (count != 1)
-                                {
-                                    MessageBox.Show("Concurrency Error!, Other User has edited this data! Click Yes to Reload the Data");
-                                } else
-                                {
-                                    success = true;
-                                }
-                            } catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            } 
-                        }
-                            break;
-                    }
+                //Edit doesn't make sense, user can just deleted it and then add a new record since there is only one related info (suppliers name).
+                //case 1:// in edit
+                //    {
+                //        //check local duplicate issue with other prodSup (except itself)
+                //        if (validator.checkNoDuplicate<ProductsSuppliers>(allProductsSuppliers, newProdSup,selectedProdSup))
+                //        {
+                //            try
+                //            {
+                //                int count=GenericDB.GenericUpdate("Products_Suppliers", selectedProdSup, newProdSup);
+                //                if (count != 1)
+                //                {
+                //                    MessageBox.Show("Concurrency Error!, Other User has edited this data! Click Yes to Reload the Data");
+                //                } else
+                //                {
+                //                    success = true;
+                //                }
+                //            } catch (Exception ex)
+                //            {
+                //                MessageBox.Show(ex.Message);
+                //            } 
+                //        }
+                //            break;
+                //    }
                 case 2://in add
                     {
   
