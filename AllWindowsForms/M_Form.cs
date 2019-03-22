@@ -127,6 +127,7 @@ namespace AllWindowsForms
             ErrAgency.Visible = false;
             ErrTotal.Visible = false;
             ErrDate.Visible = false;
+            ErrDup.Visible = false;
 
             decimal ValidBase = 0;
             decimal ValidCom = 0;
@@ -152,7 +153,7 @@ namespace AllWindowsForms
 
             bool nullcheck1 = false;
             bool nullcheck2 = false;
-
+           
 
 
 
@@ -263,14 +264,14 @@ namespace AllWindowsForms
                 ErrTotal.Visible = true;
             }
 
-            if (((ErrName.Visible == false) & (ErrStart.Visible == false))&((ErrEnd.Visible == false)&(ErrDesc.Visible == false))&((ErrBase.Visible == false)&(ErrAgency.Visible == false))& ((ErrTotal.Visible == false)&(ErrDate.Visible == false)))
-                //UPDATE TO WHERE IF NO ERRORS APPEAR THEN RUNCURRENT IS FOR TESTING
+            if (((ErrName.Visible == false) & (ErrStart.Visible == false)) & ((ErrEnd.Visible == false) & (ErrDesc.Visible == false)) & ((ErrBase.Visible == false) & (ErrAgency.Visible == false)) & ((ErrTotal.Visible == false) & (ErrDate.Visible == false)))
+            //UPDATE TO WHERE IF NO ERRORS APPEAR THEN RUNCURRENT IS FOR TESTING
             {
-               
+
                 //set object values and update sql
-                
-               Packages[Counter].PackageName = NameBox.Text;
-                
+
+                Packages[Counter].PackageName = NameBox.Text;
+
                 if (nullcheck1 == true)
                 {
                     Packages[Counter].PackageStart = null;
@@ -290,15 +291,33 @@ namespace AllWindowsForms
                 }
 
                 Packages[Counter].Desc = DescBox.Text;
-               
+
                 Packages[Counter].BasePrice = Convert.ToDecimal(BaseBox.Text);
                 Packages[Counter].AgencyCom = Convert.ToDecimal(AgencyBox.Text);
 
                 //call function to update
                 
-                
-                PackagesDB.UpdateDB(Counter,Packages[Counter]);
-                
+                int i = 0;
+                List<Package> PackComp = PackagesDB.GetPackages();
+                foreach (Package package in Packages) {
+                    if (Counter == i)
+                    {
+                        //skips the current object
+                    }
+                    else
+                    {
+                        if ((Packages[Counter].PackageName == PackComp[i].PackageName) & (Packages[Counter].PackageStart == PackComp[i].PackageStart) & (Packages[Counter].PackageEnd == PackComp[i].PackageEnd))
+                        {
+
+                            ErrDup.Visible = true;
+                        }
+                    }
+                    i++;
+            }
+                if (ErrDup.Visible == false)
+                {
+                    PackagesDB.UpdateDB(Counter, Packages[Counter]);
+                }
             }
           
         }

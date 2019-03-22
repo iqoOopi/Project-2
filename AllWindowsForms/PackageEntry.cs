@@ -25,7 +25,7 @@ namespace AllWindowsForms
             InitializeComponent();
         }
 
-        
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -50,8 +50,8 @@ inner join Packages_Products_Suppliers PS on P.PackageId = PS.PackageId
 inner join Products_Suppliers PSP on PS.ProductSupplierId = PSP.ProductSupplierId
 inner join Products PDE on PSP.ProductId = PDE.ProductId
 */
-            
-            
+
+
         }/*
         public static List<Package> liveupdate()
         {
@@ -261,25 +261,38 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                 package.AgencyCom = Convert.ToDecimal(PkgCom.Text);
 
                 //call function to update
-                foreach()
-                if (package.PackageName == )
+
+                int i = 0;
+                List<Package> PackComp = PackagesDB.GetPackages();
+                foreach (Package packagecomp in PackComp)
                 {
 
+                    if ((package.PackageName == PackComp[i].PackageName) & (package.PackageStart == PackComp[i].PackageStart) & (package.PackageEnd == PackComp[i].PackageEnd))
+                    {
+
+                        ErrDup.Visible = true;
+                    }
+
+                    i++;
+                }
+                if (ErrDup.Visible == false)
+                {
+                    PackagesDB.InsertDB(package);
+                    PkgName.Text = "";
+                    PkgStart.Text = "";
+                    PkgEnd.Text = "";
+                    PkgDesc.Text = "";
+                    PkgBase.Text = "";
+                    PkgCom.Text = "";
                 }
 
-                PackagesDB.InsertDB(package);
 
-                PkgName.Text = "";
-                PkgStart.Text = "";
-                PkgEnd.Text = "";
-                PkgDesc.Text = "";
-                PkgBase.Text = "";
-                PkgCom.Text = "";
+                
 
             }
-            
+
         }
     }
-        
-    }
+
+}
 

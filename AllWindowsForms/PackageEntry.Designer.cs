@@ -53,6 +53,7 @@
             this.Products = new System.Windows.Forms.ListBox();
             this.ErrTotal = new System.Windows.Forms.Label();
             this.ErrDate = new System.Windows.Forms.Label();
+            this.ErrDup = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -284,11 +285,23 @@
             this.ErrDate.Text = "Package end date must be after start date";
             this.ErrDate.Visible = false;
             // 
+            // ErrDup
+            // 
+            this.ErrDup.AutoSize = true;
+            this.ErrDup.ForeColor = System.Drawing.Color.Red;
+            this.ErrDup.Location = new System.Drawing.Point(396, 241);
+            this.ErrDup.Name = "ErrDup";
+            this.ErrDup.Size = new System.Drawing.Size(99, 13);
+            this.ErrDup.TabIndex = 27;
+            this.ErrDup.Text = "Duplicate Detected";
+            this.ErrDup.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 297);
+            this.Controls.Add(this.ErrDup);
             this.Controls.Add(this.ErrDate);
             this.Controls.Add(this.ErrTotal);
             this.Controls.Add(this.Products);
@@ -348,6 +361,7 @@
         private System.Windows.Forms.ListBox Products;
         private System.Windows.Forms.Label ErrTotal;
         private System.Windows.Forms.Label ErrDate;
+        private System.Windows.Forms.Label ErrDup;
     }
 }
 
