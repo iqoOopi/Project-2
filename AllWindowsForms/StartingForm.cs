@@ -21,12 +21,13 @@ namespace AllWindowsForms
         {
             Form newForm = new ProdMngForm();
             newForm.Show();
+            
         }
 
         private void btnSuppliers_Click(object sender, EventArgs e)
         {
-            //Form newForm = new SuppliersMngForm();
-            //newForm.Show();
+            Form newForm = new SuppliersMngForm();
+            newForm.Show();
 
         }
 
