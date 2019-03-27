@@ -14,13 +14,13 @@ namespace ClassLibrary
         public int PackageId { get; set; }
 
         public int ProductSupplierId { get; set; }
-
+        //constructor to ensure the order of the fields is the same as the AddProducts method
         public PackagesProductsSuppliers(int packid, int prodSupid)
         {
             PackageId = packid;
             ProductSupplierId = prodSupid;
         }
-
+        // regular constructor
         public PackagesProductsSuppliers() { }
     }
 }

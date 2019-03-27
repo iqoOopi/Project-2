@@ -58,6 +58,7 @@
             this.ErrTotal = new System.Windows.Forms.Label();
             this.ErrDate = new System.Windows.Forms.Label();
             this.Entrybtn = new System.Windows.Forms.Button();
+            this.ErrDup = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -341,11 +342,23 @@
             this.Entrybtn.UseVisualStyleBackColor = true;
             this.Entrybtn.Click += new System.EventHandler(this.Entrybtn_Click);
             // 
+            // ErrDup
+            // 
+            this.ErrDup.AutoSize = true;
+            this.ErrDup.ForeColor = System.Drawing.Color.Red;
+            this.ErrDup.Location = new System.Drawing.Point(12, 209);
+            this.ErrDup.Name = "ErrDup";
+            this.ErrDup.Size = new System.Drawing.Size(99, 13);
+            this.ErrDup.TabIndex = 33;
+            this.ErrDup.Text = "Duplicate Detected";
+            this.ErrDup.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 349);
+            this.Controls.Add(this.ErrDup);
             this.Controls.Add(this.Entrybtn);
             this.Controls.Add(this.ErrDate);
             this.Controls.Add(this.ErrTotal);
@@ -416,6 +429,7 @@
         private System.Windows.Forms.Label ErrTotal;
         private System.Windows.Forms.Label ErrDate;
         private System.Windows.Forms.Button Entrybtn;
+        private System.Windows.Forms.Label ErrDup;
     }
 }
 

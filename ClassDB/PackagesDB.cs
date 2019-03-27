@@ -10,9 +10,9 @@ namespace ClassDB
 {
     public static class PackagesDB
     {
-
-
-
+        //Matthew
+        //2019-01-27
+        
 
         public static List<Package> GetPackages()
         {
@@ -156,12 +156,30 @@ namespace ClassDB
                 cnn.Close();
             }
             
-            
-
-
-
         }
 
+
+        public static void InsertDB(Package package)
+        {
+             string insertStatement = "insert into Packages values(" + "'"+ package.PackageName +"'"+ ","+"'" + package.PackageStart + "'" + "," + "'" + package.PackageEnd + "'"+  "," + "'" + package.Desc + "'" + "," + package.BasePrice +","+ package.AgencyCom + ")";
+            SqlConnection cnn = TravelExpertDB.GetConnection();
+
+            SqlCommand insertState = new SqlCommand(insertStatement, cnn);
+            try
+            {
+                cnn.Open();
+                SqlDataReader SqlReader = insertState.ExecuteReader();
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+        }
 
 
 

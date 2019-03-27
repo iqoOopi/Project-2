@@ -15,25 +15,27 @@ namespace ClassDB
     /// </summary>
     public class PackagesProductsSuppliersDB
     {
-
+        //method to retrieve data from database
         public static List<PackagesProductsSuppliers> GetPackProdSuppliers()
         {
+            //create a new list and name it pps
             List<PackagesProductsSuppliers> packProdSuppliers = new List<PackagesProductsSuppliers>();
             PackagesProductsSuppliers pps;
 
-
+            //connect
             SqlConnection con = TravelExpertDB.GetConnection();
-
+            // create the query to retrieve all the records from Packages_Products_Suppliers table
             string SelectQuery = "SELECT * FROM Packages_Products_Suppliers";
-
+            //send the query to the database
             SqlCommand command = new SqlCommand(SelectQuery, con);
-
+            
             try
             {
+                //open the connection
                 con.Open();
-
+                // start up the sql reader
                 SqlDataReader dr = command.ExecuteReader();
-
+                // while there is data to read, add a line to the pps list
                 while (dr.Read())
                 {
                     pps = new PackagesProductsSuppliers();
@@ -41,6 +43,43 @@ namespace ClassDB
                     pps.ProductSupplierId = Convert.ToInt32(dr["ProductSupplierId"]);
 
                     packProdSuppliers.Add(pps);
+                }
+                //close the sql reader
+                dr.Close();
+            }
+            // check for exceptions
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //close the connection
+                con.Close();
+            }
+            //return value is a list of the records in the Packages_Products_Suppliers table
+            return packProdSuppliers;
+        }
+
+        public static void insertPPS(int ProdSuppID)//Matthew
+        {
+            SqlConnection cnn = TravelExpertDB.GetConnection();
+
+            string SelectQuery = " SELECT TOP 1 * FROM Packages ORDER BY PackageId DESC ";
+            PackagesProductsSuppliers newPPS = new PackagesProductsSuppliers();
+            SqlCommand command = new SqlCommand(SelectQuery, cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr = command.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    
+                    newPPS.PackageId = Convert.ToInt32(dr["PackageId"]);
+                    
                 }
                 dr.Close();
             }
@@ -50,9 +89,28 @@ namespace ClassDB
             }
             finally
             {
-                con.Close();
+                cnn.Close();
             }
-            return packProdSuppliers;
+            //gets package ID
+            ///////////////////////////////////////////////////////////////////////
+            string InsertQuery = "insert into Packages_Products_Suppliers values("+ newPPS.PackageId +","+ ProdSuppID + ")";
+            SqlCommand commandInsert = new SqlCommand(InsertQuery, cnn);
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr = commandInsert.ExecuteReader();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
         }
     }
 }

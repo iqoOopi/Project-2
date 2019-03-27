@@ -57,5 +57,23 @@ namespace ClassDB
             }
             return suppliers;
         }
+        public static List<Suppliers> ProdSuppChoice(List<ProductsSuppliers> CompList)//Matthew
+        {
+            List<Suppliers> List = GetSup();
+            List<Suppliers> EditList = new List<Suppliers>();
+
+            foreach (Suppliers Supp in List)
+            {
+                foreach(ProductsSuppliers PS in CompList)
+                {
+                    if(PS.SupplierId == Supp.SupplierId)
+                    {
+                        EditList.Add(Supp);
+                    }
+                }
+            }
+
+            return EditList;
+        }
     }
 }
