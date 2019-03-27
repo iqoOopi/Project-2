@@ -41,6 +41,8 @@ namespace AllWindowsForms
 
         }
 
+
+
         /// <summary>
         /// Generic check is the input a non-negative number of a certain data type. (int,double etc.) 
         /// </summary>
@@ -70,6 +72,9 @@ namespace AllWindowsForms
                 return result;
 
         }
+
+
+
         /// <summary>
         /// Check the length of input, must less than DB settings.
         /// </summary>
@@ -99,6 +104,9 @@ namespace AllWindowsForms
             return result;
 
         }
+        
+        
+        
         /// <summary>
         /// generic check are there a duplication with existing data, with optional "exceptionItem" argument that will ignore
         /// the duplication with it.

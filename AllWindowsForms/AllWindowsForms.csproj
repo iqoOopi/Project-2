@@ -78,6 +78,12 @@
     <Compile Include="StartingForm.Designer.cs">
       <DependentUpon>StartingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SupplierEditAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SupplierEditAddForm.Designer.cs">
+      <DependentUpon>SupplierEditAddForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuppliersMngForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,9 +115,14 @@
     <EmbeddedResource Include="StartingForm.resx">
       <DependentUpon>StartingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SupplierEditAddForm.resx">
+      <DependentUpon>SupplierEditAddForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SuppliersMngForm.resx">
       <DependentUpon>SuppliersMngForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\ClassLibary.Affiliations.datasource" />
+    <None Include="Properties\DataSources\ClassLibary.SupplierContact.datasource" />
     <None Include="Properties\DataSources\ClassLibrary.ProductsSuppliers.datasource">
       <SubType>Designer</SubType>
     </None>

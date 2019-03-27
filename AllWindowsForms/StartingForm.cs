@@ -25,8 +25,8 @@ namespace AllWindowsForms
 
         private void btnSuppliers_Click(object sender, EventArgs e)
         {
-            //Form newForm = new SuppliersMngForm();
-            //newForm.Show();
+            Form newForm = new SuppliersMngForm();
+            newForm.Show();
 
         }
 

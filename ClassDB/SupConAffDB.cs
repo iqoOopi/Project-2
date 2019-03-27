@@ -1,4 +1,5 @@
-﻿using ClassLibrary;
+﻿using ClassLibary;
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,7 +15,7 @@ namespace ClassDB
     /// </summary>
     public static class SupConAffDB
     {
-        public static List<SupConAff> GetSupConAff(int supplierId)
+        public static List<SupConAff> GetSupConAffs(int supplierId)
         {
             List<SupConAff> SupConAff = new List<SupConAff>();
 
@@ -215,5 +216,6 @@ namespace ClassDB
             }
             return SupConAff;
         }
+
     }
 }

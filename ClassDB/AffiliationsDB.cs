@@ -72,5 +72,66 @@ namespace ClassDB
             }
             return afl;
         }
+
+
+
+        public static List<Affiliations> GetAffs()
+        {
+            List<Affiliations> aflList = new List<Affiliations>();
+            Affiliations afl = new Affiliations();
+
+            SqlConnection cnc = TravelExpertDB.GetConnection();
+
+            string SelectQuery = "SELECT * FROM Affiliations";
+
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+
+            try
+            {
+                cnc.Open();
+
+                SqlDataReader dr = cmnd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    afl = new Affiliations();
+                    afl.AffiliationId = dr["AffiliationId"].ToString();
+
+
+                    int AflNameIndex = dr.GetOrdinal("AffName");
+                    if (dr.IsDBNull(AflNameIndex))
+                    {
+                        afl.AffName = null;
+                    }
+                    else
+                    {
+                        afl.AffName = dr["AffName"].ToString();
+                    }
+
+
+                    int AflDescIndex = dr.GetOrdinal("AffDesc");
+                    if (dr.IsDBNull(AflDescIndex))
+                    {
+                        afl.AffDesc = null;
+                    }
+                    else
+                    {
+                        afl.AffDesc = dr["AffDesc"].ToString();
+                    }
+
+                    aflList.Add(afl);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnc.Close();
+            }
+            return aflList;
+        }
     }
 }
