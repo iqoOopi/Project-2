@@ -12,20 +12,22 @@ namespace ClassLibrary
     public class ProductsSuppliers
     {
         public int ProductSupplierId { get; set; }
-
+        
         public int? ProductId { get; set; }
 
         public int? SupplierId { get; set; }
 
+        //constructor to ensure order of parameters is the same as what is required in the AddProducts method
         public ProductsSuppliers(int prodSuppid, int? prodid, int? supid)
         {
             ProductSupplierId = prodSuppid;
             ProductId = prodid;
             SupplierId = supid;
         }
-
+        // regular constructor
         public ProductsSuppliers() { }
 
+        // HashCode for indexing when checking for double entries when adding new product
         public override bool Equals(object obj)
         {
             var suppliers = obj as ProductsSuppliers;
@@ -33,7 +35,7 @@ namespace ClassLibrary
                    EqualityComparer<int?>.Default.Equals(ProductId, suppliers.ProductId) &&
                    EqualityComparer<int?>.Default.Equals(SupplierId, suppliers.SupplierId);
         }
-
+        
         public override int GetHashCode()
         {
             var hashCode = 1853477397;

@@ -342,8 +342,7 @@ namespace AllWindowsForms
                 {
                     selectedSuppliers = relatedSuppliers[index];
                     selectedProdSup = relatedProductsSuppliers[index];
-                }
-             
+                }             
             }
         }
 
