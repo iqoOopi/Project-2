@@ -33,11 +33,12 @@ namespace AllWindowsForms
 
             List<Products> ProductList = ProductsFormDB.GetProducts();
             
-            Productbox.DisplayMember = "ProdName";
+            
             Productbox.DataSource = ProductList;
-            
-            
-            
+            Productbox.SelectedIndex = 0;
+            Productbox.DisplayMember = "ProdName";
+
+
         }
 
 
