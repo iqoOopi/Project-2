@@ -15,21 +15,18 @@ namespace AllWindowsForms
         public StartingForm()
         {
             InitializeComponent();
-            
         }
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
             Form newForm = new ProdMngForm();
             newForm.Show();
-            btnProducts.Enabled = false;
         }
 
         private void btnSuppliers_Click(object sender, EventArgs e)
         {
             Form newForm = new SuppliersMngForm();
             newForm.Show();
-            btnSuppliers.Enabled = false;
 
         }
 
@@ -37,7 +34,6 @@ namespace AllWindowsForms
         {
             Form M_Form = new Form1();
             M_Form.Show();
-            btnPackages.Enabled = false;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
