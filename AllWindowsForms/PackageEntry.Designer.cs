@@ -58,7 +58,6 @@
             this.addProdbtn = new System.Windows.Forms.Button();
             this.prodCounter = new System.Windows.Forms.Label();
             this.ErrProd = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -340,19 +339,11 @@
             this.ErrProd.Text = "Error Occured";
             this.ErrProd.Visible = false;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(436, 225);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 33;
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 297);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.ErrProd);
             this.Controls.Add(this.prodCounter);
             this.Controls.Add(this.addProdbtn);
@@ -422,7 +413,6 @@
         private System.Windows.Forms.Button addProdbtn;
         private System.Windows.Forms.Label prodCounter;
         private System.Windows.Forms.Label ErrProd;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

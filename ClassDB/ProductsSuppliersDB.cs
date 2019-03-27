@@ -57,7 +57,7 @@ namespace ClassDB
             return prodSuppliers;
         }
 
-        public static List<ProductsSuppliers> Prodfilter(int ProdID)
+        public static List<ProductsSuppliers> Prodfilter(int ProdID)//MAtthew
         {
             List<ProductsSuppliers> List = GetProdSuppliers();
             List<ProductsSuppliers> EditedList = new List<ProductsSuppliers>();
@@ -74,11 +74,11 @@ namespace ClassDB
                 return EditedList;
 
         }
-        public static ProductsSuppliers Find(int ProdID,int SuppID)
+        public static ProductsSuppliers Find(int ProdID,int SuppID)//MAtthew
         {
             List<ProductsSuppliers> List = GetProdSuppliers();
             ProductsSuppliers Match = new ProductsSuppliers();
-            bool result = false;
+            
             foreach (ProductsSuppliers PS in List)
             {
                 if((PS.ProductId == ProdID)&(PS.SupplierId == SuppID))
@@ -94,6 +94,5 @@ namespace ClassDB
         }
 
 
-
-    }
+ }
 }

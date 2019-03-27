@@ -12,6 +12,11 @@ using ClassDB;
 using ClassLibrary;
 using AllWindowsForms;
 
+/// <summary>
+/// Matthew MacMAster
+/// 2019-01-27
+/// </summary>
+
 
 namespace AllWindowsForms
 {
@@ -19,7 +24,7 @@ namespace AllWindowsForms
     {
 
         ProductsSuppliers PPS = new ProductsSuppliers();
-        bool reset = false;
+        
         List<ProductsSuppliers> ProdAdd = new List<ProductsSuppliers>();
         int counter = 0;
         public Form2()
@@ -85,9 +90,7 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
             ErrAgency.Visible = false;
             ErrTotal.Visible = false;
             ErrDate.Visible = false;
-
-            //test
-            textBox1.Text = ProdAdd[0].ProductSupplierId.ToString();
+            
 
 
             decimal ValidBase = 0;
@@ -311,6 +314,7 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
                     PkgCom.Text = "";
                     counter = 0;
                     ProdAdd = new List<ProductsSuppliers>();
+                    prodCounter.Text = "You have " + counter + " selected product(s)";
                 }
 
 

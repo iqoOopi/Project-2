@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
+    //Matthew MacMAster
+    //2019-03-27
    public class Package
     {
        public int PackageID { get; set; }

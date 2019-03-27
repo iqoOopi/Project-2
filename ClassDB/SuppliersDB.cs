@@ -57,7 +57,7 @@ namespace ClassDB
             }
             return suppliers;
         }
-        public static List<Suppliers> ProdSuppChoice(List<ProductsSuppliers> CompList)
+        public static List<Suppliers> ProdSuppChoice(List<ProductsSuppliers> CompList)//Matthew
         {
             List<Suppliers> List = GetSup();
             List<Suppliers> EditList = new List<Suppliers>();

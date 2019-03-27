@@ -52,7 +52,7 @@ namespace ClassDB
 
             return success;
         }
-        public static List<Products> GetProducts()
+        public static List<Products> GetProducts()//Matthew MacMAster
         {
             List<Products> productList = new List<Products>();
             Products Prod;
