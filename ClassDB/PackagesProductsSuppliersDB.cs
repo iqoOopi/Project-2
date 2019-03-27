@@ -54,5 +54,57 @@ namespace ClassDB
             }
             return packProdSuppliers;
         }
+
+        public static void insertPPS(int ProdSuppID)
+        {
+            SqlConnection cnn = TravelExpertDB.GetConnection();
+
+            string SelectQuery = " SELECT TOP 1 * FROM Packages ORDER BY PackageId DESC ";
+            PackagesProductsSuppliers newPPS = new PackagesProductsSuppliers();
+            SqlCommand command = new SqlCommand(SelectQuery, cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr = command.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    
+                    newPPS.PackageId = Convert.ToInt32(dr["PackageId"]);
+                    
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            //gets package ID
+            ///////////////////////////////////////////////////////////////////////
+            string InsertQuery = "insert into Packages_Products_Suppliers values("+ newPPS.PackageId +","+ ProdSuppID + ")";
+            SqlCommand commandInsert = new SqlCommand(InsertQuery, cnn);
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr = commandInsert.ExecuteReader();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+        }
     }
 }

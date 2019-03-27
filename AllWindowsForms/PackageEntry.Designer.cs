@@ -50,10 +50,15 @@
             this.ErrAgency = new System.Windows.Forms.Label();
             this.ErrBase = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.Products = new System.Windows.Forms.ListBox();
             this.ErrTotal = new System.Windows.Forms.Label();
             this.ErrDate = new System.Windows.Forms.Label();
             this.ErrDup = new System.Windows.Forms.Label();
+            this.Productbox = new System.Windows.Forms.ComboBox();
+            this.SupplierBox = new System.Windows.Forms.ComboBox();
+            this.addProdbtn = new System.Windows.Forms.Button();
+            this.prodCounter = new System.Windows.Forms.Label();
+            this.ErrProd = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -173,7 +178,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(507, 201);
+            this.button3.Location = new System.Drawing.Point(506, 262);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 25;
@@ -249,25 +254,17 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(48, 188);
+            this.label7.Location = new System.Drawing.Point(48, 194);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 21;
             this.label7.Text = "Products";
             // 
-            // Products
-            // 
-            this.Products.FormattingEnabled = true;
-            this.Products.Location = new System.Drawing.Point(102, 188);
-            this.Products.Name = "Products";
-            this.Products.Size = new System.Drawing.Size(120, 95);
-            this.Products.TabIndex = 22;
-            // 
             // ErrTotal
             // 
             this.ErrTotal.AutoSize = true;
             this.ErrTotal.ForeColor = System.Drawing.Color.Red;
-            this.ErrTotal.Location = new System.Drawing.Point(313, 188);
+            this.ErrTotal.Location = new System.Drawing.Point(399, 180);
             this.ErrTotal.Name = "ErrTotal";
             this.ErrTotal.Size = new System.Drawing.Size(188, 13);
             this.ErrTotal.TabIndex = 23;
@@ -278,7 +275,7 @@
             // 
             this.ErrDate.AutoSize = true;
             this.ErrDate.ForeColor = System.Drawing.Color.Red;
-            this.ErrDate.Location = new System.Drawing.Point(289, 211);
+            this.ErrDate.Location = new System.Drawing.Point(396, 204);
             this.ErrDate.Name = "ErrDate";
             this.ErrDate.Size = new System.Drawing.Size(206, 13);
             this.ErrDate.TabIndex = 24;
@@ -289,22 +286,81 @@
             // 
             this.ErrDup.AutoSize = true;
             this.ErrDup.ForeColor = System.Drawing.Color.Red;
-            this.ErrDup.Location = new System.Drawing.Point(396, 241);
+            this.ErrDup.Location = new System.Drawing.Point(482, 80);
             this.ErrDup.Name = "ErrDup";
             this.ErrDup.Size = new System.Drawing.Size(99, 13);
             this.ErrDup.TabIndex = 27;
             this.ErrDup.Text = "Duplicate Detected";
             this.ErrDup.Visible = false;
             // 
+            // Productbox
+            // 
+            this.Productbox.FormattingEnabled = true;
+            this.Productbox.Location = new System.Drawing.Point(102, 191);
+            this.Productbox.Name = "Productbox";
+            this.Productbox.Size = new System.Drawing.Size(121, 21);
+            this.Productbox.TabIndex = 28;
+            this.Productbox.SelectedIndexChanged += new System.EventHandler(this.Productbox_SelectedIndexChanged);
+            // 
+            // SupplierBox
+            // 
+            this.SupplierBox.FormattingEnabled = true;
+            this.SupplierBox.Location = new System.Drawing.Point(102, 225);
+            this.SupplierBox.Name = "SupplierBox";
+            this.SupplierBox.Size = new System.Drawing.Size(289, 21);
+            this.SupplierBox.TabIndex = 29;
+            // 
+            // addProdbtn
+            // 
+            this.addProdbtn.Location = new System.Drawing.Point(102, 252);
+            this.addProdbtn.Name = "addProdbtn";
+            this.addProdbtn.Size = new System.Drawing.Size(75, 23);
+            this.addProdbtn.TabIndex = 30;
+            this.addProdbtn.Text = "Add Product";
+            this.addProdbtn.UseVisualStyleBackColor = true;
+            this.addProdbtn.Click += new System.EventHandler(this.addProdbtn_Click);
+            // 
+            // prodCounter
+            // 
+            this.prodCounter.AutoSize = true;
+            this.prodCounter.Location = new System.Drawing.Point(188, 257);
+            this.prodCounter.Name = "prodCounter";
+            this.prodCounter.Size = new System.Drawing.Size(155, 13);
+            this.prodCounter.TabIndex = 31;
+            this.prodCounter.Text = "You have 0 selected product(s)";
+            // 
+            // ErrProd
+            // 
+            this.ErrProd.AutoSize = true;
+            this.ErrProd.ForeColor = System.Drawing.Color.Red;
+            this.ErrProd.Location = new System.Drawing.Point(12, 257);
+            this.ErrProd.Name = "ErrProd";
+            this.ErrProd.Size = new System.Drawing.Size(73, 13);
+            this.ErrProd.TabIndex = 32;
+            this.ErrProd.Text = "Error Occured";
+            this.ErrProd.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(436, 225);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 33;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 297);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.ErrProd);
+            this.Controls.Add(this.prodCounter);
+            this.Controls.Add(this.addProdbtn);
+            this.Controls.Add(this.SupplierBox);
+            this.Controls.Add(this.Productbox);
             this.Controls.Add(this.ErrDup);
             this.Controls.Add(this.ErrDate);
             this.Controls.Add(this.ErrTotal);
-            this.Controls.Add(this.Products);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.ErrAgency);
             this.Controls.Add(this.ErrBase);
@@ -358,10 +414,15 @@
         private System.Windows.Forms.Label ErrAgency;
         private System.Windows.Forms.Label ErrBase;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ListBox Products;
         private System.Windows.Forms.Label ErrTotal;
         private System.Windows.Forms.Label ErrDate;
         private System.Windows.Forms.Label ErrDup;
+        private System.Windows.Forms.ComboBox Productbox;
+        private System.Windows.Forms.ComboBox SupplierBox;
+        private System.Windows.Forms.Button addProdbtn;
+        private System.Windows.Forms.Label prodCounter;
+        private System.Windows.Forms.Label ErrProd;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

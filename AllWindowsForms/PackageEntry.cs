@@ -18,11 +18,21 @@ namespace AllWindowsForms
     public partial class Form2 : Form
     {
 
-
+        ProductsSuppliers PPS = new ProductsSuppliers();
         bool reset = false;
+        List<ProductsSuppliers> ProdAdd = new List<ProductsSuppliers>();
+        int counter = 0;
         public Form2()
         {
             InitializeComponent();
+
+            List<Products> ProductList = ProductsFormDB.GetProducts();
+            
+            Productbox.DisplayMember = "ProdName";
+            Productbox.DataSource = ProductList;
+            
+            
+            
         }
 
 
@@ -75,6 +85,10 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
             ErrAgency.Visible = false;
             ErrTotal.Visible = false;
             ErrDate.Visible = false;
+
+            //test
+            textBox1.Text = ProdAdd[0].ProductSupplierId.ToString();
+
 
             decimal ValidBase = 0;
             decimal ValidCom = 0;
@@ -275,21 +289,85 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
 
                     i++;
                 }
+
+
                 if (ErrDup.Visible == false)
                 {
                     PackagesDB.InsertDB(package);
+
+                    foreach(ProductsSuppliers PS in ProdAdd)
+                    {
+                        PackagesProductsSuppliersDB.insertPPS(PS.ProductSupplierId);
+                    }
+                    
+
+
+
                     PkgName.Text = "";
                     PkgStart.Text = "";
                     PkgEnd.Text = "";
                     PkgDesc.Text = "";
                     PkgBase.Text = "";
                     PkgCom.Text = "";
+                    counter = 0;
+                    ProdAdd = new List<ProductsSuppliers>();
                 }
 
 
                 
 
             }
+
+        }
+
+        private void Productbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           int ProductID = Productbox.SelectedIndex + 1;
+            List <ProductsSuppliers> UPList = ProductsSuppliersDB.Prodfilter(ProductID);
+            SupplierBox.DisplayMember = "SupName";
+
+
+            List<Suppliers> EditList = SuppliersDB.ProdSuppChoice(UPList);
+            SupplierBox.ValueMember = "SupplierId";
+            SupplierBox.DisplayMember = "SuppName";
+            SupplierBox.DataSource = EditList;
+            
+            
+
+        }
+
+        private void addProdbtn_Click(object sender, EventArgs e)
+        {
+            //put combo into an object
+            //  SupplierBox.SelectedValue gives the supplier id
+
+            ErrProd.Visible = false;
+
+
+            int ProdID = Productbox.SelectedIndex + 1;
+            try
+            {
+               ProductsSuppliers Match = ProductsSuppliersDB.Find(ProdID, Convert.ToInt32(SupplierBox.SelectedValue));
+                if(Match.SupplierId == null)
+                {
+                    ErrProd.Visible = true;
+                }
+                else
+                {
+                    ProdAdd.Add(Match);
+                    counter++;
+                    prodCounter.Text = "You have " + counter + " selected product(s)";
+                }
+               
+            }
+            catch
+            {
+                ErrProd.Visible = true;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

@@ -10,6 +10,8 @@ namespace ClassDB
 {
     public static class ProductsFormDB
     {
+       // public static List<>
+
         public static bool Update(Products oldProd,Products newProd)
         {
             //update results, 1 for success
@@ -49,6 +51,44 @@ namespace ClassDB
             }
 
             return success;
+        }
+        public static List<Products> GetProducts()
+        {
+            List<Products> productList = new List<Products>();
+            Products Prod;
+
+
+            SqlConnection cnn = TravelExpertDB.GetConnection();
+
+            string SelectQuery = "SELECT * FROM Products";
+
+            SqlCommand command = new SqlCommand(SelectQuery, cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr = command.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Prod = new Products();
+                    Prod.ProductId = (int)dr["ProductId"];
+                    Prod.ProdName = (string)dr["ProdName"];
+
+                    productList.Add(Prod);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            return productList;
         }
     }
 }
