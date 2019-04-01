@@ -59,6 +59,7 @@
             this.ErrDate = new System.Windows.Forms.Label();
             this.Entrybtn = new System.Windows.Forms.Button();
             this.ErrDup = new System.Windows.Forms.Label();
+            this.ErrCon = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -353,11 +354,23 @@
             this.ErrDup.Text = "Duplicate Detected";
             this.ErrDup.Visible = false;
             // 
+            // ErrCon
+            // 
+            this.ErrCon.AutoSize = true;
+            this.ErrCon.ForeColor = System.Drawing.Color.Red;
+            this.ErrCon.Location = new System.Drawing.Point(226, 292);
+            this.ErrCon.Name = "ErrCon";
+            this.ErrCon.Size = new System.Drawing.Size(234, 13);
+            this.ErrCon.TabIndex = 34;
+            this.ErrCon.Text = "ConCurreny Error-Updated package,Check data";
+            this.ErrCon.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 349);
+            this.Controls.Add(this.ErrCon);
             this.Controls.Add(this.ErrDup);
             this.Controls.Add(this.Entrybtn);
             this.Controls.Add(this.ErrDate);
@@ -430,6 +443,7 @@
         private System.Windows.Forms.Label ErrDate;
         private System.Windows.Forms.Button Entrybtn;
         private System.Windows.Forms.Label ErrDup;
+        private System.Windows.Forms.Label ErrCon;
     }
 }
 
