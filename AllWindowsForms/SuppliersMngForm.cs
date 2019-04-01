@@ -17,7 +17,6 @@ namespace AllWindowsForms
     {
         public Suppliers supplier;
         public int supplierId;
-        private SupplierContacts supplierContact;
         // string affiliationId;
 
 
@@ -31,7 +30,7 @@ namespace AllWindowsForms
         private void SuppliersMngForm_Load(object sender, EventArgs e)
         {
             DisplaySuppliers();
-            supplierId = 69;
+            supplierId = 69; ////////////////////////////////////////////////******************************************************
             DisplaySupConAff(supplierId);
             //affiliationId = "ACTAPGY";
             //DisplayAffiliation(affiliationId);
@@ -68,6 +67,8 @@ namespace AllWindowsForms
         //    affiliationsBindingSource.DataSource = affiliation;
         //}
 
+
+
         private void DisplaySupConAff(int supId)
         {
             List<SupConAff> supConAff = new List<SupConAff>();
@@ -102,11 +103,12 @@ namespace AllWindowsForms
 
             if (selectedRowCount > 0)
             {
-                int index = supplierContactDataGridView.SelectedRows[0].Index;
+                int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
+                //System.Console.WriteLine("Index: " + index);
                 SupCon = SupplierContactsDB.GetSupCont(index);
 
 
-                DialogResult result = MessageBox.Show("Delete " + SupCon.SupplierContactId + "?",
+                DialogResult result = MessageBox.Show("Do you want to delete supplier contact with Id = " + SupCon.SupplierContactId + "?",
                 "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
@@ -114,8 +116,7 @@ namespace AllWindowsForms
                     {
                         if (!SupplierContactsDB.DeleteSupCont(SupCon)) // optimistic concurrency violation
                         {
-                            MessageBox.Show("Another user has updated or deleted " +
-                                "that supplier contact.", "Database Error");
+                            MessageBox.Show("Another user has updated or deleted that supplier contact.", "Database Error");
 
                             DisplaySupConAff(supplierId);
                         }
@@ -134,27 +135,33 @@ namespace AllWindowsForms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            supplierContact = null;
+            SupplierContacts SupCon = null;
             int selectedRowCount = supplierContactDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
 
 
             if (selectedRowCount > 0)
             {
-                int index = supplierContactDataGridView.SelectedRows[0].Index;
+                int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
+                //System.Console.WriteLine("Index: " + index);
+                SupCon = SupplierContactsDB.GetSupCont(index);
 
-                supplierContact = SupplierContactsDB.GetSupCont(index);
+                //supplierContact = null;
 
+                // creating an object of the form
                 SupplierEditAddForm supplierEditForm = new SupplierEditAddForm();
                 supplierEditForm.addContact = false;
-                supplierEditForm.supplierContact = supplierContact;
+                // passing the current contact to the second form
+                supplierEditForm.supplierContact = SupCon;
+                // opening the form
                 DialogResult result = supplierEditForm.ShowDialog();
 
+                // setting up the first form to show the proper data
                 DisplaySuppliers();
-                supplierId = 69;
+                supplierId = 69; ////////////////////////////////////////////////******************************************************
                 DisplaySupConAff(supplierId);
             }
         }
-
+        
 
 
         private void btnAdd_Click(object sender, EventArgs e)
