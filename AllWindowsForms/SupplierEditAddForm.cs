@@ -44,20 +44,78 @@ namespace AllWindowsForms
         }
 
 
-        private void DisplayContact()
+        private void DisplayContact() 
         {
-            txtSupConFirstName.Text = supplierContact.SupConFirstName;
-            txtSupConLastName.Text = supplierContact.SupConLastName;
-            txtSupConCompany.Text = supplierContact.SupConCompany;
-            txtSupConAddress.Text = supplierContact.SupConAddress;
-            txtSupConCity.Text = supplierContact.SupConCity;
-            txtSupConProv.Text = supplierContact.SupConProv;
-            txtSupConPostal.Text = supplierContact.SupConPostal;
-            txtSupConCountry.Text = supplierContact.SupConCountry;
-            txtSupConBusPhone.Text = supplierContact.SupConBusPhone;
-            txtSupConFax.Text = supplierContact.SupConFax;
-            txtSupConEmail.Text = supplierContact.SupConEmail;
-            txtSupConURL.Text = supplierContact.SupConURL;
+            if (supplierContact.SupConFirstName == null)
+                txtSupConFirstName.Text = "";
+            else
+                txtSupConFirstName.Text = supplierContact.SupConFirstName;
+
+            if (supplierContact.SupConLastName == null)
+                txtSupConLastName.Text = "";
+            else
+                txtSupConLastName.Text = supplierContact.SupConLastName;
+
+            if (supplierContact.SupConCompany == null)
+                txtSupConCompany.Text = "";
+            else
+                txtSupConCompany.Text = supplierContact.SupConCompany;
+
+            if (supplierContact.SupConAddress == null)
+                txtSupConAddress.Text = "";
+            else
+                txtSupConAddress.Text = supplierContact.SupConAddress;
+
+            if (supplierContact.SupConCity == null)
+                txtSupConCity.Text = "";
+            else
+                txtSupConCity.Text = supplierContact.SupConCity;
+
+            if (supplierContact.SupConProv == null)
+                txtSupConProv.Text = "";
+            else
+                txtSupConProv.Text = supplierContact.SupConProv;
+
+            if (supplierContact.SupConPostal == null)
+                txtSupConPostal.Text = "";
+            else
+                txtSupConPostal.Text = supplierContact.SupConPostal;
+
+            if (supplierContact.SupConCountry == null)
+                txtSupConCountry.Text = "";
+            else
+                txtSupConCountry.Text = supplierContact.SupConCountry;
+
+            if (supplierContact.SupConBusPhone == null)
+                txtSupConBusPhone.Text = "";
+            else
+                txtSupConBusPhone.Text = supplierContact.SupConBusPhone;
+
+            if (supplierContact.SupConFax == null)
+                txtSupConFax.Text = "";
+            else
+                txtSupConFax.Text = supplierContact.SupConFax;
+
+            if (supplierContact.SupConEmail == null)
+                txtSupConEmail.Text = "";
+            else
+                txtSupConEmail.Text = supplierContact.SupConEmail;
+
+            if (supplierContact.SupConURL == null)
+                txtSupConURL.Text = "";
+            else
+                txtSupConURL.Text = supplierContact.SupConURL;
+
+            if (supplierContact.AffiliationID == null)
+                cmbAffiliationID.SelectedItem = null;
+            else
+                cmbAffiliationID.SelectedItem = supplierContact.AffiliationID;
+
+            if (supplierContact.SupplierId == null)
+                cmbSupplierId.SelectedItem = null;
+            else
+                cmbSupplierId.SelectedItem = supplierContact.SupplierId;
+
         }
 
 
@@ -119,10 +177,9 @@ namespace AllWindowsForms
                     this.PutContactData(newSupplierContact);
                     try
                     {
-                        if (!SupplierContactsDB.UpdateContact(supplierContact, newSupplierContact))
+                        if (SupplierContactsDB.UpdateContact(supplierContact, newSupplierContact) == 0)
                         {
-                            MessageBox.Show("Another user has updated or " +
-                                "deleted that customer.", "Database Error");
+                            MessageBox.Show("Another user has updated or deleted that customer.", "Database Error");
                             this.DialogResult = DialogResult.Retry;
                         }
                         else // successfully updated
@@ -141,17 +198,82 @@ namespace AllWindowsForms
 
         private void PutContactData(SupplierContacts supplierContact)
         {
-            supplierContact.SupConFirstName = txtSupConFirstName.Text;
-            supplierContact.SupConLastName = txtSupConLastName.Text;
-            supplierContact.SupConCompany = txtSupConCompany.Text;
-            supplierContact.SupConAddress = txtSupConAddress.Text;
-            supplierContact.SupConCity = txtSupConCity.Text;
-            supplierContact.SupConProv = txtSupConProv.Text;
-            supplierContact.SupConPostal = txtSupConPostal.Text;
-            supplierContact.SupConCountry = txtSupConCountry.Text;
-            supplierContact.SupConBusPhone = txtSupConBusPhone.Text;
-            supplierContact.SupConFax = txtSupConFax.Text;
-            supplierContact.SupConEmail = txtSupConEmail.Text;
+            if (txtSupConFirstName.Text == "")
+                supplierContact.SupConFirstName = null;
+            else 
+                supplierContact.SupConFirstName = txtSupConFirstName.Text;
+
+            if (txtSupConLastName.Text == "")
+                supplierContact.SupConLastName = null;
+            else
+                supplierContact.SupConLastName = txtSupConLastName.Text;
+
+            if (txtSupConCompany.Text == "")
+                supplierContact.SupConCompany = null;
+            else
+                supplierContact.SupConCompany = txtSupConCompany.Text;
+
+            if (txtSupConAddress.Text == "")
+                supplierContact.SupConAddress = null;
+            else
+                supplierContact.SupConAddress = txtSupConAddress.Text;
+
+            if (txtSupConCity.Text == "")
+                supplierContact.SupConCity = null;
+            else
+                supplierContact.SupConCity = txtSupConCity.Text;
+
+            if (txtSupConProv.Text == "")
+                supplierContact.SupConProv = null;
+            else
+                supplierContact.SupConProv = txtSupConProv.Text;
+
+            if (txtSupConPostal.Text == "")
+                supplierContact.SupConPostal = null;
+            else
+                supplierContact.SupConPostal = txtSupConPostal.Text;
+
+            if (txtSupConCountry.Text == "")
+                supplierContact.SupConCountry = null;
+            else
+                supplierContact.SupConCountry = txtSupConCountry.Text;
+
+            if (txtSupConBusPhone.Text == "")
+                supplierContact.SupConBusPhone = null;
+            else
+                supplierContact.SupConBusPhone = txtSupConBusPhone.Text;
+
+            if (txtSupConFax.Text == "")
+                supplierContact.SupConFax = null;
+            else
+                supplierContact.SupConFax = txtSupConFax.Text;
+
+            if (txtSupConEmail.Text == "")
+                supplierContact.SupConEmail = null;
+            else
+                supplierContact.SupConEmail = txtSupConEmail.Text;
+
+            if (txtSupConURL.Text == "")
+                supplierContact.SupConURL = null;
+            else
+                supplierContact.SupConURL = txtSupConURL.Text;
+
+            if (cmbAffiliationID.SelectedItem == null)
+                supplierContact.AffiliationID = null;
+            else
+                supplierContact.AffiliationID = cmbAffiliationID.SelectedItem.ToString();
+
+            // how can i get the id ***************************************************************************************
+            //if (cmbSupplierId.SelectedItem == null)
+            //    supplierContact.SupplierId = null;
+            //else
+            //    supplierContact.SupplierId = Convert.ToInt32(cmbSupplierId.SelectedItem);
+        }
+
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

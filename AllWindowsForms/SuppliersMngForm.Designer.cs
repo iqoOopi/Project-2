@@ -250,6 +250,7 @@
             // 
             // supplierContactDataGridView
             // 
+            this.supplierContactDataGridView.AllowUserToOrderColumns = true;
             this.supplierContactDataGridView.AutoGenerateColumns = false;
             this.supplierContactDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.supplierContactDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -272,6 +273,7 @@
             this.AffDesc});
             this.supplierContactDataGridView.DataSource = this.supplierContactBindingSource;
             this.supplierContactDataGridView.Location = new System.Drawing.Point(20, 106);
+            this.supplierContactDataGridView.MultiSelect = false;
             this.supplierContactDataGridView.Name = "supplierContactDataGridView";
             this.supplierContactDataGridView.Size = new System.Drawing.Size(895, 261);
             this.supplierContactDataGridView.TabIndex = 5;
@@ -404,6 +406,7 @@
             this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "&Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnEdit
             // 
