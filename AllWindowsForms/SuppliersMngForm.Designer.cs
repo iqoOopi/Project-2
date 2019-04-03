@@ -148,7 +148,7 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(39, 22);
             this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
@@ -240,6 +240,7 @@
             this.supNameComboBox.Name = "supNameComboBox";
             this.supNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.supNameComboBox.TabIndex = 2;
+            this.supNameComboBox.ValueMember = "SupplierId";
             this.supNameComboBox.SelectedIndexChanged += new System.EventHandler(this.supNameComboBox_SelectedIndexChanged);
             // 
             // supplierIdTextBox
@@ -280,6 +281,7 @@
             this.supplierContactDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.supplierContactDataGridView.Size = new System.Drawing.Size(895, 261);
             this.supplierContactDataGridView.TabIndex = 5;
+            // 
             // dataGridViewTextBoxColumn15
             // 
             this.dataGridViewTextBoxColumn15.DataPropertyName = "SupplierId";
