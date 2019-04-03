@@ -404,6 +404,48 @@ namespace ClassDB
         }
 
 
+        public static int GetAvlId()
+        {
+            List<int> Ids = new List<int>();
+            int Id;
+            int AvlId;
+
+
+            SqlConnection cnc = TravelExpertDB.GetConnection();
+
+            string SelectQuery = "SELECT SupplierContactId FROM SupplierContacts";
+
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+
+            try
+            {
+                cnc.Open();
+
+                SqlDataReader dr = cmnd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Id = Convert.ToInt32(dr["SupplierContactId"]);
+
+                    Ids.Add(Id);
+                }
+                dr.Close();
+
+                AvlId = Ids.Max()+1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnc.Close();
+            }
+
+            return AvlId;
+        }
+
+
         public static bool DeleteSupCont(SupplierContacts supplierContact)
         {
             bool success = true;
@@ -524,18 +566,23 @@ namespace ClassDB
 
         public static int AddContact(SupplierContacts supplierContact)
         {
-            int suppConId = 0;
+            int count = 0;
+            int Id = 0;
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            string insertStatement = "INSERT INTO SupplierContacts (SupConFirstName, SupConLastName, SupConCompany, SupConAddress, " +
+            string insertStatement = "INSERT INTO SupplierContacts (SupplierContactId, SupConFirstName, SupConLastName, SupConCompany, SupConAddress, " +
                 "SupConCity, SupConProv, SupConPostal, SupConCountry, SupConBusPhone, SupConFax, SupConEmail, SupConURL," +
-                "AffiliationID, SupplierId) OUTPUT inserted.[SupplierContactId] " +
+                "AffiliationID, SupplierId) " +
 
-                "VALUES(@SupConFirstName, @SupConLastName, @SupConCompany, @SupConAddress, @SupConCity, @SupConProv, @SupConPostal," +
+                "VALUES(@SupplierContactId, @SupConFirstName, @SupConLastName, @SupConCompany, @SupConAddress, @SupConCity, @SupConProv, @SupConPostal," +
                 "@SupConCountry, @SupConBusPhone, @SupConFax, @SupConEmail, @SupConURL, @AffiliationID,  @SupplierId)";
 
             SqlCommand cmd = new SqlCommand(insertStatement, cnc);
+
+            int AvlID = GetAvlId();
+
+            cmd.Parameters.AddWithValue("@SupplierContactId", AvlID);
 
             if (supplierContact.SupConFirstName == null)
                 cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
@@ -597,7 +644,8 @@ namespace ClassDB
             try
             {
                 cnc.Open();
-                suppConId = (int)cmd.ExecuteScalar();
+                count = cmd.ExecuteNonQuery();
+                Id = AvlID;
             }
             catch (Exception ex)
             {
@@ -607,7 +655,7 @@ namespace ClassDB
             {
                 cnc.Close();
             }
-            return suppConId;
+            return Id;
         }
 
         
@@ -618,6 +666,7 @@ namespace ClassDB
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
             string UpdateStatement = "update SupplierContacts set " +
+
                                     "SupConFirstName = @NewSupConFirstName, " +                                     
                                     "SupConLastName = @NewSupConLastName, " +                                   
                                     "SupConCompany = @NewSupConCompany, " +
@@ -664,9 +713,7 @@ namespace ClassDB
                                     "OR SupplierId IS NULL AND @SupplierId IS NULL";
 
             SqlCommand cmd = new SqlCommand(UpdateStatement, cnc);
-
-            cmd.Parameters.AddWithValue("@NewSupplierContactId", newContact.SupplierContactId);
-
+            
             if (newContact.SupConFirstName == null)
                 cmd.Parameters.AddWithValue("@NewSupConFirstName", DBNull.Value);
             else

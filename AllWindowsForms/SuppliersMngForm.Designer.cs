@@ -72,6 +72,8 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             supNameLabel = new System.Windows.Forms.Label();
             supplierIdLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingNavigator)).BeginInit();
@@ -275,9 +277,9 @@
             this.supplierContactDataGridView.Location = new System.Drawing.Point(20, 106);
             this.supplierContactDataGridView.MultiSelect = false;
             this.supplierContactDataGridView.Name = "supplierContactDataGridView";
+            this.supplierContactDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.supplierContactDataGridView.Size = new System.Drawing.Size(895, 261);
             this.supplierContactDataGridView.TabIndex = 5;
-            // 
             // dataGridViewTextBoxColumn15
             // 
             this.dataGridViewTextBoxColumn15.DataPropertyName = "SupplierId";
@@ -390,7 +392,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(810, 75);
+            this.btnExit.Location = new System.Drawing.Point(840, 28);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 6;
@@ -400,7 +402,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(573, 76);
+            this.btnAdd.Location = new System.Drawing.Point(114, 377);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 7;
@@ -410,7 +412,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(678, 77);
+            this.btnEdit.Location = new System.Drawing.Point(211, 377);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 8;
@@ -420,7 +422,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(470, 76);
+            this.btnDelete.Location = new System.Drawing.Point(20, 377);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 9;
@@ -428,11 +430,33 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // btnInsert
+            // 
+            this.btnInsert.Location = new System.Drawing.Point(288, 45);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(75, 23);
+            this.btnInsert.TabIndex = 10;
+            this.btnInsert.Text = "&Insert";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(288, 74);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 11;
+            this.btnUpdate.Text = "&Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
             // SuppliersMngForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 412);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd);
@@ -444,6 +468,7 @@
             this.Controls.Add(this.supplierIdTextBox);
             this.Controls.Add(this.suppliersBindingNavigator);
             this.Name = "SuppliersMngForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Suppliers";
             this.Load += new System.EventHandler(this.SuppliersMngForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingNavigator)).EndInit();
@@ -500,5 +525,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnInsert;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }

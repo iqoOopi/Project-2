@@ -13,13 +13,13 @@ using System.Windows.Forms;
 
 namespace AllWindowsForms
 {
-    public partial class SupplierEditAddForm : Form
+    public partial class SupplierContactEditAddForm : Form
     {
         public SupplierContacts supplierContact;
         public bool addContact; // indicates whether it is Add or Edit
         
 
-        public SupplierEditAddForm()
+        public SupplierContactEditAddForm()
         {
             InitializeComponent();
         }
@@ -109,12 +109,12 @@ namespace AllWindowsForms
             if (supplierContact.AffiliationID == null)
                 cmbAffiliationID.SelectedItem = null;
             else
-                cmbAffiliationID.SelectedItem = supplierContact.AffiliationID;
+                cmbAffiliationID.SelectedValue = supplierContact.AffiliationID;
 
             if (supplierContact.SupplierId == null)
                 cmbSupplierId.SelectedItem = null;
             else
-                cmbSupplierId.SelectedItem = supplierContact.SupplierId;
+                cmbSupplierId.SelectedValue = supplierContact.SupplierId;
 
         }
 
@@ -179,7 +179,7 @@ namespace AllWindowsForms
                     {
                         if (SupplierContactsDB.UpdateContact(supplierContact, newSupplierContact) == 0)
                         {
-                            MessageBox.Show("Another user has updated or deleted that customer.", "Database Error");
+                            MessageBox.Show("Another user has updated or deleted that contact.", "Database Error");
                             this.DialogResult = DialogResult.Retry;
                         }
                         else // successfully updated
@@ -261,13 +261,13 @@ namespace AllWindowsForms
             if (cmbAffiliationID.SelectedItem == null)
                 supplierContact.AffiliationID = null;
             else
-                supplierContact.AffiliationID = cmbAffiliationID.SelectedItem.ToString();
+                supplierContact.AffiliationID = cmbAffiliationID.SelectedValue.ToString();
 
             // how can i get the id ***************************************************************************************
-            //if (cmbSupplierId.SelectedItem == null)
-            //    supplierContact.SupplierId = null;
-            //else
-            //    supplierContact.SupplierId = Convert.ToInt32(cmbSupplierId.SelectedItem);
+            if (cmbSupplierId.SelectedItem == null)
+                supplierContact.SupplierId = null;
+            else
+                supplierContact.SupplierId = Convert.ToInt32(cmbSupplierId.SelectedValue);
         }
 
 

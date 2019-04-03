@@ -15,7 +15,7 @@ namespace AllWindowsForms
 {
     public partial class SuppliersMngForm : Form
     {
-        public Suppliers supplier;
+        private Suppliers supplier;
         public int supplierId;
         // string affiliationId;
 
@@ -24,59 +24,23 @@ namespace AllWindowsForms
         {
             InitializeComponent();
         }
-
-
+        
 
         private void SuppliersMngForm_Load(object sender, EventArgs e)
         {
-            DisplaySuppliers();
-            supplierId = 69; ////////////////////////////////////////////////******************************************************
+            FirstDisplaySuppliers();
             DisplaySupConAff(supplierId);
-            //affiliationId = "ACTAPGY";
-            //DisplayAffiliation(affiliationId);
         }
 
 
-
-        private void supNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void FirstDisplaySuppliers()
         {
-            if (supNameComboBox.SelectedItem != null)
-            {
-                GetId();
-                DisplaySupConAff(supplierId);
-            }
+            List<Suppliers> suppliers = new List<Suppliers>();
+            suppliers = SuppliersDB.GetSup();
+            supplierId = suppliers[0].SupplierId;
+            supplier = suppliers[0];
+            suppliersBindingSource.DataSource = suppliers;
         }
-
-
-
-        private void GetId()
-        {
-            if (supNameComboBox.SelectedItem != null)
-            {
-                supplier = (Suppliers)supNameComboBox.SelectedItem;
-                supplierId = supplier.SupplierId;
-            }
-        }
-
-
-
-        //private void DisplayAffiliation(string affiliationId)
-        //{
-        //    Affiliations affiliation = new Affiliations();
-        //    AffiliationsDB.GetAff(affiliationId);
-        //    affiliationsBindingSource.DataSource = affiliation;
-        //}
-
-
-
-        private void DisplaySupConAff(int supId)
-        {
-            List<SupConAff> supConAff = new List<SupConAff>();
-            supConAff = SupConAffDB.GetSupConAffs(supId);
-            supplierContactDataGridView.DataSource = supConAff;
-            //supplierContactsBindingSource.DataSource = supConAff;
-        }
-
 
 
         private void DisplaySuppliers()
@@ -87,13 +51,39 @@ namespace AllWindowsForms
         }
 
 
+        private void DisplaySupConAff(int supId)
+        {
+            List<SupConAff> supConAff = new List<SupConAff>();
+            supConAff = SupConAffDB.GetSupConAffs(supId);
+            supplierContactDataGridView.DataSource = supConAff;
+        }
 
+        
+        private void supNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (supNameComboBox.SelectedItem != null)
+            {
+                GetId();
+                DisplaySupConAff(supplierId);
+            }
+        }
+        
+
+        private void GetId()
+        {
+            if (supNameComboBox.SelectedItem != null)
+            {
+                supplier = (Suppliers)supNameComboBox.SelectedItem;
+                supplierId = supplier.SupplierId;
+            }
+        }
+               
+        
         private void btnExit_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-
+        
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
@@ -131,8 +121,7 @@ namespace AllWindowsForms
             }
         }
 
-
-
+        
         private void btnEdit_Click(object sender, EventArgs e)
         {
             SupplierContacts SupCon = null;
@@ -142,38 +131,79 @@ namespace AllWindowsForms
             if (selectedRowCount > 0)
             {
                 int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
-                //System.Console.WriteLine("Index: " + index);
                 SupCon = SupplierContactsDB.GetSupCont(index);
-
-                //supplierContact = null;
-
+                
                 // creating an object of the form
-                SupplierEditAddForm supplierEditForm = new SupplierEditAddForm();
+                SupplierContactEditAddForm supplierEditForm = new SupplierContactEditAddForm();
                 supplierEditForm.addContact = false;
                 // passing the current contact to the second form
                 supplierEditForm.supplierContact = SupCon;
                 // opening the form
                 DialogResult result = supplierEditForm.ShowDialog();
 
-                // setting up the first form to show the proper data
-                DisplaySuppliers();
-                supplierId = 69; ////////////////////////////////////////////////******************************************************
+                SupCon = supplierEditForm.supplierContact;
+
+                supplierId = Convert.ToInt32(SupCon.SupplierId);
+
                 DisplaySupConAff(supplierId);
+                DisplaySuppliers();
             }
         }
         
-
-
+        
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SupplierEditAddForm supplierAddForm = new SupplierEditAddForm();
+            SupplierContactEditAddForm supplierAddForm = new SupplierContactEditAddForm();
             supplierAddForm.addContact = true;
 
             DialogResult result = supplierAddForm.ShowDialog();
 
+            supplierId = Convert.ToInt32(supplierAddForm.supplierContact.SupplierId);
             DisplaySuppliers();
-            supplierId = 69;
+            //supNameComboBox.SelectedValue = sup; // *************************** how to change the selected value in the main form after adding an itme
             DisplaySupConAff(supplierId);
+        }
+               
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            SuplierInsertUpdateForm supplierUpdateForm = new SuplierInsertUpdateForm();
+            supplierUpdateForm.addSupplier = false;
+            supplierUpdateForm.supplier = supplier;
+
+            DialogResult result = supplierUpdateForm.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.supplier = null;
+                this.supplier = supplierUpdateForm.supplier;
+                supplierId = supplier.SupplierId;
+                                
+                DisplaySupConAff(supplierId);
+
+                DisplaySuppliers();
+            }
+            else if (result == DialogResult.Retry)
+            {
+                DisplaySuppliers();
+                DisplaySupConAff(supplierId);
+            }
+        }
+
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            SuplierInsertUpdateForm supplierInsertForm = new SuplierInsertUpdateForm();
+            supplierInsertForm.addSupplier = true;
+
+            DialogResult result = supplierInsertForm.ShowDialog();
+
+            this.supplier = supplierInsertForm.supplier;
+            //supNameComboBox.SelectedValue = supplier.supplierId; // *************************** how to change the selected value in the main form after adding an itme
+
+            DisplaySuppliers();
+            DisplaySupConAff(supplierId);
+
         }
     }
 }
