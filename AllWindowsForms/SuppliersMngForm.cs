@@ -15,7 +15,8 @@ namespace AllWindowsForms
 {
     public partial class SuppliersMngForm : Form
     {
-        public static int addOrEditedSupplierId;
+        public static int addedOrEditedSupplierId;
+        public static int insertedOrUpdatedSupplierId;
         private Suppliers supplier;
         public int supplierId;
         // string affiliationId;
@@ -159,9 +160,8 @@ namespace AllWindowsForms
 
             DialogResult result = supplierAddForm.ShowDialog();
 
-            supplierId = Convert.ToInt32(supplierAddForm.supplierContact.SupplierId);
-            DisplaySuppliers();
-            //supNameComboBox.SelectedValue = sup; // *************************** how to change the selected value in the main form after adding an itme
+            FirstDisplaySuppliers();
+            supNameComboBox.SelectedValue = insertedOrUpdatedSupplierId;
             DisplaySupConAff(supplierId);
         }
                
@@ -199,14 +199,8 @@ namespace AllWindowsForms
 
             DialogResult result = supplierInsertForm.ShowDialog();
 
-            //this.supplier = supplierInsertForm.supplier;
-
             FirstDisplaySuppliers();
-            supNameComboBox.SelectedValue = addOrEditedSupplierId;
-            //supNameComboBox.SelectedValue = supplier.SupplierId;
-            // *************************** how to change the selected value in the main form after adding an itme
-
-            DisplaySuppliers();
+            supNameComboBox.SelectedValue = addedOrEditedSupplierId;
             DisplaySupConAff(supplierId);
 
         }

@@ -55,7 +55,7 @@ namespace AllWindowsForms
                 try
                 {
                     supplier.SupplierId = SuppliersDB.InsertSupplier(supplier);
-                   SuppliersMngForm.addOrEditedSupplierId = supplier.SupplierId;
+                    SuppliersMngForm.addedOrEditedSupplierId = supplier.SupplierId;
 
                     this.DialogResult = DialogResult.OK;
                 }
