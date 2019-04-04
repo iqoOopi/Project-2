@@ -49,6 +49,7 @@
             this.supNameComboBox = new System.Windows.Forms.ComboBox();
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
             this.supplierContactDataGridView = new System.Windows.Forms.DataGridView();
+            this.supConAffBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.affiliationsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnExit = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.supConAffBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,9 +81,9 @@
             this.suppliersBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // supNameLabel
@@ -286,6 +286,10 @@
             this.supplierContactDataGridView.Size = new System.Drawing.Size(1153, 261);
             this.supplierContactDataGridView.TabIndex = 5;
             // 
+            // supConAffBindingSource
+            // 
+            this.supConAffBindingSource.DataSource = typeof(ClassLibrary.SupConAff);
+            // 
             // supplierContactBindingSource
             // 
             this.supplierContactBindingSource.DataSource = typeof(ClassLibary.SupplierContacts);
@@ -353,10 +357,6 @@
             this.btnUpdate.Text = "&Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // supConAffBindingSource
-            // 
-            this.supConAffBindingSource.DataSource = typeof(ClassLibrary.SupConAff);
             // 
             // dataGridViewTextBoxColumn15
             // 
@@ -450,13 +450,13 @@
             // 
             // AffName
             // 
-            this.AffName.DataPropertyName = "Aff Name";
+            this.AffName.DataPropertyName = "AffName";
             this.AffName.HeaderText = "AffiliationName";
             this.AffName.Name = "AffName";
             // 
             // AffDesc
             // 
-            this.AffDesc.DataPropertyName = "Aff Desc";
+            this.AffDesc.DataPropertyName = "AffDesc";
             this.AffDesc.HeaderText = "AffiliationDescription";
             this.AffDesc.Name = "AffDesc";
             // 
@@ -464,7 +464,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1183, 412);
+            this.ClientSize = new System.Drawing.Size(1183, 506);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.btnDelete);
@@ -486,9 +486,9 @@
             this.suppliersBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

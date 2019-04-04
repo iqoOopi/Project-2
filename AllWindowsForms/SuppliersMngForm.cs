@@ -19,7 +19,6 @@ namespace AllWindowsForms
         public static int insertedOrUpdatedSupplierId = 0;
         private Suppliers supplier;
         public int supplierId;
-        // string affiliationId;
 
 
         public SuppliersMngForm()
@@ -51,7 +50,7 @@ namespace AllWindowsForms
         {
             List<SupConAff> supConAff = new List<SupConAff>();
             supConAff = SupConAffDB.GetSupConAffs(supId);
-            supplierContactDataGridView.DataSource = supConAff;
+            supConAffBindingSource.DataSource = supConAff;
         }
 
         
