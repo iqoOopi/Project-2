@@ -163,8 +163,8 @@ namespace AllWindowsForms
                     try
                     {
                         supplierContact.SupplierContactId = SupplierContactsDB.AddContact(supplierContact);
-                    SuppliersMngForm.insertedOrUpdatedSupplierId = Convert.ToInt32(supplierContact.SupplierId);
-                    this.DialogResult = DialogResult.OK;
+                        SuppliersMngForm.insertedOrUpdatedSupplierId = Convert.ToInt32(supplierContact.SupplierId);
+                        this.DialogResult = DialogResult.OK;
                     }
                     catch (Exception ex)
                     {

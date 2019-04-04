@@ -49,6 +49,15 @@
             this.supNameComboBox = new System.Windows.Forms.ComboBox();
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
             this.supplierContactDataGridView = new System.Windows.Forms.DataGridView();
+            this.supplierContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.affiliationsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnExit = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.supConAffBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,14 +75,6 @@
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AffName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AffDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.affiliationsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.btnExit = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnInsert = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
             supNameLabel = new System.Windows.Forms.Label();
             supplierIdLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingNavigator)).BeginInit();
@@ -82,6 +83,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // supNameLabel
@@ -128,7 +130,7 @@
             this.suppliersBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.suppliersBindingNavigator.Name = "suppliersBindingNavigator";
             this.suppliersBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.suppliersBindingNavigator.Size = new System.Drawing.Size(927, 25);
+            this.suppliersBindingNavigator.Size = new System.Drawing.Size(1183, 25);
             this.suppliersBindingNavigator.TabIndex = 0;
             this.suppliersBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -276,13 +278,85 @@
             this.dataGridViewTextBoxColumn14,
             this.AffName,
             this.AffDesc});
-            this.supplierContactDataGridView.DataSource = this.supplierContactBindingSource;
+            this.supplierContactDataGridView.DataSource = this.supConAffBindingSource;
             this.supplierContactDataGridView.Location = new System.Drawing.Point(20, 106);
             this.supplierContactDataGridView.MultiSelect = false;
             this.supplierContactDataGridView.Name = "supplierContactDataGridView";
             this.supplierContactDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.supplierContactDataGridView.Size = new System.Drawing.Size(895, 261);
+            this.supplierContactDataGridView.Size = new System.Drawing.Size(1153, 261);
             this.supplierContactDataGridView.TabIndex = 5;
+            // 
+            // supplierContactBindingSource
+            // 
+            this.supplierContactBindingSource.DataSource = typeof(ClassLibary.SupplierContacts);
+            // 
+            // affiliationsBindingSource
+            // 
+            this.affiliationsBindingSource.DataSource = typeof(ClassLibary.Affiliations);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(840, 28);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 6;
+            this.btnExit.Text = "&Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(114, 377);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 7;
+            this.btnAdd.Text = "&Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(211, 377);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 8;
+            this.btnEdit.Text = "&Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(20, 377);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 9;
+            this.btnDelete.Text = "&Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.Location = new System.Drawing.Point(288, 45);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(75, 23);
+            this.btnInsert.TabIndex = 10;
+            this.btnInsert.Text = "&Insert";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(288, 74);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 11;
+            this.btnUpdate.Text = "&Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // supConAffBindingSource
+            // 
+            this.supConAffBindingSource.DataSource = typeof(ClassLibrary.SupConAff);
             // 
             // dataGridViewTextBoxColumn15
             // 
@@ -376,89 +450,21 @@
             // 
             // AffName
             // 
+            this.AffName.DataPropertyName = "Aff Name";
             this.AffName.HeaderText = "AffiliationName";
             this.AffName.Name = "AffName";
-            this.AffName.ReadOnly = true;
             // 
             // AffDesc
             // 
+            this.AffDesc.DataPropertyName = "Aff Desc";
             this.AffDesc.HeaderText = "AffiliationDescription";
             this.AffDesc.Name = "AffDesc";
-            this.AffDesc.ReadOnly = true;
-            // 
-            // supplierContactBindingSource
-            // 
-            this.supplierContactBindingSource.DataSource = typeof(ClassLibary.SupplierContacts);
-            // 
-            // affiliationsBindingSource
-            // 
-            this.affiliationsBindingSource.DataSource = typeof(ClassLibary.Affiliations);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(840, 28);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 6;
-            this.btnExit.Text = "&Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(114, 377);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 7;
-            this.btnAdd.Text = "&Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(211, 377);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 8;
-            this.btnEdit.Text = "&Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(20, 377);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 9;
-            this.btnDelete.Text = "&Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnInsert
-            // 
-            this.btnInsert.Location = new System.Drawing.Point(288, 45);
-            this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(75, 23);
-            this.btnInsert.TabIndex = 10;
-            this.btnInsert.Text = "&Insert";
-            this.btnInsert.UseVisualStyleBackColor = true;
-            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(288, 74);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdate.TabIndex = 11;
-            this.btnUpdate.Text = "&Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // SuppliersMngForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(927, 412);
+            this.ClientSize = new System.Drawing.Size(1183, 412);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.btnDelete);
@@ -482,6 +488,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierContactBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.affiliationsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.supConAffBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -508,6 +515,13 @@
         private System.Windows.Forms.BindingSource supplierContactBindingSource;
         private System.Windows.Forms.DataGridView supplierContactDataGridView;
         private System.Windows.Forms.BindingSource affiliationsBindingSource;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnInsert;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.BindingSource supConAffBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -525,11 +539,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.DataGridViewTextBoxColumn AffName;
         private System.Windows.Forms.DataGridViewTextBoxColumn AffDesc;
-        private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnInsert;
-        private System.Windows.Forms.Button btnUpdate;
     }
 }

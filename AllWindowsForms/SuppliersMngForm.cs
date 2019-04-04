@@ -15,8 +15,8 @@ namespace AllWindowsForms
 {
     public partial class SuppliersMngForm : Form
     {
-        public static int addedOrEditedSupplierId;
-        public static int insertedOrUpdatedSupplierId;
+        public static int addedOrEditedSupplierId = 0;
+        public static int insertedOrUpdatedSupplierId = 0;
         private Suppliers supplier;
         public int supplierId;
         // string affiliationId;
@@ -30,20 +30,14 @@ namespace AllWindowsForms
 
         private void SuppliersMngForm_Load(object sender, EventArgs e)
         {
-            FirstDisplaySuppliers();
-            DisplaySupConAff(supplierId);
-        }
-
-
-        private void FirstDisplaySuppliers()
-        {
             List<Suppliers> suppliers = new List<Suppliers>();
             suppliers = SuppliersDB.GetSup();
-            supplierId = suppliers[0].SupplierId;
-            supplier = suppliers[0];
             suppliersBindingSource.DataSource = suppliers;
+            supplier = suppliers[0];
+            supplierId = supplier.SupplierId;
+            DisplaySupConAff(supplierId);
         }
-
+                
 
         private void DisplaySuppliers()
         {
@@ -96,30 +90,35 @@ namespace AllWindowsForms
             if (selectedRowCount > 0)
             {
                 int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
-                //System.Console.WriteLine("Index: " + index);
+                
                 SupCon = SupplierContactsDB.GetSupCont(index);
 
-
-                DialogResult result = MessageBox.Show("Do you want to delete supplier contact with Id = " + SupCon.SupplierContactId + "?",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                if (SupCon != null)
                 {
-                    try
-                    {
-                        if (!SupplierContactsDB.DeleteSupCont(SupCon)) // optimistic concurrency violation
-                        {
-                            MessageBox.Show("Another user has updated or deleted that supplier contact.", "Database Error");
+                    DialogResult result = MessageBox.Show("Do you want to delete supplier contact with Id = " + SupCon.SupplierContactId + "?",
+                    "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                            DisplaySupConAff(supplierId);
-                        }
-                        DisplaySupConAff(supplierId);
-                    }
-                    catch (Exception ex)
+                    if (result == DialogResult.Yes)
                     {
-                        MessageBox.Show(ex.Message, ex.GetType().ToString());
+                        try
+                        {
+                            if (!SupplierContactsDB.DeleteSupCont(SupCon)) // optimistic concurrency violation
+                            {
+                                MessageBox.Show("Another user has updated or deleted that supplier contact.", "Database Error");
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, ex.GetType().ToString());
+                        }
                     }
                 }
-
+                else
+                {
+                    MessageBox.Show("Another user has updated or deleted that supplier contact.", "Database Error");
+                }
+                DisplaySupConAff(supplierId);
             }
         }
 
@@ -128,8 +127,7 @@ namespace AllWindowsForms
         {
             SupplierContacts SupCon = null;
             int selectedRowCount = supplierContactDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
-
-
+            
             if (selectedRowCount > 0)
             {
                 int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
@@ -138,18 +136,20 @@ namespace AllWindowsForms
                 // creating an object of the form
                 SupplierContactEditAddForm supplierEditForm = new SupplierContactEditAddForm();
                 supplierEditForm.addContact = false;
+
                 // passing the current contact to the second form
                 supplierEditForm.supplierContact = SupCon;
+
                 // opening the form
                 DialogResult result = supplierEditForm.ShowDialog();
 
                 SupCon = supplierEditForm.supplierContact;
 
                 supplierId = Convert.ToInt32(SupCon.SupplierId);
-
-                DisplaySupConAff(supplierId);
-                DisplaySuppliers();
             }
+            DisplaySuppliers();
+            DisplaySupConAff(supplierId);
+            supNameComboBox.SelectedValue = supplierId;
         }
         
         
@@ -160,9 +160,12 @@ namespace AllWindowsForms
 
             DialogResult result = supplierAddForm.ShowDialog();
 
-            FirstDisplaySuppliers();
-            supNameComboBox.SelectedValue = insertedOrUpdatedSupplierId;
-            DisplaySupConAff(supplierId);
+            if(addedOrEditedSupplierId != 0)
+            {
+                DisplaySuppliers();
+                supNameComboBox.SelectedValue = addedOrEditedSupplierId;
+                DisplaySupConAff(insertedOrUpdatedSupplierId);
+            }
         }
                
 
@@ -173,22 +176,12 @@ namespace AllWindowsForms
             supplierUpdateForm.supplier = supplier;
 
             DialogResult result = supplierUpdateForm.ShowDialog();
+            
+            DisplaySuppliers();
+            supplierId = supplier.SupplierId;
+            supNameComboBox.SelectedValue = supplierId;
+            DisplaySupConAff(supplierId);
 
-            if (result == DialogResult.OK)
-            {
-                this.supplier = null;
-                this.supplier = supplierUpdateForm.supplier;
-                supplierId = supplier.SupplierId;
-                                
-                DisplaySupConAff(supplierId);
-
-                DisplaySuppliers();
-            }
-            else if (result == DialogResult.Retry)
-            {
-                DisplaySuppliers();
-                DisplaySupConAff(supplierId);
-            }
         }
 
 
@@ -199,9 +192,13 @@ namespace AllWindowsForms
 
             DialogResult result = supplierInsertForm.ShowDialog();
 
-            FirstDisplaySuppliers();
-            supNameComboBox.SelectedValue = addedOrEditedSupplierId;
-            DisplaySupConAff(supplierId);
+            
+            if (addedOrEditedSupplierId != 0)
+            {
+                DisplaySuppliers();
+                supNameComboBox.SelectedValue = addedOrEditedSupplierId;
+                DisplaySupConAff(addedOrEditedSupplierId);
+            }
 
         }
     }

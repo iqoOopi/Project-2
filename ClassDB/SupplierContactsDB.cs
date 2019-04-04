@@ -454,34 +454,34 @@ namespace ClassDB
 
             string deleteStatement = "DELETE FROM SupplierContacts " +
                                     "WHERE SupplierContactId = @SupplierContactId " + // to identify record
-                                    "AND SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
-                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL " + 
-                                    "AND SupConLastName = @SupConLastName " +
-                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL " +
-                                    "AND SupConCompany = @SupConCompany " +
-                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL " +
-                                    "AND SupConAddress = @SupConAddress " +
-                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL " +
-                                    "AND SupConCity = @SupConCity " +
-                                    "OR SupConCity IS NULL AND @SupConCity IS NULL " +
-                                    "AND SupConProv = @SupConProv " +
-                                    "OR SupConProv IS NULL AND @SupConProv IS NULL " +
-                                    "AND SupConPostal = @SupConPostal " +
-                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL " +
-                                    "AND SupConCountry = @SupConCountry " +
-                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL " +
-                                    "AND SupConBusPhone = @SupConBusPhone " +
-                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL " +
-                                    "AND SupConFax = @SupConFax " +
-                                    "OR SupConFax IS NULL AND @SupConFax IS NULL " +
-                                    "AND SupConEmail = @SupConEmail " +
-                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL " +
-                                    "AND SupConURL = @SupConURL " +
-                                    "OR SupConURL IS NULL AND @SupConURL IS NULL " +
-                                    "AND AffiliationID = @AffiliationID " +
-                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL " +
-                                    "AND SupplierId = @SupplierId " +
-                                    "OR SupplierId IS NULL AND @SupplierId IS NULL";
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
+                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " + 
+                                    "AND (SupConLastName = @SupConLastName " +
+                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
+                                    "AND (SupConCompany = @SupConCompany " +
+                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL) " +
+                                    "AND (SupConAddress = @SupConAddress " +
+                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL) " +
+                                    "AND (SupConCity = @SupConCity " +
+                                    "OR SupConCity IS NULL AND @SupConCity IS NULL) " +
+                                    "AND (SupConProv = @SupConProv " +
+                                    "OR SupConProv IS NULL AND @SupConProv IS NULL) " +
+                                    "AND (SupConPostal = @SupConPostal " +
+                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL) " +
+                                    "AND (SupConCountry = @SupConCountry " +
+                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL) " +
+                                    "AND (SupConBusPhone = @SupConBusPhone " +
+                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL) " +
+                                    "AND (SupConFax = @SupConFax " +
+                                    "OR SupConFax IS NULL AND @SupConFax IS NULL) " +
+                                    "AND (SupConEmail = @SupConEmail " +
+                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL) " +
+                                    "AND (SupConURL = @SupConURL " +
+                                    "OR SupConURL IS NULL AND @SupConURL IS NULL) " +
+                                    "AND (AffiliationID = @AffiliationID " +
+                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL) " +
+                                    "AND (SupplierId = @SupplierId " +
+                                    "OR SupplierId IS NULL AND @SupplierId IS NULL)";
 
             SqlCommand cmd = new SqlCommand(deleteStatement, cnc);
 
@@ -683,34 +683,34 @@ namespace ClassDB
                                     "SupplierId = @NewSupplierId " +
 
                                     "WHERE SupplierContactId = @SupplierContactId " + // to identify record
-                                    "AND SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
-                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL " +
-                                    "AND SupConLastName = @SupConLastName " +
-                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL " +
-                                    "AND SupConCompany = @SupConCompany " +
-                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL " +
-                                    "AND SupConAddress = @SupConAddress " +
-                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL " +
-                                    "AND SupConCity = @SupConCity " +
-                                    "OR SupConCity IS NULL AND @SupConCity IS NULL " +
-                                    "AND SupConProv = @SupConProv " +
-                                    "OR SupConProv IS NULL AND @SupConProv IS NULL " +
-                                    "AND SupConPostal = @SupConPostal " +
-                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL " +
-                                    "AND SupConCountry = @SupConCountry " +
-                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL " +
-                                    "AND SupConBusPhone = @SupConBusPhone " +
-                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL " +
-                                    "AND SupConFax = @SupConFax " +
-                                    "OR SupConFax IS NULL AND @SupConFax IS NULL " +
-                                    "AND SupConEmail = @SupConEmail " +
-                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL " +
-                                    "AND SupConURL = @SupConURL " +
-                                    "OR SupConURL IS NULL AND @SupConURL IS NULL " +
-                                    "AND AffiliationID = @AffiliationID " +
-                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL " +
-                                    "AND SupplierId = @SupplierId " +
-                                    "OR SupplierId IS NULL AND @SupplierId IS NULL";
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
+                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " +
+                                    "AND (SupConLastName = @SupConLastName " +
+                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
+                                    "AND (SupConCompany = @SupConCompany " +
+                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL) " +
+                                    "AND (SupConAddress = @SupConAddress " +
+                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL) " +
+                                    "AND (SupConCity = @SupConCity " +
+                                    "OR SupConCity IS NULL AND @SupConCity IS NULL) " +
+                                    "AND (SupConProv = @SupConProv " +
+                                    "OR SupConProv IS NULL AND @SupConProv IS NULL) " +
+                                    "AND (SupConPostal = @SupConPostal " +
+                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL) " +
+                                    "AND (SupConCountry = @SupConCountry " +
+                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL) " +
+                                    "AND (SupConBusPhone = @SupConBusPhone " +
+                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL) " +
+                                    "AND (SupConFax = @SupConFax " +
+                                    "OR SupConFax IS NULL AND @SupConFax IS NULL) " +
+                                    "AND (SupConEmail = @SupConEmail " +
+                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL) " +
+                                    "AND (SupConURL = @SupConURL " +
+                                    "OR SupConURL IS NULL AND @SupConURL IS NULL) " +
+                                    "AND (AffiliationID = @AffiliationID " +
+                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL) " +
+                                    "AND (SupplierId = @SupplierId " +
+                                    "OR SupplierId IS NULL AND @SupplierId IS NULL)";
 
             SqlCommand cmd = new SqlCommand(UpdateStatement, cnc);
             
