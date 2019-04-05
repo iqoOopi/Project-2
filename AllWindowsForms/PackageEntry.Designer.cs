@@ -308,6 +308,7 @@
             this.SupplierBox.Name = "SupplierBox";
             this.SupplierBox.Size = new System.Drawing.Size(289, 21);
             this.SupplierBox.TabIndex = 29;
+            this.SupplierBox.SelectedIndexChanged += new System.EventHandler(this.SupplierBox_SelectedIndexChanged);
             // 
             // addProdbtn
             // 

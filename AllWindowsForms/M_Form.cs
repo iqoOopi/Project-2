@@ -272,6 +272,7 @@ namespace AllWindowsForms
             if (((ErrName.Visible == false) & (ErrStart.Visible == false)) & ((ErrEnd.Visible == false) & (ErrDesc.Visible == false)) & ((ErrBase.Visible == false) & (ErrAgency.Visible == false)) & ((ErrTotal.Visible == false) & (ErrDate.Visible == false)))
             //UPDATE TO WHERE IF NO ERRORS APPEAR THEN RUNCURRENT IS FOR TESTING
             {
+                ErrCon.Visible = false;
                 //Concurrency check
                 if ((Packages[Counter].PackageName != LivePackages[Counter].PackageName)|(Packages[Counter].PackageStart != LivePackages[Counter].PackageStart)|
                     (Packages[Counter].PackageEnd != LivePackages[Counter].PackageEnd)|

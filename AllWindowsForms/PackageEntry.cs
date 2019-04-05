@@ -35,9 +35,11 @@ namespace AllWindowsForms
             
             
             Productbox.DataSource = ProductList;
-            Productbox.SelectedIndex = 0;
+            
             Productbox.DisplayMember = "ProdName";
-
+            Productbox.SelectedIndex = 0;
+            Productbox.SelectedIndex = 1;//to load in boxes without major rewriting
+            Productbox.SelectedIndex = 0;
 
         }
 
@@ -372,6 +374,11 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SupplierBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
