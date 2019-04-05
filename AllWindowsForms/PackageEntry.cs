@@ -53,6 +53,11 @@ namespace AllWindowsForms
             PkgDesc.Text = "";
             PkgBase.Text = "";
             PkgCom.Text = "";
+
+            counter = 0;
+            ProdAdd = new List<ProductsSuppliers>();
+            prodCounter.Text = "You have " + counter + " selected product(s)";
+
         }
 
         private void button3_Click(object sender, EventArgs e)
