@@ -23,6 +23,7 @@ namespace AllWindowsForms
             InitializeComponent();
         }
 
+
         private void SuplierInsertUpdateForm_Load(object sender, EventArgs e)
         {
             if (addSupplier)

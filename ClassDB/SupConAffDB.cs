@@ -25,8 +25,8 @@ namespace ClassDB
 
             string SelectQuery = "SELECT SupplierContactId, SupConFirstName , SupConLastName, " +
                 "SupConCompany, SupConAddress, SupConCity, SupConProv, SupConPostal, SupConCountry, " +
-                "SupConBusPhone, SupConFax, SupConEmail, SupConURL, SupplierContacts.AffiliationId, " +
-                "SupplierId, AffName, AffDesc " +
+                "SupConBusPhone, SupConFax, SupConEmail, SupConURL, SupplierId, " +
+                "SupplierContacts.AffiliationId, AffName, AffDesc " +
                 "FROM SupplierContacts LEFT JOIN Affiliations " +
                 "ON SupplierContacts.AffiliationId = Affiliations.AffiliationId " +
                 "WHERE SupplierId = @SupplierId";             
@@ -180,6 +180,17 @@ namespace ClassDB
                     }
 
 
+                    int SupIdIndex = dr.GetOrdinal("SupplierId");
+                    if (dr.IsDBNull(SupIdIndex))
+                    {
+                        splConAff.SupplierId = null;
+                    }
+                    else
+                    {
+                        splConAff.SupplierId = Convert.ToInt32(dr["SupplierId"]);
+                    }
+                        
+                    
                     int AffIdIndex = dr.GetOrdinal("AffiliationID");
                     if (dr.IsDBNull(AffIdIndex))
                     {
@@ -192,15 +203,27 @@ namespace ClassDB
                     }
 
 
-                    int SupIdIndex = dr.GetOrdinal("SupplierId");
-                    if (dr.IsDBNull(SupIdIndex))
+                    int AffNameIndex = dr.GetOrdinal("AffName");
+                    if (dr.IsDBNull(AffNameIndex))
                     {
-                        splConAff.SupplierId = null;
+                        splConAff.AffName = null;
                     }
                     else
                     {
-                        splConAff.SupplierId = Convert.ToInt32(dr["SupplierId"]);
+                        splConAff.AffName = dr["AffName"].ToString();
                     }
+
+
+                    int AffDescIndex = dr.GetOrdinal("AffDesc");
+                    if (dr.IsDBNull(AffDescIndex))
+                    {
+                        splConAff.AffDesc = null;
+                    }
+                    else
+                    {
+                        splConAff.AffDesc = dr["AffDesc"].ToString();
+                    }
+
                     SupConAff.Add(splConAff);
                 }
                 dr.Close();

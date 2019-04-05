@@ -100,7 +100,7 @@ namespace ClassDB
             return AvlId;
         }
 
-
+        // with no check on concurency:
         public static int InsertSupplier(Suppliers supplier)
         {
             int count = 0;
@@ -150,8 +150,8 @@ namespace ClassDB
             string UpdateStatement = "update Suppliers set SupName = @NewSupName " +
 
                                     "WHERE SupplierId = @SupplierId " + // to identify record
-                                    "AND SupName = @SupName " + // remaining: for optimistic concurrency
-                                    "OR SupName IS NULL And @SupName IS NULL ";
+                                    "AND (SupName = @SupName " + // remaining: for optimistic concurrency
+                                    "OR SupName IS NULL And @SupName IS NULL)";
 
             SqlCommand cmd = new SqlCommand(UpdateStatement, cnc);
             

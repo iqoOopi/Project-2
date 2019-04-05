@@ -43,9 +43,9 @@ namespace ClassLibrary
 
         public string SupConURL { get; set; }
 
-        public string AffiliationID { get; set; }
-
         public int? SupplierId { get; set; }
+
+        public string AffiliationID { get; set; }
 
         public string AffName { get; set; }
 
