@@ -10,45 +10,47 @@ namespace ClassDB
 {
         /// <summary>
         /// Hoora - March 
-        /// A data access class for dealing with suppliers info
+        /// A data access class for dealing with supplier table in DB
         /// </summary>
+        
     public static class SupplierContactsDB
     {
+        // a method to get all supplierContacts from DB
         public static List<SupplierContacts> GetSupConts(int supplierId)
         {
-            List<SupplierContacts> supplierContacts = new List<SupplierContacts>();
+            List<SupplierContacts> supplierContacts = new List<SupplierContacts>(); // an empty list of SupplierContacts
 
-            SupplierContacts splCon;
+            SupplierContacts splCon; // an empty SupplierContacts
 
-            SqlConnection cnc = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection(); // connection to DB 
 
-            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId";
+            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId"; // SQL query
 
-            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc); // Command
 
-            cmnd.Parameters.AddWithValue("@SupplierId", supplierId);
+            cmnd.Parameters.AddWithValue("@SupplierId", supplierId); // add parameters to the command
 
             try
             {
-                cnc.Open();
+                cnc.Open(); // opening the connection
 
-                SqlDataReader dr = cmnd.ExecuteReader();
+                SqlDataReader dr = cmnd.ExecuteReader(); // data reader
 
-                while(dr.Read())
+                while (dr.Read()) // until there is s.th. to read
                 {
-                    splCon = new SupplierContacts();
+                    splCon = new SupplierContacts(); // make the SupplierContact empty 
 
-                    splCon.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]);
+                    splCon.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]); // get the SupplierContactId property
 
 
-                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName");
+                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName"); // get the index of SupConFirstName property
                     if (dr.IsDBNull(SCFNameIndex))
                     {
-                        splCon.SupConFirstName = null;
+                        splCon.SupConFirstName = null; // if the SupConFirstName is null in DB
                     }
                     else
                     {
-                        splCon.SupConFirstName = dr["SupConFirstName"].ToString();
+                        splCon.SupConFirstName = dr["SupConFirstName"].ToString(); // if the SupConFirstName is not null in DB
                     }
 
 
@@ -194,25 +196,26 @@ namespace ClassDB
                     {
                         splCon.SupplierId = Convert.ToInt32(dr["SupplierId"]);
                     }
+                    supplierContacts.Add(splCon); // adding the supplierContact to the list
                 }
-                dr.Close();
-                
+                dr.Close(); // closing the data reader
+
             }
-            catch(Exception ex)
+            catch(Exception ex) // if reading from DB was not successful
             {
-                throw ex;
+                throw ex; // threw the exception to the upper leyer (presentation)
             }
-            finally
+            finally // in either way
             {
-                cnc.Close();
+                cnc.Close(); // closing the connection
             }
-            return supplierContacts;
+            return supplierContacts; // return the supplierContacts list
         }
 
-
+        // a method to get a SupplierContact from DB by passing its Id
         public static SupplierContacts GetSupCont(int SupplierContactId)
         {
-            SupplierContacts splCon = null;
+            SupplierContacts splCon = null;  // an empty SupplierContact
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
@@ -403,14 +406,13 @@ namespace ClassDB
             return splCon;
         }
 
-
+        // a method to get the first available Id to assign it to the newly added supplier contact-this primary key is not auto increment
         public static int GetAvlId()
         {
-            List<int> Ids = new List<int>();
-            int Id;
-            int AvlId;
-
-
+            List<int> Ids = new List<int>(); // make an empty list of IDs 
+            int Id; // current Id
+            int AvlId; // available Id
+            
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
             string SelectQuery = "SELECT SupplierContactId FROM SupplierContacts";
@@ -427,11 +429,11 @@ namespace ClassDB
                 {
                     Id = Convert.ToInt32(dr["SupplierContactId"]);
 
-                    Ids.Add(Id);
+                    Ids.Add(Id); // add the Id to the list
                 }
                 dr.Close();
 
-                AvlId = Ids.Max()+1;
+                AvlId = Ids.Max()+1; // find the max Id and its next number
             }
             catch (Exception ex)
             {
@@ -442,19 +444,19 @@ namespace ClassDB
                 cnc.Close();
             }
 
-            return AvlId;
+            return AvlId; // return the available Id
         }
 
-
+        // a method to delete a SupplierContact from DB by passing it
         public static bool DeleteSupCont(SupplierContacts supplierContact)
         {
-            bool success = true;
+            bool success = true; // set the bool success to true - successful deletion
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
             string deleteStatement = "DELETE FROM SupplierContacts " +
-                                    "WHERE SupplierContactId = @SupplierContactId " + // to identify record
-                                    "AND (SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
+                                    "WHERE SupplierContactId = @SupplierContactId " + // to identify the record
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining controls are for optimistic concurrency
                                     "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " + 
                                     "AND (SupConLastName = @SupConLastName " +
                                     "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
@@ -485,7 +487,10 @@ namespace ClassDB
 
             SqlCommand cmd = new SqlCommand(deleteStatement, cnc);
 
-            cmd.Parameters.AddWithValue("@SupplierContactId", supplierContact.SupplierContactId);
+            // add parameters to the command
+            cmd.Parameters.AddWithValue("@SupplierContactId", supplierContact.SupplierContactId); 
+
+            // nullable fields in DB:
             if (supplierContact.SupConFirstName == null)
                 cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
             else
@@ -547,9 +552,9 @@ namespace ClassDB
             try 
             {
                 cnc.Open();
-                int count = cmd.ExecuteNonQuery();
-                if (count == 0) // optimistic concurrency violation
-                    success = false;
+                int count = cmd.ExecuteNonQuery(); // run the querry
+                if (count == 0) // optimistic concurrency violation - no deletion
+                    success = false; // set the bool success to false - unsuccessful deletion
             }
             catch (Exception ex)
             {
@@ -563,11 +568,11 @@ namespace ClassDB
             return success;
         }
 
-
+        // a method to add a SupplierContact to DB by passing it
         public static int AddContact(SupplierContacts supplierContact)
         {
-            int count = 0;
-            int Id = 0;
+            int count = 0; // no. of added items
+            int Id = 0; // the Id for the added item
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
@@ -580,6 +585,7 @@ namespace ClassDB
 
             SqlCommand cmd = new SqlCommand(insertStatement, cnc);
 
+            // call the method to get the first available Id to assign it to the newly added supplier contact-this primary key is not auto increment
             int AvlID = GetAvlId();
 
             cmd.Parameters.AddWithValue("@SupplierContactId", AvlID);
@@ -645,7 +651,7 @@ namespace ClassDB
             {
                 cnc.Open();
                 count = cmd.ExecuteNonQuery();
-                Id = AvlID;
+                Id = AvlID; // set the Id of the added item to the available Id
             }
             catch (Exception ex)
             {
@@ -655,14 +661,14 @@ namespace ClassDB
             {
                 cnc.Close();
             }
-            return Id;
+            return Id; // return the Id of the added item
         }
 
-        
+        // a method to edit a SupplierContact to DB by passing it
         public static int UpdateContact(SupplierContacts oldContact, SupplierContacts newContact)
         {
-            int count = 0;
-            
+            int count = 0; // no. of edited items
+
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
             string UpdateStatement = "update SupplierContacts set " +
@@ -683,7 +689,7 @@ namespace ClassDB
                                     "SupplierId = @NewSupplierId " +
 
                                     "WHERE SupplierContactId = @SupplierContactId " + // to identify record
-                                    "AND (SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining controls for optimistic concurrency
                                     "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " +
                                     "AND (SupConLastName = @SupConLastName " +
                                     "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
@@ -713,7 +719,9 @@ namespace ClassDB
                                     "OR SupplierId IS NULL AND @SupplierId IS NULL)";
 
             SqlCommand cmd = new SqlCommand(UpdateStatement, cnc);
-            
+
+            // add parameters to the command
+            // nullable fields in DB:
             if (newContact.SupConFirstName == null)
                 cmd.Parameters.AddWithValue("@NewSupConFirstName", DBNull.Value);
             else
@@ -783,10 +791,10 @@ namespace ClassDB
                 cmd.Parameters.AddWithValue("@NewSupplierId", DBNull.Value);
             else
                 cmd.Parameters.AddWithValue("@NewSupplierId", newContact.SupplierId);
-
-
+            
 
             cmd.Parameters.AddWithValue("@SupplierContactId", oldContact.SupplierContactId);
+
             if (oldContact.SupConFirstName == null)
                 cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
             else
