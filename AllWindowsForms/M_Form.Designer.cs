@@ -67,7 +67,7 @@
             this.button1.Location = new System.Drawing.Point(102, 16);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 2;
             this.button1.Text = "Next";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -87,7 +87,7 @@
             this.button3.Location = new System.Drawing.Point(379, 222);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
+            this.button3.TabIndex = 9;
             this.button3.Text = "Save Changes";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -97,7 +97,7 @@
             this.NameBox.Location = new System.Drawing.Point(119, 45);
             this.NameBox.Name = "NameBox";
             this.NameBox.Size = new System.Drawing.Size(254, 20);
-            this.NameBox.TabIndex = 20;
+            this.NameBox.TabIndex = 3;
             // 
             // StartBox
             // 
@@ -118,14 +118,14 @@
             this.BaseBox.Location = new System.Drawing.Point(119, 150);
             this.BaseBox.Name = "BaseBox";
             this.BaseBox.Size = new System.Drawing.Size(254, 20);
-            this.BaseBox.TabIndex = 6;
+            this.BaseBox.TabIndex = 7;
             // 
             // DescBox
             // 
             this.DescBox.Location = new System.Drawing.Point(119, 124);
             this.DescBox.Name = "DescBox";
             this.DescBox.Size = new System.Drawing.Size(254, 20);
-            this.DescBox.TabIndex = 7;
+            this.DescBox.TabIndex = 6;
             // 
             // AgencyBox
             // 
@@ -139,7 +139,7 @@
             this.button4.Location = new System.Drawing.Point(379, 314);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 9;
+            this.button4.TabIndex = 14;
             this.button4.Text = "Exit";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -149,7 +149,7 @@
             this.button5.Location = new System.Drawing.Point(298, 314);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 10;
+            this.button5.TabIndex = 13;
             this.button5.Text = "Clear All";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -222,14 +222,14 @@
             this.textBox7.Location = new System.Drawing.Point(52, 269);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 18;
+            this.textBox7.TabIndex = 11;
             // 
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(159, 265);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 19;
+            this.button6.TabIndex = 12;
             this.button6.Text = "Find";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
@@ -338,7 +338,7 @@
             this.Entrybtn.Location = new System.Drawing.Point(379, 253);
             this.Entrybtn.Name = "Entrybtn";
             this.Entrybtn.Size = new System.Drawing.Size(75, 23);
-            this.Entrybtn.TabIndex = 32;
+            this.Entrybtn.TabIndex = 10;
             this.Entrybtn.Text = "New Entry";
             this.Entrybtn.UseVisualStyleBackColor = true;
             this.Entrybtn.Click += new System.EventHandler(this.Entrybtn_Click);
@@ -367,6 +367,7 @@
             // 
             // Form1
             // 
+            this.AcceptButton = this.Entrybtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 349);
