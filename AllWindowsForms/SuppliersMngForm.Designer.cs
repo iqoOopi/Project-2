@@ -363,6 +363,7 @@
             this.dataGridViewTextBoxColumn15.DataPropertyName = "SupplierId";
             this.dataGridViewTextBoxColumn15.HeaderText = "SupplierId";
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+            this.dataGridViewTextBoxColumn15.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 

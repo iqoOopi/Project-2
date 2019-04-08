@@ -46,8 +46,10 @@ namespace AllWindowsForms
             supplier = suppliers[0]; 
             supplierId = supplier.SupplierId; // pick its Id as the Id of the current supplier of the form
             DisplaySupConAff(supplierId); // call a method to show the contacts of this supplier in the grid view
+
+            
         }
-        
+
 
         // a method to show the contacts of a supplier in the grid view by passing its Id
         private void DisplaySupConAff(int supId)
