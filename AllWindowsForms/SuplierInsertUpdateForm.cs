@@ -16,6 +16,7 @@ namespace AllWindowsForms
     /// Hoora - April 2019
     /// a from to insert or update supplier objects
     /// </summary>
+    
     public partial class SuplierInsertUpdateForm : Form
     {
         public bool addSupplier; // indicates whether the action is Insert or Update
@@ -27,6 +28,7 @@ namespace AllWindowsForms
             InitializeComponent();
         }
 
+
         //when the form loads:
         private void SuplierInsertUpdateForm_Load(object sender, EventArgs e)
         {
@@ -36,10 +38,11 @@ namespace AllWindowsForms
             }
             else
             {
-                this.Text = "Edit Supplier";
+                this.Text = "Edit Supplier"; // give a proper title to the form's window based on the action
                 this.DisplaySupplier(); // if the purpose is to update an existing supplier, show it in the window
             }
         }
+
 
         // a method to show the values for the supplier's properties:
         private void DisplaySupplier() 
@@ -50,6 +53,7 @@ namespace AllWindowsForms
                 txtSupName.Text = supplier.SupName; // otherwise, show its value in the text box
         }
 
+
         // after clicking the accept button
         private void btnAccept_Click(object sender, EventArgs e)
         {
@@ -57,6 +61,7 @@ namespace AllWindowsForms
             {
                 Suppliers supplier = new Suppliers(); // make an empty supplier object
                 this.PutSupData(supplier); // call the method to get the inserted data from the text box and use it for the supplier object
+
                 try
                 {
                     // call a DB function to insert the supplier to the DB
@@ -76,6 +81,7 @@ namespace AllWindowsForms
                 Suppliers newsupplier = new Suppliers(); // make an empty supplier object
                 newsupplier.SupplierId = supplier.SupplierId; // keep the Id of the supplier even after editing it
                 PutSupData(newsupplier); // call the method to get the changed data from the text box and use it for editing the supplier
+
                 try
                 {
                     if (SuppliersDB.UpdateSuplier(supplier, newsupplier) == 0) // call the update function and check if it was successful
@@ -97,6 +103,7 @@ namespace AllWindowsForms
             }
         }
 
+
         // a method to get the inserted data from the text box and use it for a supplier object
         private void PutSupData(Suppliers supplier)
         {
@@ -105,6 +112,7 @@ namespace AllWindowsForms
             else
                 supplier.SupName = txtSupName.Text; // if user provided the name
         }
+
 
         // if the user cancels the process of editing or inserting
         private void btnCancel_Click(object sender, EventArgs e)

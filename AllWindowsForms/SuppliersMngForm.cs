@@ -18,6 +18,7 @@ namespace AllWindowsForms
     /// a from to show suppliers and their related contacts, deleting selected contacts,
     /// and access to the forms for inserting/ updating supplier and contact objects
     /// </summary>
+    
     public partial class SuppliersMngForm : Form
     {
         // a pre-determined Id for a newly added contact in the child form (SupplierContactEditAddForm)
@@ -33,6 +34,7 @@ namespace AllWindowsForms
             InitializeComponent();
         }
 
+
         //when the form loads:
         private void SuppliersMngForm_Load(object sender, EventArgs e)
         {
@@ -46,6 +48,7 @@ namespace AllWindowsForms
             DisplaySupConAff(supplierId); // call a method to show the contacts of this supplier in the grid view
         }
         
+
         // a method to show the contacts of a supplier in the grid view by passing its Id
         private void DisplaySupConAff(int supId)
         {
@@ -55,6 +58,7 @@ namespace AllWindowsForms
             // use the ready list as the source of the binder - the binder is connected to the grid view
             supConAffBindingSource.DataSource = supConAff; 
         }
+
 
         // when the user change the supplier in the combo box
         private void supNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,6 +70,7 @@ namespace AllWindowsForms
             }
         }
 
+
         // a method to get the Id of a selected supplier from combo box
         private void GetId()
         {
@@ -75,12 +80,14 @@ namespace AllWindowsForms
                 supplierId = supplier.SupplierId; // get its Id
             }
         }
-               
+             
+        
         // closing the form
         private void btnExit_Click(object sender, EventArgs e)
         {
             Close();
         }
+
 
         // after clicking the delete button
         private void btnDelete_Click(object sender, EventArgs e)
@@ -88,17 +95,20 @@ namespace AllWindowsForms
             SupplierContacts SupCon = null; // make a null contact
             // the number of selected rows in the grid view  
             int selectedRowCount = supplierContactDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+
             // check if any row is selected
             if (selectedRowCount > 0)
             {
                 // pick the value of the first row and the second column which is Id of the contact
                 int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;                
                 SupCon = SupplierContactsDB.GetSupCont(index); // get the contact from DB by passing its Id
+
                 if (SupCon != null) // if the contact could be read from DB
                 {
                     // making sure if the user really wants to delete the contact
                     DialogResult result = MessageBox.Show("Do you want to delete supplier contact with Id = " + SupCon.SupplierContactId + "?",
                     "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
                     // if the user confirms the deletion process
                     if (result == DialogResult.Yes)
                     {
@@ -127,12 +137,14 @@ namespace AllWindowsForms
             }
         }
 
+
         // after clicking the edit button (for contacts objects)
         private void btnEdit_Click(object sender, EventArgs e)
         {
             SupplierContacts SupCon = null; // make a null contact
             // the number of selected rows in the grid view  
             int selectedRowCount = supplierContactDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+
             // check if any row is selected
             if (selectedRowCount > 0)
             {
@@ -140,17 +152,27 @@ namespace AllWindowsForms
                 int index = (int)supplierContactDataGridView.SelectedRows[0].Cells[1].Value;
                 SupCon = SupplierContactsDB.GetSupCont(index); // get the contact from DB by passing its Id
 
-                // creating an object of the SupplierContactEditAddForm
-                SupplierContactEditAddForm supplierEditForm = new SupplierContactEditAddForm();
-                supplierEditForm.addContact = false; // put its addContact property false
+                if (SupCon != null)
+                {
+                    
 
-                // passing the current contact to the child form (SupplierContactEditAddForm)
-                supplierEditForm.supplierContact = SupCon; // send the selected contact to the child form                
-                DialogResult result = supplierEditForm.ShowDialog(); // opening the form
+                    // creating an object of the SupplierContactEditAddForm
+                    SupplierContactEditAddForm supplierEditForm = new SupplierContactEditAddForm();
+                    supplierEditForm.addContact = false; // put its addContact property false
 
-                SupCon = supplierEditForm.supplierContact; // send the edited contact from the child form to the parent form
+                    // passing the current contact to the child form (SupplierContactEditAddForm)
+                    supplierEditForm.supplierContact = SupCon; // send the selected contact to the child form                
+                    DialogResult result = supplierEditForm.ShowDialog(); // opening the form
 
-                supplierId = Convert.ToInt32(SupCon.SupplierId); // get its Id
+                    SupCon = supplierEditForm.supplierContact; // send the edited contact from the child form to the parent form
+
+                    supplierId = Convert.ToInt32(SupCon.SupplierId); // get its Id
+                }
+                else
+                {
+                    // showing an error message including the reason if the deletion was not successful-concurrency error
+                    MessageBox.Show("Another user has updated or deleted that supplier contact.", "Database Error");
+                }
             }
             DisplaySuppliers(); // call a method to load all suppliers in the combo obx
             DisplaySupConAff(supplierId); // call a method to show the contacts of this supplier in the grid view
@@ -165,6 +187,7 @@ namespace AllWindowsForms
             suppliers = SuppliersDB.GetSup(); // get all suppliers from DB and save them in the empty list
             suppliersBindingSource.DataSource = suppliers; // use the ready list as the source of the combo box
         }
+
 
         // after clicking the add button (for contacts objects)
         private void btnAdd_Click(object sender, EventArgs e)
@@ -184,6 +207,7 @@ namespace AllWindowsForms
             }
         }
 
+
         // after clicking the update button (for suppliers objects)
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -201,6 +225,7 @@ namespace AllWindowsForms
 
         }
 
+
         // after clicking the insert button (for contacts objects)
         private void btnInsert_Click(object sender, EventArgs e)
         {
@@ -209,8 +234,7 @@ namespace AllWindowsForms
             supplierInsertForm.addSupplier = true; // put its addSupplier property true
 
             DialogResult result = supplierInsertForm.ShowDialog(); // opening the form
-
-
+            
             if (addedOrEditedSupplierId != 0) // if any supplier was added in the child form (the supplier Id is not zero as the default value)
             {
                 DisplaySuppliers(); // call a method to load all suppliers in the combo box
