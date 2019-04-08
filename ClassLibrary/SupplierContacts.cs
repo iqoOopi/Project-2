@@ -10,10 +10,12 @@ namespace ClassLibary
     /// Hoora - March
     /// Class to create supplier contact objects
     /// </summary>
+    
     public class SupplierContacts
     {
         // Constructor:
         public SupplierContacts() { }
+
 
         // properties:
         public int SupplierContactId { get; set; }
@@ -45,6 +47,7 @@ namespace ClassLibary
         public string AffiliationID { get; set; }
 
         public int? SupplierId { get; set; }
+
 
         // methods:
         public override string ToString()

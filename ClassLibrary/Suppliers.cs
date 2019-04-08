@@ -10,7 +10,7 @@ namespace ClassLibrary
     /// Hoora - March
     /// Class to create supplier objects
     /// </summary>
-    /// 
+    
     public class Suppliers
     {
         // Constructor:

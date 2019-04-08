@@ -17,16 +17,17 @@ namespace AllWindowsForms
     /// Hoora - March 2019
     /// a from to add or edit supplier contact objects
     /// </summary>
+    
     public partial class SupplierContactEditAddForm : Form
     {
         public SupplierContacts supplierContact; // the added or edited supplier contact in the form
         public bool addContact; // indicates whether the action is Add or Edit
         
-
         public SupplierContactEditAddForm()
         {
             InitializeComponent();
         }
+
 
         //when the form loads:
         private void SupplierEditAddForm_Load(object sender, EventArgs e)
@@ -48,6 +49,7 @@ namespace AllWindowsForms
                 this.DisplayContact(); // if the purpose is to edit an existing contact, show it in the window
             }
         }
+
 
         // a method to show the values for the contact's properties:
         private void DisplayContact() 
@@ -123,6 +125,7 @@ namespace AllWindowsForms
                 cmbSupplierId.SelectedValue = supplierContact.SupplierId;
         }
 
+
         // a method to load the supplier list in its combo box
         private void LoadSupCmb()
         {
@@ -139,6 +142,7 @@ namespace AllWindowsForms
                 MessageBox.Show(ex.Message, ex.GetType().ToString()); // showing an error message including the reason
             }
         }
+
 
         // a method to load the affiliation list in its combo box
         private void LoadAffCmb()
@@ -157,6 +161,7 @@ namespace AllWindowsForms
             }
         }
 
+
         // after clicking the accept button
         private void btnAccept_Click(object sender, EventArgs e)
         {
@@ -165,6 +170,7 @@ namespace AllWindowsForms
                 supplierContact = new SupplierContacts(); // make an empty contact object
                 // call the method to get the added data from the text box and use it for the contact object
                 this.PutContactData(supplierContact);
+
                 try
                 {
                     // call a DB function to insert the supplier contact to the DB
@@ -184,7 +190,8 @@ namespace AllWindowsForms
                  // keep the Id of the contact even after editing it
                 newSupplierContact.SupplierContactId = supplierContact.SupplierContactId;
                 // call the method to get the changed data from the text box and use it for editing the contact
-                this.PutContactData(newSupplierContact); 
+                this.PutContactData(newSupplierContact);
+
                 try
                 {
                     // call the update function and check if it was successful
@@ -206,6 +213,7 @@ namespace AllWindowsForms
                 }
             }
         }
+
 
         // a method to get the inserted data from the text box and use it for a contact object
         private void PutContactData(SupplierContacts supplierContact)
@@ -281,11 +289,11 @@ namespace AllWindowsForms
                 supplierContact.SupplierId = Convert.ToInt32(cmbSupplierId.SelectedValue); // if user selected the name
         }
 
+
         // if the user cancels the process of editing or inserting
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
         }
-
     }
 }
