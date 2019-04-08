@@ -36,6 +36,7 @@ namespace AllWindowsForms
         {
             //load data from DB
             LoadAndDisplayData();
+            
         }
 
         private void ProdMngForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -193,7 +194,7 @@ namespace AllWindowsForms
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Other users ");
+                                    MessageBox.Show("Data has been changed during your editing, please try again!");
                                 }
                             }
                             catch (Exception ex)
@@ -256,9 +257,9 @@ namespace AllWindowsForms
                 //might code to a way that it can delete all the related supplier 
                 GenericDB.GenericDelete<Products>("Products", selectedProduct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("The Data has associated record in another table, Please delete the related data first then delete this one");
             }
 
             PrepareForNextOperation();
@@ -294,6 +295,7 @@ namespace AllWindowsForms
             allProductsSuppliers = GenericDB.GenericRead<ProductsSuppliers>("Products_Suppliers");
             allSuppliers = GenericDB.GenericRead<Suppliers>("Suppliers",2);
             //load listview to show the data
+            comboxSup.DataSource = allSuppliers;
             Display();
         }
 
