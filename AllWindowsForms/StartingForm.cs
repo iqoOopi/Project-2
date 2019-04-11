@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace AllWindowsForms
 {
+    //coded by Linda
     public partial class StartingForm : Form
     {
         public StartingForm()
