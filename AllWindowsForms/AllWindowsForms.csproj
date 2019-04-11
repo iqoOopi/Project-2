@@ -78,11 +78,17 @@
     <Compile Include="StartingForm.Designer.cs">
       <DependentUpon>StartingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierEditAddForm.cs">
+    <Compile Include="SuplierInsertUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierEditAddForm.Designer.cs">
-      <DependentUpon>SupplierEditAddForm.cs</DependentUpon>
+    <Compile Include="SuplierInsertUpdateForm.Designer.cs">
+      <DependentUpon>SuplierInsertUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierContactEditAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SupplierContactEditAddForm.Designer.cs">
+      <DependentUpon>SupplierContactEditAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SuppliersMngForm.cs">
       <SubType>Form</SubType>
@@ -115,8 +121,11 @@
     <EmbeddedResource Include="StartingForm.resx">
       <DependentUpon>StartingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupplierEditAddForm.resx">
-      <DependentUpon>SupplierEditAddForm.cs</DependentUpon>
+    <EmbeddedResource Include="SuplierInsertUpdateForm.resx">
+      <DependentUpon>SuplierInsertUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupplierContactEditAddForm.resx">
+      <DependentUpon>SupplierContactEditAddForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SuppliersMngForm.resx">
       <DependentUpon>SuppliersMngForm.cs</DependentUpon>
@@ -126,6 +135,7 @@
     <None Include="Properties\DataSources\ClassLibrary.ProductsSuppliers.datasource">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\ClassLibrary.SupConAff.datasource" />
     <None Include="Properties\DataSources\ClassLibrary.Suppliers.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -64,35 +64,33 @@ namespace ClassDB
 
             foreach (ProductsSuppliers PS in List)
             {
-                if(PS.ProductId == ProdID)
+                if (PS.ProductId == ProdID)
                 {
                     EditedList.Add(PS);
                 }
             }
 
 
-                return EditedList;
+            return EditedList;
 
         }
-        public static ProductsSuppliers Find(int ProdID,int SuppID)//MAtthew
+        public static ProductsSuppliers Find(int ProdID, int SuppID)//MAtthew
         {
             List<ProductsSuppliers> List = GetProdSuppliers();
             ProductsSuppliers Match = new ProductsSuppliers();
-            
+
             foreach (ProductsSuppliers PS in List)
             {
-                if((PS.ProductId == ProdID)&(PS.SupplierId == SuppID))
+                if ((PS.ProductId == ProdID) & (PS.SupplierId == SuppID))
                 {
                     return PS;
-                    
+
                 }
 
             }
-             
-                return Match;
-            
+
+            return Match;
+
         }
-
-
- }
+    }
 }

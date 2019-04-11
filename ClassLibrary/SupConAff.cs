@@ -10,11 +10,12 @@ namespace ClassLibrary
     /// Hoora - March
     /// Class to create supplier contact objects
     /// </summary>
+    
     public class SupConAff
     {
         // Constructor:
         public SupConAff() { }
-
+        
 
         // properties:
         public int SupplierContactId { get; set; }
@@ -43,14 +44,14 @@ namespace ClassLibrary
 
         public string SupConURL { get; set; }
 
-        public string AffiliationID { get; set; }
-
         public int? SupplierId { get; set; }
+
+        public string AffiliationID { get; set; }
 
         public string AffName { get; set; }
 
         public string AffDesc { get; set; }
-
+   
 
         // methods:
         public override string ToString()

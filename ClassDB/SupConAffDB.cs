@@ -11,51 +11,53 @@ namespace ClassDB
 {
     /// <summary>
     /// Hoora - March 
-    /// A data access class for dealing with suppliers info
+    /// A data access class for dealing with supplier contact table including the related affiliation from affiliation table (supConAff)
     /// </summary>
+    
     public static class SupConAffDB
     {
+        // a method to get a supConAff from DB by passing its Id
         public static List<SupConAff> GetSupConAffs(int supplierId)
         {
-            List<SupConAff> SupConAff = new List<SupConAff>();
+            List<SupConAff> SupConAff = new List<SupConAff>(); // an empty list of supConAff
 
-            SupConAff splConAff;
+            SupConAff splConAff; // an empty supConAff
 
-            SqlConnection cnc = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection(); // connection to DB
 
             string SelectQuery = "SELECT SupplierContactId, SupConFirstName , SupConLastName, " +
                 "SupConCompany, SupConAddress, SupConCity, SupConProv, SupConPostal, SupConCountry, " +
-                "SupConBusPhone, SupConFax, SupConEmail, SupConURL, SupplierContacts.AffiliationId, " +
-                "SupplierId, AffName, AffDesc " +
+                "SupConBusPhone, SupConFax, SupConEmail, SupConURL, SupplierId, " +
+                "SupplierContacts.AffiliationId, AffName, AffDesc " +
                 "FROM SupplierContacts LEFT JOIN Affiliations " +
                 "ON SupplierContacts.AffiliationId = Affiliations.AffiliationId " +
-                "WHERE SupplierId = @SupplierId";             
+                "WHERE SupplierId = @SupplierId"; // SQL query
             
-            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc); // command
 
-            cmnd.Parameters.AddWithValue("@SupplierId", supplierId);
+            cmnd.Parameters.AddWithValue("@SupplierId", supplierId);  // add parameters to the command
 
             try
             {
-                cnc.Open();
+                cnc.Open(); // openint the connection
 
-                SqlDataReader dr = cmnd.ExecuteReader();
+                SqlDataReader dr = cmnd.ExecuteReader(); // data reader
 
-                while (dr.Read())
+                while (dr.Read()) // until there is s.th. to read
                 {
-                    splConAff = new SupConAff();
+                    splConAff = new SupConAff(); // make the supConAff empty 
 
-                    splConAff.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]);
+                    splConAff.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]); // read the Id
 
 
-                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName");
+                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName"); // get the index of SupConFirstName property
                     if (dr.IsDBNull(SCFNameIndex))
                     {
-                        splConAff.SupConFirstName = null;
+                        splConAff.SupConFirstName = null; // if the SupConFirstName is null in DB
                     }
                     else
                     {
-                        splConAff.SupConFirstName = dr["SupConFirstName"].ToString();
+                        splConAff.SupConFirstName = dr["SupConFirstName"].ToString(); // if the SupConFirstName is not null in DB
                     }
 
 
@@ -180,6 +182,17 @@ namespace ClassDB
                     }
 
 
+                    int SupIdIndex = dr.GetOrdinal("SupplierId");
+                    if (dr.IsDBNull(SupIdIndex))
+                    {
+                        splConAff.SupplierId = null;
+                    }
+                    else
+                    {
+                        splConAff.SupplierId = Convert.ToInt32(dr["SupplierId"]);
+                    }
+                        
+                    
                     int AffIdIndex = dr.GetOrdinal("AffiliationID");
                     if (dr.IsDBNull(AffIdIndex))
                     {
@@ -192,29 +205,41 @@ namespace ClassDB
                     }
 
 
-                    int SupIdIndex = dr.GetOrdinal("SupplierId");
-                    if (dr.IsDBNull(SupIdIndex))
+                    int AffNameIndex = dr.GetOrdinal("AffName");
+                    if (dr.IsDBNull(AffNameIndex))
                     {
-                        splConAff.SupplierId = null;
+                        splConAff.AffName = null;
                     }
                     else
                     {
-                        splConAff.SupplierId = Convert.ToInt32(dr["SupplierId"]);
+                        splConAff.AffName = dr["AffName"].ToString();
                     }
-                    SupConAff.Add(splConAff);
+
+
+                    int AffDescIndex = dr.GetOrdinal("AffDesc");
+                    if (dr.IsDBNull(AffDescIndex))
+                    {
+                        splConAff.AffDesc = null;
+                    }
+                    else
+                    {
+                        splConAff.AffDesc = dr["AffDesc"].ToString();
+                    }
+
+                    SupConAff.Add(splConAff); // adding the SupConAff to the list
                 }
-                dr.Close();
+                dr.Close(); // closing the data reader
 
             }
-            catch (Exception ex)
+            catch (Exception ex) // if reading from DB was not successful
             {
-                throw ex;
+                throw ex; // threw the exception to the upper leyer (presentation)
             }
-            finally
+            finally // in either way
             {
-                cnc.Close();
+                cnc.Close(); // closing the connection
             }
-            return SupConAff;
+            return SupConAff; // return the SupConAff list
         }
 
     }

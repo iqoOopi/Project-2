@@ -33,11 +33,14 @@ namespace AllWindowsForms
 
             List<Products> ProductList = ProductsFormDB.GetProducts();
             
-            Productbox.DisplayMember = "ProdName";
+            
             Productbox.DataSource = ProductList;
             
-            
-            
+            Productbox.DisplayMember = "ProdName";
+            Productbox.SelectedIndex = 0;
+            Productbox.SelectedIndex = 1;//to load in boxes without major rewriting
+            Productbox.SelectedIndex = 0;
+
         }
 
 
@@ -50,6 +53,11 @@ namespace AllWindowsForms
             PkgDesc.Text = "";
             PkgBase.Text = "";
             PkgCom.Text = "";
+
+            counter = 0;
+            ProdAdd = new List<ProductsSuppliers>();
+            prodCounter.Text = "You have " + counter + " selected product(s)";
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -371,6 +379,11 @@ inner join Products PDE on PSP.ProductId = PDE.ProductId
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SupplierBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

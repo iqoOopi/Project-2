@@ -116,6 +116,11 @@ namespace AllWindowsForms
 
         private void button3_Click(object sender, EventArgs e)
         {
+          List<Package>  LivePackages = PackagesDB.GetPackages();
+
+
+
+
             //   a)the Agency Commission cannot be greater than the Base Price -- DONE
             //     b)the Package End Date must be later than Package Start Date -- toughy
             //   c)Package Name and Package Description cannot be null -- DONE
@@ -267,59 +272,69 @@ namespace AllWindowsForms
             if (((ErrName.Visible == false) & (ErrStart.Visible == false)) & ((ErrEnd.Visible == false) & (ErrDesc.Visible == false)) & ((ErrBase.Visible == false) & (ErrAgency.Visible == false)) & ((ErrTotal.Visible == false) & (ErrDate.Visible == false)))
             //UPDATE TO WHERE IF NO ERRORS APPEAR THEN RUNCURRENT IS FOR TESTING
             {
-
-                //set object values and update sql
-
-                Packages[Counter].PackageName = NameBox.Text;
-
-                if (nullcheck1 == true)
+                ErrCon.Visible = false;
+                //Concurrency check
+                if ((Packages[Counter].PackageName != LivePackages[Counter].PackageName)|(Packages[Counter].PackageStart != LivePackages[Counter].PackageStart)|
+                    (Packages[Counter].PackageEnd != LivePackages[Counter].PackageEnd)|
+                    (Packages[Counter].BasePrice != LivePackages[Counter].BasePrice)|(Packages[Counter].AgencyCom != LivePackages[Counter].AgencyCom))
                 {
-                    Packages[Counter].PackageStart = null;
+                    ErrCon.Visible = true;
+                    Packages = PackagesDB.GetPackages();
+                    FillBoxes();
                 }
-                else
-                {
-                    Packages[Counter].PackageStart = ValidStrt;
-                }
+                else {
+                    //set object values and update sql
 
-                if (nullcheck2 == true)
-                {
-                    Packages[Counter].PackageEnd = null;
-                }
-                else
-                {
-                    Packages[Counter].PackageEnd = ValidEnd;
-                }
+                    Packages[Counter].PackageName = NameBox.Text;
 
-                Packages[Counter].Desc = DescBox.Text;
-
-                Packages[Counter].BasePrice = Convert.ToDecimal(BaseBox.Text);
-                Packages[Counter].AgencyCom = Convert.ToDecimal(AgencyBox.Text);
-
-                //call function to update
-                
-                int i = 0;
-                List<Package> PackComp = PackagesDB.GetPackages();
-                foreach (Package package in Packages) {
-                    if (Counter == i)
+                    if (nullcheck1 == true)
                     {
-                        //skips the current object
+                        Packages[Counter].PackageStart = null;
                     }
                     else
                     {
-                        if ((Packages[Counter].PackageName == PackComp[i].PackageName) & (Packages[Counter].PackageStart == PackComp[i].PackageStart) & (Packages[Counter].PackageEnd == PackComp[i].PackageEnd))
-                        {
-
-                            ErrDup.Visible = true;
-                        }
+                        Packages[Counter].PackageStart = ValidStrt;
                     }
-                    i++;
-            }
-                if (ErrDup.Visible == false)
-                {
-                    PackagesDB.UpdateDB(Counter, Packages[Counter]);
+
+                    if (nullcheck2 == true)
+                    {
+                        Packages[Counter].PackageEnd = null;
+                    }
+                    else
+                    {
+                        Packages[Counter].PackageEnd = ValidEnd;
+                    }
+
+                    Packages[Counter].Desc = DescBox.Text;
+
+                    Packages[Counter].BasePrice = Convert.ToDecimal(BaseBox.Text);
+                    Packages[Counter].AgencyCom = Convert.ToDecimal(AgencyBox.Text);
+
+                    //call function to update
+
+                    int i = 0;
+                    List<Package> PackComp = PackagesDB.GetPackages();
+                    foreach (Package package in Packages) {
+                        if (Counter == i)
+                        {
+                            //skips the current object
+                        }
+                        else
+                        {
+                            if ((Packages[Counter].PackageName == PackComp[i].PackageName) & (Packages[Counter].PackageStart == PackComp[i].PackageStart) & (Packages[Counter].PackageEnd == PackComp[i].PackageEnd))
+                            {
+
+                                ErrDup.Visible = true;
+                            }
+                        }
+                        i++;
+                    }
+                    if (ErrDup.Visible == false)
+                    {
+                        PackagesDB.UpdateDB(Counter, Packages[Counter]);
+                    }
                 }
             }
-          
         }
 
         private void Entrybtn_Click(object sender, EventArgs e)

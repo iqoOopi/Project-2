@@ -1,6 +1,6 @@
 ﻿namespace AllWindowsForms
 {
-    partial class SupplierEditAddForm
+    partial class SupplierContactEditAddForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SupplierEditAddForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SupplierContactEditAddForm));
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -260,126 +260,126 @@
             this.lablel1.AutoSize = true;
             this.lablel1.Location = new System.Drawing.Point(20, 75);
             this.lablel1.Name = "lablel1";
-            this.lablel1.Size = new System.Drawing.Size(92, 13);
+            this.lablel1.Size = new System.Drawing.Size(57, 13);
             this.lablel1.TabIndex = 15;
-            this.lablel1.Text = "SupConFirstName";
+            this.lablel1.Text = "First Name";
             // 
             // lablel2
             // 
             this.lablel2.AutoSize = true;
             this.lablel2.Location = new System.Drawing.Point(20, 105);
             this.lablel2.Name = "lablel2";
-            this.lablel2.Size = new System.Drawing.Size(93, 13);
+            this.lablel2.Size = new System.Drawing.Size(58, 13);
             this.lablel2.TabIndex = 16;
-            this.lablel2.Text = "SupConLastName";
+            this.lablel2.Text = "Last Name";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(20, 131);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 13);
+            this.label3.Size = new System.Drawing.Size(51, 13);
             this.label3.TabIndex = 17;
-            this.label3.Text = "SupConCompany";
+            this.label3.Text = "Company";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(20, 209);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 20;
-            this.label4.Text = "SupConProv";
+            this.label4.Text = "Province";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(20, 183);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 13);
+            this.label5.Size = new System.Drawing.Size(24, 13);
             this.label5.TabIndex = 19;
-            this.label5.Text = "SupConCity";
+            this.label5.Text = "City";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(20, 157);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(83, 13);
+            this.label6.Size = new System.Drawing.Size(45, 13);
             this.label6.TabIndex = 18;
-            this.label6.Text = "SupConAddress";
+            this.label6.Text = "Address";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(20, 235);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 13);
+            this.label7.Size = new System.Drawing.Size(36, 13);
             this.label7.TabIndex = 21;
-            this.label7.Text = "SupConPostal";
+            this.label7.Text = "Postal";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(293, 235);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(54, 13);
+            this.label8.Size = new System.Drawing.Size(76, 13);
             this.label8.TabIndex = 35;
-            this.label8.Text = "SupplierId";
+            this.label8.Text = "Supplier Name";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(293, 209);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(60, 13);
+            this.label9.Size = new System.Drawing.Size(80, 13);
             this.label9.TabIndex = 34;
-            this.label9.Text = "AffiliationID";
+            this.label9.Text = "Affiliation Name";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(293, 183);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 13);
+            this.label10.Size = new System.Drawing.Size(29, 13);
             this.label10.TabIndex = 33;
-            this.label10.Text = "SupConURL";
+            this.label10.Text = "URL";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(293, 157);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 13);
+            this.label11.Size = new System.Drawing.Size(32, 13);
             this.label11.TabIndex = 32;
-            this.label11.Text = "SupConEmail";
+            this.label11.Text = "Email";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(293, 131);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
+            this.label12.Size = new System.Drawing.Size(24, 13);
             this.label12.TabIndex = 31;
-            this.label12.Text = "SupConFax";
+            this.label12.Text = "Fax";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(293, 105);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(94, 13);
+            this.label13.Size = new System.Drawing.Size(83, 13);
             this.label13.TabIndex = 30;
-            this.label13.Text = "SupConBusPhone";
+            this.label13.Text = "Business Phone";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(293, 75);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(81, 13);
+            this.label14.Size = new System.Drawing.Size(43, 13);
             this.label14.TabIndex = 29;
-            this.label14.Text = "SupConCountry";
+            this.label14.Text = "Country";
             // 
             // txtSupConURL
             // 
@@ -470,8 +470,9 @@
             this.btnCancel.TabIndex = 39;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // SupplierEditAddForm
+            // SupplierContactEditAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -507,7 +508,8 @@
             this.Controls.Add(this.txtSupConCompany);
             this.Controls.Add(this.txtSupConFirstName);
             this.Controls.Add(this.suppliersBindingNavigator);
-            this.Name = "SupplierEditAddForm";
+            this.Name = "SupplierContactEditAddForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SupplierEditAddForm";
             this.Load += new System.EventHandler(this.SupplierEditAddForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.suppliersBindingNavigator)).EndInit();

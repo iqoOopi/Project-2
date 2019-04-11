@@ -10,45 +10,47 @@ namespace ClassDB
 {
         /// <summary>
         /// Hoora - March 
-        /// A data access class for dealing with suppliers info
+        /// A data access class for dealing with supplier table in DB
         /// </summary>
+        
     public static class SupplierContactsDB
     {
+        // a method to get all supplierContacts from DB
         public static List<SupplierContacts> GetSupConts(int supplierId)
         {
-            List<SupplierContacts> supplierContacts = new List<SupplierContacts>();
+            List<SupplierContacts> supplierContacts = new List<SupplierContacts>(); // an empty list of SupplierContacts
 
-            SupplierContacts splCon;
+            SupplierContacts splCon; // an empty SupplierContacts
 
-            SqlConnection cnc = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection(); // connection to DB 
 
-            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId";
+            string SelectQuery = "SELECT * FROM SupplierContacts WHERE SupplierId = @SupplierId"; // SQL query
 
-            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc); // Command
 
-            cmnd.Parameters.AddWithValue("@SupplierId", supplierId);
+            cmnd.Parameters.AddWithValue("@SupplierId", supplierId); // add parameters to the command
 
             try
             {
-                cnc.Open();
+                cnc.Open(); // opening the connection
 
-                SqlDataReader dr = cmnd.ExecuteReader();
+                SqlDataReader dr = cmnd.ExecuteReader(); // data reader
 
-                while(dr.Read())
+                while (dr.Read()) // until there is s.th. to read
                 {
-                    splCon = new SupplierContacts();
+                    splCon = new SupplierContacts(); // make the SupplierContact empty 
 
-                    splCon.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]);
+                    splCon.SupplierContactId = Convert.ToInt32(dr["SupplierContactId"]); // get the SupplierContactId property
 
 
-                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName");
+                    int SCFNameIndex = dr.GetOrdinal("SupConFirstName"); // get the index of SupConFirstName property
                     if (dr.IsDBNull(SCFNameIndex))
                     {
-                        splCon.SupConFirstName = null;
+                        splCon.SupConFirstName = null; // if the SupConFirstName is null in DB
                     }
                     else
                     {
-                        splCon.SupConFirstName = dr["SupConFirstName"].ToString();
+                        splCon.SupConFirstName = dr["SupConFirstName"].ToString(); // if the SupConFirstName is not null in DB
                     }
 
 
@@ -194,25 +196,26 @@ namespace ClassDB
                     {
                         splCon.SupplierId = Convert.ToInt32(dr["SupplierId"]);
                     }
+                    supplierContacts.Add(splCon); // adding the supplierContact to the list
                 }
-                dr.Close();
-                
+                dr.Close(); // closing the data reader
+
             }
-            catch(Exception ex)
+            catch(Exception ex) // if reading from DB was not successful
             {
-                throw ex;
+                throw ex; // threw the exception to the upper leyer (presentation)
             }
-            finally
+            finally // in either way
             {
-                cnc.Close();
+                cnc.Close(); // closing the connection
             }
-            return supplierContacts;
+            return supplierContacts; // return the supplierContacts list
         }
 
-
+        // a method to get a SupplierContact from DB by passing its Id
         public static SupplierContacts GetSupCont(int SupplierContactId)
         {
-            SupplierContacts splCon = null;
+            SupplierContacts splCon = null;  // an empty SupplierContact
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
@@ -403,54 +406,155 @@ namespace ClassDB
             return splCon;
         }
 
+        // a method to get the first available Id to assign it to the newly added supplier contact-this primary key is not auto increment
+        public static int GetAvlId()
+        {
+            List<int> Ids = new List<int>(); // make an empty list of IDs 
+            int Id; // current Id
+            int AvlId; // available Id
+            
+            SqlConnection cnc = TravelExpertDB.GetConnection();
 
+            string SelectQuery = "SELECT SupplierContactId FROM SupplierContacts";
+
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+
+            try
+            {
+                cnc.Open();
+
+                SqlDataReader dr = cmnd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Id = Convert.ToInt32(dr["SupplierContactId"]);
+
+                    Ids.Add(Id); // add the Id to the list
+                }
+                dr.Close();
+
+                AvlId = Ids.Max()+1; // find the max Id and its next number
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnc.Close();
+            }
+
+            return AvlId; // return the available Id
+        }
+
+        // a method to delete a SupplierContact from DB by passing it
         public static bool DeleteSupCont(SupplierContacts supplierContact)
         {
-            bool success = true;
+            bool success = true; // set the bool success to true - successful deletion
 
             SqlConnection cnc = TravelExpertDB.GetConnection();
 
             string deleteStatement = "DELETE FROM SupplierContacts " +
-                                    "WHERE SupplierContactId = @SupplierContactId " + // to identify record
-                                    "AND SupConFirstName = @SupConFirstName " + // remaining: for optimistic concurrency
-                                    "AND SupConLastName = @SupConLastName " +
-                                    "AND SupConCompany = @SupConCompany " +
-                                    "AND SupConAddress = @SupConAddress " +
-                                    "AND SupConCity = @SupConCity " +
-                                    "AND SupConProv = @SupConProv" +
-                                    "AND SupConPostal = @SupConPostal" +
-                                    "AND SupConCountry = @SupConCountry" +
-                                    "AND SupConBusPhone = @SupConBusPhone" +
-                                    "AND SupConFax = @SupConFax" +
-                                    "AND SupConEmail = @SupConEmail" +
-                                    "AND SupConURL = @SupConURL" +
-                                    "AND AffiliationID = @AffiliationID" +
-                                    "AND SupplierId = @SupplierId";
+                                    "WHERE SupplierContactId = @SupplierContactId " + // to identify the record
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining controls are for optimistic concurrency
+                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " + 
+                                    "AND (SupConLastName = @SupConLastName " +
+                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
+                                    "AND (SupConCompany = @SupConCompany " +
+                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL) " +
+                                    "AND (SupConAddress = @SupConAddress " +
+                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL) " +
+                                    "AND (SupConCity = @SupConCity " +
+                                    "OR SupConCity IS NULL AND @SupConCity IS NULL) " +
+                                    "AND (SupConProv = @SupConProv " +
+                                    "OR SupConProv IS NULL AND @SupConProv IS NULL) " +
+                                    "AND (SupConPostal = @SupConPostal " +
+                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL) " +
+                                    "AND (SupConCountry = @SupConCountry " +
+                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL) " +
+                                    "AND (SupConBusPhone = @SupConBusPhone " +
+                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL) " +
+                                    "AND (SupConFax = @SupConFax " +
+                                    "OR SupConFax IS NULL AND @SupConFax IS NULL) " +
+                                    "AND (SupConEmail = @SupConEmail " +
+                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL) " +
+                                    "AND (SupConURL = @SupConURL " +
+                                    "OR SupConURL IS NULL AND @SupConURL IS NULL) " +
+                                    "AND (AffiliationID = @AffiliationID " +
+                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL) " +
+                                    "AND (SupplierId = @SupplierId " +
+                                    "OR SupplierId IS NULL AND @SupplierId IS NULL)";
 
             SqlCommand cmd = new SqlCommand(deleteStatement, cnc);
 
-            cmd.Parameters.AddWithValue("@SupplierContactId", supplierContact.SupplierContactId);
-            cmd.Parameters.AddWithValue("@SupConFirstName", supplierContact.SupConFirstName);
-            cmd.Parameters.AddWithValue("@SupConLastName", supplierContact.SupConLastName);
-            cmd.Parameters.AddWithValue("@SupConCompany", supplierContact.SupConCompany);
-            cmd.Parameters.AddWithValue("@SupConAddress", supplierContact.SupConAddress);
-            cmd.Parameters.AddWithValue("@SupConCity", supplierContact.SupConCity);
-            cmd.Parameters.AddWithValue("@SupConProv", supplierContact.SupConProv);
-            cmd.Parameters.AddWithValue("@SupConPostal", supplierContact.SupConPostal);
-            cmd.Parameters.AddWithValue("@SupConCountry", supplierContact.SupConCountry);
-            cmd.Parameters.AddWithValue("@SupConBusPhone", supplierContact.SupConBusPhone);
-            cmd.Parameters.AddWithValue("@SupConFax", supplierContact.SupConFax);
-            cmd.Parameters.AddWithValue("@SupConEmail", supplierContact.SupConEmail);
-            cmd.Parameters.AddWithValue("@SupConURL", supplierContact.SupConURL);
-            cmd.Parameters.AddWithValue("@AffiliationId", supplierContact.AffiliationID);
-            cmd.Parameters.AddWithValue("@SupplierId", supplierContact.SupplierId);
+            // add parameters to the command
+            cmd.Parameters.AddWithValue("@SupplierContactId", supplierContact.SupplierContactId); 
+
+            // nullable fields in DB:
+            if (supplierContact.SupConFirstName == null)
+                cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFirstName", supplierContact.SupConFirstName);
+            if (supplierContact.SupConLastName == null)
+                cmd.Parameters.AddWithValue("@SupConLastName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConLastName", supplierContact.SupConLastName);
+            if (supplierContact.SupConCompany == null)
+                cmd.Parameters.AddWithValue("@SupConCompany", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCompany", supplierContact.SupConCompany);
+            if (supplierContact.SupConAddress == null)
+                cmd.Parameters.AddWithValue("@SupConAddress", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConAddress", supplierContact.SupConAddress);
+            if (supplierContact.SupConCity == null)
+                cmd.Parameters.AddWithValue("@SupConCity", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCity", supplierContact.SupConCity);
+            if (supplierContact.SupConProv == null)
+                cmd.Parameters.AddWithValue("@SupConProv", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConProv", supplierContact.SupConProv);
+            if (supplierContact.SupConPostal == null)
+                cmd.Parameters.AddWithValue("@SupConPostal", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConPostal", supplierContact.SupConPostal);
+            if (supplierContact.SupConCountry == null)
+                cmd.Parameters.AddWithValue("@SupConCountry", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCountry", supplierContact.SupConCountry);
+            if (supplierContact.SupConBusPhone == null)
+                cmd.Parameters.AddWithValue("@SupConBusPhone", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConBusPhone", supplierContact.SupConBusPhone);
+            if (supplierContact.SupConFax == null)
+                cmd.Parameters.AddWithValue("@SupConFax", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFax", supplierContact.SupConFax);
+            if (supplierContact.SupConEmail == null)
+                cmd.Parameters.AddWithValue("@SupConEmail", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConEmail", supplierContact.SupConEmail);
+            if (supplierContact.SupConURL == null)
+                cmd.Parameters.AddWithValue("@SupConURL", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConURL", supplierContact.SupConURL);
+            if (supplierContact.AffiliationID == null)
+                cmd.Parameters.AddWithValue("@AffiliationId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@AffiliationId", supplierContact.AffiliationID);
+            if (supplierContact.SupplierId == null)
+                cmd.Parameters.AddWithValue("@SupplierId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupplierId", supplierContact.SupplierId);
+
 
             try 
             {
                 cnc.Open();
-                int count = cmd.ExecuteNonQuery();
-                if (count == 0) // optimistic concurrency violation
-                    success = false;
+                int count = cmd.ExecuteNonQuery(); // run the querry
+                if (count == 0) // optimistic concurrency violation - no deletion
+                    success = false; // set the bool success to false - unsuccessful deletion
             }
             catch (Exception ex)
             {
@@ -464,94 +568,304 @@ namespace ClassDB
             return success;
         }
 
-
-        public static int AddContact(SupplierContacts supCon)
+        // a method to add a SupplierContact to DB by passing it
+        public static int AddContact(SupplierContacts supplierContact)
         {
-            int suppConId = 0;
+            int count = 0; // no. of added items
+            int Id = 0; // the Id for the added item
 
-            SqlConnection con = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            //string insertStatement = "INSERT INTO Customers (Name, Address, City, State, ZipCode) " +
-            //    "OUTPUT inserted.[CustomerID] " +
-            //    "VALUES(@Name, @Address, @City, @State, @ZipCode)";
+            string insertStatement = "INSERT INTO SupplierContacts (SupplierContactId, SupConFirstName, SupConLastName, SupConCompany, SupConAddress, " +
+                "SupConCity, SupConProv, SupConPostal, SupConCountry, SupConBusPhone, SupConFax, SupConEmail, SupConURL," +
+                "AffiliationID, SupplierId) " +
 
-            //SqlCommand cmd = new SqlCommand(insertStatement, con);
+                "VALUES(@SupplierContactId, @SupConFirstName, @SupConLastName, @SupConCompany, @SupConAddress, @SupConCity, @SupConProv, @SupConPostal," +
+                "@SupConCountry, @SupConBusPhone, @SupConFax, @SupConEmail, @SupConURL, @AffiliationID,  @SupplierId)";
 
-            //cmd.Parameters.AddWithValue("@Name", cust.Name);
-            //cmd.Parameters.AddWithValue("@Address", cust.Address);
-            //cmd.Parameters.AddWithValue("@City", cust.City);
-            //cmd.Parameters.AddWithValue("@State", cust.State);
-            //cmd.Parameters.AddWithValue("@ZipCode", cust.ZipCode);
+            SqlCommand cmd = new SqlCommand(insertStatement, cnc);
 
-            //try
-            //{
-            //    con.Open();
-            //    custID = (int)cmd.ExecuteScalar();
-            //    //string selectQuery = "SELECT IDENT_CURRENT('Customers') FROM Customers"; // identity value
-            //    //SqlCommand selectCommand = new SqlCommand(selectQuery, con);
-            //    //custID = Convert.ToInt32(selectCommand.ExecuteScalar()); // single value
-            //    // typecasting (int) does not work
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            //finally
-            //{
-            //    con.Close();
-            //}
+            // call the method to get the first available Id to assign it to the newly added supplier contact-this primary key is not auto increment
+            int AvlID = GetAvlId();
 
+            cmd.Parameters.AddWithValue("@SupplierContactId", AvlID);
 
-            return suppConId;
+            if (supplierContact.SupConFirstName == null)
+                cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFirstName", supplierContact.SupConFirstName);
+            if (supplierContact.SupConLastName == null)
+                cmd.Parameters.AddWithValue("@SupConLastName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConLastName", supplierContact.SupConLastName);
+            if (supplierContact.SupConCompany == null)
+                cmd.Parameters.AddWithValue("@SupConCompany", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCompany", supplierContact.SupConCompany);
+            if (supplierContact.SupConAddress == null)
+                cmd.Parameters.AddWithValue("@SupConAddress", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConAddress", supplierContact.SupConAddress);
+            if (supplierContact.SupConCity == null)
+                cmd.Parameters.AddWithValue("@SupConCity", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCity", supplierContact.SupConCity);
+            if (supplierContact.SupConProv == null)
+                cmd.Parameters.AddWithValue("@SupConProv", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConProv", supplierContact.SupConProv);
+            if (supplierContact.SupConPostal == null)
+                cmd.Parameters.AddWithValue("@SupConPostal", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConPostal", supplierContact.SupConPostal);
+            if (supplierContact.SupConCountry == null)
+                cmd.Parameters.AddWithValue("@SupConCountry", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCountry", supplierContact.SupConCountry);
+            if (supplierContact.SupConBusPhone == null)
+                cmd.Parameters.AddWithValue("@SupConBusPhone", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConBusPhone", supplierContact.SupConBusPhone);
+            if (supplierContact.SupConFax == null)
+                cmd.Parameters.AddWithValue("@SupConFax", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFax", supplierContact.SupConFax);
+            if (supplierContact.SupConEmail == null)
+                cmd.Parameters.AddWithValue("@SupConEmail", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConEmail", supplierContact.SupConEmail);
+            if (supplierContact.SupConURL == null)
+                cmd.Parameters.AddWithValue("@SupConURL", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConURL", supplierContact.SupConURL);
+            if (supplierContact.AffiliationID == null)
+                cmd.Parameters.AddWithValue("@AffiliationId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@AffiliationId", supplierContact.AffiliationID);
+            if (supplierContact.SupplierId == null)
+                cmd.Parameters.AddWithValue("@SupplierId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupplierId", supplierContact.SupplierId);
+
+            try
+            {
+                cnc.Open();
+                count = cmd.ExecuteNonQuery();
+                Id = AvlID; // set the Id of the added item to the available Id
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnc.Close();
+            }
+            return Id; // return the Id of the added item
         }
 
-
-
-        public static bool UpdateContact(SupplierContacts oldContact, SupplierContacts newContact)
+        // a method to edit a SupplierContact to DB by passing it
+        public static int UpdateContact(SupplierContacts oldContact, SupplierContacts newContact)
         {
-            bool success = true;
-            //SqlConnection con = MMABooksDB.GetConnection();
-            //string updateStatement = "UPDATE Customers SET " +
-            //                         "Name = @NewName, " +
-            //                         "Address = @NewAddress, " +
-            //                         "City = @NewCity, " +
-            //                         "State = @NewState, " +
-            //                         "ZipCode = @NewZipCode " +
-            //                         "WHERE CustomerID = @OldCustomerID " + // to identify record to update
-            //                         "AND Name = @OldName " + // remaining conditions for optimistic concurrency
-            //                         "AND Address = @OldAddress " +
-            //                         "AND City = @OldCity " +
-            //                         "AND State = @OldState " +
-            //                         "AND ZipCode = @OldZipCode";
-            //SqlCommand cmd = new SqlCommand(updateStatement, con);
-            //cmd.Parameters.AddWithValue("@NewName", newCustomer.Name);
-            //cmd.Parameters.AddWithValue("@NewAddress", newCustomer.Address);
-            //cmd.Parameters.AddWithValue("@NewCity", newCustomer.City);
-            //cmd.Parameters.AddWithValue("@NewState", newCustomer.State);
-            //cmd.Parameters.AddWithValue("@NewZipCode", newCustomer.ZipCode);
-            //cmd.Parameters.AddWithValue("@OldCustomerID", oldCustomer.CustomerID);
-            //cmd.Parameters.AddWithValue("@OldName", oldCustomer.Name);
-            //cmd.Parameters.AddWithValue("@OldAddress", oldCustomer.Address);
-            //cmd.Parameters.AddWithValue("@OldCity", oldCustomer.City);
-            //cmd.Parameters.AddWithValue("@OldState", oldCustomer.State);
-            //cmd.Parameters.AddWithValue("@OldZipCode", oldCustomer.ZipCode);
+            int count = 0; // no. of edited items
 
-            //try
-            //{
-            //    con.Open();
-            //    int rowsUpdated = cmd.ExecuteNonQuery();
-            //    if (rowsUpdated == 0) success = false; // did not update (another user updated or deleted)
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            //finally
-            //{
-            //    con.Close();
-            //}
+            SqlConnection cnc = TravelExpertDB.GetConnection();
 
-            return success;
+            string UpdateStatement = "update SupplierContacts set " +
+
+                                    "SupConFirstName = @NewSupConFirstName, " +                                     
+                                    "SupConLastName = @NewSupConLastName, " +                                   
+                                    "SupConCompany = @NewSupConCompany, " +
+                                    "SupConAddress = @NewSupConAddress, " +
+                                    "SupConCity = @NewSupConCity, " +
+                                    "SupConProv = @NewSupConProv, " +
+                                    "SupConPostal = @NewSupConPostal, " +
+                                    "SupConCountry = @NewSupConCountry, " +
+                                    "SupConBusPhone = @NewSupConBusPhone, " +
+                                    "SupConFax = @NewSupConFax, " +
+                                    "SupConEmail = @NewSupConEmail, " +
+                                    "SupConURL = @NewSupConURL, " +
+                                    "AffiliationID = @NewAffiliationID, " +
+                                    "SupplierId = @NewSupplierId " +
+
+                                    "WHERE SupplierContactId = @SupplierContactId " + // to identify record
+                                    "AND (SupConFirstName = @SupConFirstName " + // remaining controls for optimistic concurrency
+                                    "OR SupConFirstName IS NULL And @SupConFirstName IS NULL) " +
+                                    "AND (SupConLastName = @SupConLastName " +
+                                    "OR SupConLastName IS NULL AND @SupConLastName IS NULL) " +
+                                    "AND (SupConCompany = @SupConCompany " +
+                                    "OR SupConCompany IS NULL AND @SupConCompany IS NULL) " +
+                                    "AND (SupConAddress = @SupConAddress " +
+                                    "OR SupConAddress IS NULL AND @SupConAddress IS NULL) " +
+                                    "AND (SupConCity = @SupConCity " +
+                                    "OR SupConCity IS NULL AND @SupConCity IS NULL) " +
+                                    "AND (SupConProv = @SupConProv " +
+                                    "OR SupConProv IS NULL AND @SupConProv IS NULL) " +
+                                    "AND (SupConPostal = @SupConPostal " +
+                                    "OR SupConPostal IS NULL AND @SupConPostal IS NULL) " +
+                                    "AND (SupConCountry = @SupConCountry " +
+                                    "OR SupConCountry IS NULL AND @SupConCountry IS NULL) " +
+                                    "AND (SupConBusPhone = @SupConBusPhone " +
+                                    "OR SupConBusPhone IS NULL AND @SupConBusPhone IS NULL) " +
+                                    "AND (SupConFax = @SupConFax " +
+                                    "OR SupConFax IS NULL AND @SupConFax IS NULL) " +
+                                    "AND (SupConEmail = @SupConEmail " +
+                                    "OR SupConEmail IS NULL AND @SupConEmail IS NULL) " +
+                                    "AND (SupConURL = @SupConURL " +
+                                    "OR SupConURL IS NULL AND @SupConURL IS NULL) " +
+                                    "AND (AffiliationID = @AffiliationID " +
+                                    "OR AffiliationID IS NULL AND @AffiliationID IS NULL) " +
+                                    "AND (SupplierId = @SupplierId " +
+                                    "OR SupplierId IS NULL AND @SupplierId IS NULL)";
+
+            SqlCommand cmd = new SqlCommand(UpdateStatement, cnc);
+
+            // add parameters to the command
+            // nullable fields in DB:
+            if (newContact.SupConFirstName == null)
+                cmd.Parameters.AddWithValue("@NewSupConFirstName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConFirstName", newContact.SupConFirstName);
+
+            if (newContact.SupConLastName == null)
+                cmd.Parameters.AddWithValue("@NewSupConLastName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConLastName", newContact.SupConLastName);
+
+            if (newContact.SupConCompany == null)
+                cmd.Parameters.AddWithValue("@NewSupConCompany", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConCompany", newContact.SupConCompany);
+
+            if (newContact.SupConAddress == null)
+                cmd.Parameters.AddWithValue("@NewSupConAddress", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConAddress", newContact.SupConAddress);
+
+            if (newContact.SupConCity == null)
+                cmd.Parameters.AddWithValue("@NewSupConCity", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConCity", newContact.SupConCity);
+
+            if (newContact.SupConProv == null)
+                cmd.Parameters.AddWithValue("@NewSupConProv", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConProv", newContact.SupConProv);
+
+            if (newContact.SupConPostal == null)
+                cmd.Parameters.AddWithValue("@NewSupConPostal", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConPostal", newContact.SupConPostal);
+
+            if (newContact.SupConCountry == null)
+                cmd.Parameters.AddWithValue("@NewSupConCountry", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConCountry", newContact.SupConCountry);
+
+            if (newContact.SupConBusPhone == null)
+                cmd.Parameters.AddWithValue("@NewSupConBusPhone", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConBusPhone", newContact.SupConBusPhone);
+
+            if (newContact.SupConFax == null)
+                cmd.Parameters.AddWithValue("@NewSupConFax", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConFax", newContact.SupConFax);
+
+            if (newContact.SupConEmail == null)
+                cmd.Parameters.AddWithValue("@NewSupConEmail", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConEmail", newContact.SupConEmail);
+
+            if (newContact.SupConURL == null)
+                cmd.Parameters.AddWithValue("@NewSupConURL", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupConURL", newContact.SupConURL);
+
+            if (newContact.AffiliationID == null)
+                cmd.Parameters.AddWithValue("@NewAffiliationId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewAffiliationId", newContact.AffiliationID);
+
+            if (newContact.SupplierId == null)
+                cmd.Parameters.AddWithValue("@NewSupplierId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewSupplierId", newContact.SupplierId);
+            
+
+            cmd.Parameters.AddWithValue("@SupplierContactId", oldContact.SupplierContactId);
+
+            if (oldContact.SupConFirstName == null)
+                cmd.Parameters.AddWithValue("@SupConFirstName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFirstName", oldContact.SupConFirstName);
+            if (oldContact.SupConLastName == null)
+                cmd.Parameters.AddWithValue("@SupConLastName", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConLastName", oldContact.SupConLastName);
+            if (oldContact.SupConCompany == null)
+                cmd.Parameters.AddWithValue("@SupConCompany", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCompany", oldContact.SupConCompany);
+            if (oldContact.SupConAddress == null)
+                cmd.Parameters.AddWithValue("@SupConAddress", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConAddress", oldContact.SupConAddress);
+            if (oldContact.SupConCity == null)
+                cmd.Parameters.AddWithValue("@SupConCity", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCity", oldContact.SupConCity);
+            if (oldContact.SupConProv == null)
+                cmd.Parameters.AddWithValue("@SupConProv", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConProv", oldContact.SupConProv);
+            if (oldContact.SupConPostal == null)
+                cmd.Parameters.AddWithValue("@SupConPostal", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConPostal", oldContact.SupConPostal);
+            if (oldContact.SupConCountry == null)
+                cmd.Parameters.AddWithValue("@SupConCountry", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConCountry", oldContact.SupConCountry);
+            if (oldContact.SupConBusPhone == null)
+                cmd.Parameters.AddWithValue("@SupConBusPhone", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConBusPhone", oldContact.SupConBusPhone);
+            if (oldContact.SupConFax == null)
+                cmd.Parameters.AddWithValue("@SupConFax", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConFax", oldContact.SupConFax);
+            if (oldContact.SupConEmail == null)
+                cmd.Parameters.AddWithValue("@SupConEmail", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConEmail", oldContact.SupConEmail);
+            if (oldContact.SupConURL == null)
+                cmd.Parameters.AddWithValue("@SupConURL", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupConURL", oldContact.SupConURL);
+            if (oldContact.AffiliationID == null)
+                cmd.Parameters.AddWithValue("@AffiliationId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@AffiliationId", oldContact.AffiliationID);
+            if (oldContact.SupplierId == null)
+                cmd.Parameters.AddWithValue("@SupplierId", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@SupplierId", oldContact.SupplierId);
+
+            try
+            {
+                cnc.Open();
+                count = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnc.Close();
+            }
+            return count;
         }
 
     }

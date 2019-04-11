@@ -119,49 +119,49 @@
             this.PkgName.Location = new System.Drawing.Point(102, 25);
             this.PkgName.Name = "PkgName";
             this.PkgName.Size = new System.Drawing.Size(289, 20);
-            this.PkgName.TabIndex = 6;
+            this.PkgName.TabIndex = 1;
             // 
             // PkgStart
             // 
             this.PkgStart.Location = new System.Drawing.Point(102, 51);
             this.PkgStart.Name = "PkgStart";
             this.PkgStart.Size = new System.Drawing.Size(289, 20);
-            this.PkgStart.TabIndex = 7;
+            this.PkgStart.TabIndex = 2;
             // 
             // PkgDesc
             // 
             this.PkgDesc.Location = new System.Drawing.Point(102, 103);
             this.PkgDesc.Name = "PkgDesc";
             this.PkgDesc.Size = new System.Drawing.Size(289, 20);
-            this.PkgDesc.TabIndex = 9;
+            this.PkgDesc.TabIndex = 4;
             // 
             // PkgEnd
             // 
             this.PkgEnd.Location = new System.Drawing.Point(102, 77);
             this.PkgEnd.Name = "PkgEnd";
             this.PkgEnd.Size = new System.Drawing.Size(289, 20);
-            this.PkgEnd.TabIndex = 8;
+            this.PkgEnd.TabIndex = 3;
             // 
             // PkgCom
             // 
             this.PkgCom.Location = new System.Drawing.Point(102, 155);
             this.PkgCom.Name = "PkgCom";
             this.PkgCom.Size = new System.Drawing.Size(289, 20);
-            this.PkgCom.TabIndex = 11;
+            this.PkgCom.TabIndex = 6;
             // 
             // PkgBase
             // 
             this.PkgBase.Location = new System.Drawing.Point(102, 129);
             this.PkgBase.Name = "PkgBase";
             this.PkgBase.Size = new System.Drawing.Size(289, 20);
-            this.PkgBase.TabIndex = 10;
+            this.PkgBase.TabIndex = 5;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(501, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 26;
+            this.button1.TabIndex = 9;
             this.button1.Text = "Add";
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -170,7 +170,7 @@
             this.button2.Location = new System.Drawing.Point(501, 41);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 13;
+            this.button2.TabIndex = 10;
             this.button2.Text = "ClearAll";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -180,7 +180,7 @@
             this.button3.Location = new System.Drawing.Point(506, 262);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 25;
+            this.button3.TabIndex = 11;
             this.button3.Text = "Cancel";
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -298,7 +298,7 @@
             this.Productbox.Location = new System.Drawing.Point(102, 191);
             this.Productbox.Name = "Productbox";
             this.Productbox.Size = new System.Drawing.Size(121, 21);
-            this.Productbox.TabIndex = 28;
+            this.Productbox.TabIndex = 6;
             this.Productbox.SelectedIndexChanged += new System.EventHandler(this.Productbox_SelectedIndexChanged);
             // 
             // SupplierBox
@@ -307,14 +307,15 @@
             this.SupplierBox.Location = new System.Drawing.Point(102, 225);
             this.SupplierBox.Name = "SupplierBox";
             this.SupplierBox.Size = new System.Drawing.Size(289, 21);
-            this.SupplierBox.TabIndex = 29;
+            this.SupplierBox.TabIndex = 7;
+            this.SupplierBox.SelectedIndexChanged += new System.EventHandler(this.SupplierBox_SelectedIndexChanged);
             // 
             // addProdbtn
             // 
             this.addProdbtn.Location = new System.Drawing.Point(102, 252);
             this.addProdbtn.Name = "addProdbtn";
             this.addProdbtn.Size = new System.Drawing.Size(75, 23);
-            this.addProdbtn.TabIndex = 30;
+            this.addProdbtn.TabIndex = 8;
             this.addProdbtn.Text = "Add Product";
             this.addProdbtn.UseVisualStyleBackColor = true;
             this.addProdbtn.Click += new System.EventHandler(this.addProdbtn_Click);
@@ -341,6 +342,7 @@
             // 
             // Form2
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 297);

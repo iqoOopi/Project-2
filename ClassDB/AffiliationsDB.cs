@@ -10,43 +10,44 @@ namespace ClassDB
 {
     /// <summary>
     /// Hoora - March 
-    /// A data access class for dealing with suppliers info
+    /// A data access class for dealing with affiliation table in DB
     /// </summary>
-    /// 
+    
     public static class AffiliationsDB
     {
+        // a method to get an affiliation from DB by passing its Id
         public static Affiliations GetAff(string affiliationId)
         {
-            Affiliations afl = new Affiliations();
+            Affiliations afl = new Affiliations(); // an empty affiliation
 
-            SqlConnection cnc = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection(); // connection to DB
 
-            string SelectQuery = "SELECT * FROM Affiliations WHERE AffiliationId = @AffiliationId";
+            string SelectQuery = "SELECT * FROM Affiliations WHERE AffiliationId = @AffiliationId"; // SQL query
 
-            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc); // command
 
-            cmnd.Parameters.AddWithValue("@AffiliationId", affiliationId);
+            cmnd.Parameters.AddWithValue("@AffiliationId", affiliationId); // add parameters to the command
 
             try
             {
-                cnc.Open();
+                cnc.Open(); // opening the connection
 
-                SqlDataReader dr = cmnd.ExecuteReader();
+                SqlDataReader dr = cmnd.ExecuteReader(); // data reader
 
-                if (dr.Read())
+                if (dr.Read()) 
                 {
-                    afl = new Affiliations();
+                    afl = new Affiliations(); // make a new Affiliation object
                     afl.AffiliationId =dr["AffiliationId"].ToString();
 
 
-                    int AflNameIndex = dr.GetOrdinal("AffName");
+                    int AflNameIndex = dr.GetOrdinal("AffName"); // get the index of AffName property
                     if (dr.IsDBNull(AflNameIndex))
                     {
-                        afl.AffName = null;
+                        afl.AffName = null; // if the AffName is null in DB
                     }
                     else
                     {
-                        afl.AffName = dr["AffName"].ToString();
+                        afl.AffName = dr["AffName"].ToString(); // if the AffName is not null in DB
                     }
 
 
@@ -60,52 +61,52 @@ namespace ClassDB
                         afl.AffDesc = dr["AffDesc"].ToString();
                     }                    
                 }
-                dr.Close();
+                dr.Close(); // closing the data reader
             }
-            catch (Exception ex)
+            catch (Exception ex) // if reading from DB was not successful
             {
-                throw ex;
+                throw ex; // threw the exception to the upper leyer (presentation)
             }
-            finally
+            finally // in either way
             {
-                cnc.Close();
+                cnc.Close(); // closing the connection
             }
-            return afl;
+            return afl; // return the affiliation
         }
 
 
-
+        // a method to get all affiliations from DB
         public static List<Affiliations> GetAffs()
-        {
-            List<Affiliations> aflList = new List<Affiliations>();
-            Affiliations afl = new Affiliations();
+        {            
+            List<Affiliations> aflList = new List<Affiliations>(); // an empty list of affiliations
+            Affiliations afl = new Affiliations(); // an empty affiliation
 
-            SqlConnection cnc = TravelExpertDB.GetConnection();
+            SqlConnection cnc = TravelExpertDB.GetConnection(); // connection to DB
 
-            string SelectQuery = "SELECT * FROM Affiliations";
+            string SelectQuery = "SELECT * FROM Affiliations"; // SQL query
 
-            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc);
+            SqlCommand cmnd = new SqlCommand(SelectQuery, cnc); // Command
 
             try
             {
-                cnc.Open();
+                cnc.Open(); // opening the connection
 
-                SqlDataReader dr = cmnd.ExecuteReader();
+                SqlDataReader dr = cmnd.ExecuteReader(); // data reader
 
-                while (dr.Read())
+                while (dr.Read()) // until there is s.th. to read
                 {
-                    afl = new Affiliations();
-                    afl.AffiliationId = dr["AffiliationId"].ToString();
+                    afl = new Affiliations(); // make the affiliation empty 
+                    afl.AffiliationId = dr["AffiliationId"].ToString(); // read the Id
 
 
-                    int AflNameIndex = dr.GetOrdinal("AffName");
+                    int AflNameIndex = dr.GetOrdinal("AffName"); // get the index of AffName property
                     if (dr.IsDBNull(AflNameIndex))
                     {
-                        afl.AffName = null;
+                        afl.AffName = null; // if the AffName is null in DB
                     }
                     else
                     {
-                        afl.AffName = dr["AffName"].ToString();
+                        afl.AffName = dr["AffName"].ToString(); // if the AffName is not null in DB
                     }
 
 
@@ -119,19 +120,19 @@ namespace ClassDB
                         afl.AffDesc = dr["AffDesc"].ToString();
                     }
 
-                    aflList.Add(afl);
+                    aflList.Add(afl); // adding the affiliation to the list
                 }
-                dr.Close();
+                dr.Close(); // closing the data reader
             }
-            catch (Exception ex)
+            catch (Exception ex) // if reading from DB was not successful
             {
-                throw ex;
+                throw ex; // threw the exception to the upper leyer (presentation)
             }
-            finally
+            finally // in either way
             {
-                cnc.Close();
+                cnc.Close(); // closing the connection
             }
-            return aflList;
+            return aflList; // return the affiliation list
         }
     }
 }
